@@ -1,0 +1,14 @@
+.display table {
+	background-color:#BCB9C9 ; 
+	border-collapse: collapse;
+}
+
+.display th {
+	background-color: #8F7CF2;
+	border: 1px solid #EDCAFA;
+}
+
+.display td {
+	border: 1px solid #EDCAFA;
+}
+

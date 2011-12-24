@@ -1,11 +1,15 @@
-drawTable = function( sys){
+
+
+
+ASM.drawTable = function( ){
 	tableHTML = "<table>";
-	for ( var int = 0; int < sys.length; int++) {
+	tableHTML += "<tr><th>Navn</th><th>Url</th><th>Ping</th><th>Alive</th></tr>";
+	for ( var int = 0; int < ASM.systems.length; int++) {
 		tableHTML += "<tr>";
-		tableHTML += "<td>" + sys[int].name + "</td>" ;
-		tableHTML += "<td>" + sys[int].url + "</td>" ;
-		tableHTML += "<td>" + sys[int].ping + "</td>" ;
-		tableHTML += "<td>" + sys[int].alive + "</td>" ;
+		tableHTML += "<td>" + ASM.systems[int].name + "</td>" ;
+		tableHTML += "<td>" + ASM.systems[int].url + "</td>" ;
+		tableHTML += "<td>" + ASM.systems[int].ping + "</td>" ;
+		tableHTML += "<td>" + ASM.systems[int].alive + "</td>" ;
 		tableHTML += "</tr>";
 	}
 	
