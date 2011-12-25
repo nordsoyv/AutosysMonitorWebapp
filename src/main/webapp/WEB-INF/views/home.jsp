@@ -9,7 +9,7 @@
 	src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
 
 <script type="text/javascript">
-	var ASM = {};
+	ASM = {};
 
 	$(document).ready(function() {
 		ASM.systems = new Array();
@@ -23,6 +23,10 @@
 		ASM.systems.push(systemInfo);
 		</c:forEach>
 
+		$("#refreshButton").click(function() {
+			ASM.refreshTable();
+		});
+		
 		ASM.drawTable();
 	});
 </script>
@@ -33,6 +37,6 @@
 
 	<P>The time on the server is ${serverTime}.</P>
 	<div id="systemDisplay" class="display"></div>
-
+	<button id="refreshButton" >Refresh</button>
 </body>
 </html>
