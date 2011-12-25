@@ -37,7 +37,7 @@ public class HomeController {
 		
 		String formattedDate = dateFormat.format(date);
 		
-		repo.updateAll();
+		//repo.updateAll();
 		
 		model.addAttribute("serverTime", formattedDate );
 		model.addAttribute("systeminfo", repo.getAll());
