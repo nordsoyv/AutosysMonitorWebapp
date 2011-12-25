@@ -18,6 +18,8 @@ public class SystemInfoUpdater {
 		data.add(new SystemInfo("Dagbladet", "http://db.no", 500));
 		data.add(new SystemInfo("Aftenposten", "http://aftenposten.no", 500));
 		data.add(new SystemInfo("Nettavisen", "http://nettavisen.no", 500));
+		data.add(new SystemInfo("tull", "http://nasdfasdfn.no", 200));
+		data.add(new SystemInfo("localhost", "http://localhost:8080/AutosysMonitor/", 200));
 	}
 	
 	public List<SystemInfo> getAll() {
