@@ -9,8 +9,8 @@ ASM.drawTable = function( ){
 		tableHTML += "<td>" + ASM.systems[int].name + "</td>" ;
 		tableHTML += "<td>" + ASM.systems[int].url + "</td>" ;
 		tableHTML += "<td><div id=" + ASM.createSystemPingId(int) + " >" + ASM.systems[int].ping + "</div></td>" ;
-		tableHTML += "<td><div id=" + ASM.createSystemAliveId(int) + " >" + ASM.systems[int].alive + "</div></td>" ;
-		//tableHTML += "<td><img id=" + ASM.createSystemAliveId(int) + " src=\"resources/images/Red-ball.png\" /></td>" ;
+		//tableHTML += "<td><div id=" + ASM.createSystemAliveId(int) + " >" + ASM.systems[int].alive + "</div></td>" ;
+		tableHTML += "<td><img id=" + ASM.createSystemAliveId(int) + " src=\"resources/images/Red-ball.png\" /></td>" ;
 		tableHTML += "<td><div id=" + ASM.createSystemImgId(int) + " hidden=\"true\" ><img src=\"resources/images/spinner2.gif\" /></div></td>"; 
 		tableHTML += "</tr>";
 	}
@@ -32,24 +32,25 @@ ASM.refreshSystem= function (id){
 	var date = new Date();
 	ASM.currStartTime = date.getTime();
 	ASM.currRequest = $.ajax( { url : ASM.systems[id].url,
-								timeout : ASM.systems[id].timeout });
+								timeout : ASM.systems[id].timeout,
+								crossDomain : true });
 	ASM.currRequest.done( function(msg) {ASM.systemPingOk(id); }  );
-	ASM.currRequest.fail(function(jqXHR, textStatus) {ASM.systemPingFail(id); }  );
+	ASM.currRequest.fail(function(jqXHR, textStatus) {ASM.systemPingFail(id,jqXHR,textStatus); }  );
 };
 
 ASM.systemPingOk= function (id){
 	ASM.systems[id].alive = true;
 	var aliveId = "#" + ASM.createSystemAliveId(id);
 	var aliveimg =$(aliveId);
-	//aliveimg.src("resources/images/Green-ball.png");
+	aliveimg.attr('src',"resources/images/Green-ball.png");
 	ASM.systemPingContinue(id);
 };
 
-ASM.systemPingFail= function (id){
+ASM.systemPingFail= function (id,jqXHR,textStatus){
 	ASM.systems[id].alive = false;
 	var aliveId = "#" + ASM.createSystemAliveId(id);
 	var aliveimg =$(aliveId);
-	//aliveimg.src("resources/images/Red-ball.png");
+	aliveimg.attr('src',"resources/images/Red-ball.png");
 	ASM.systemPingContinue(id);
 };
 
