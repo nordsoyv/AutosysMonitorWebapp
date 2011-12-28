@@ -1,0 +1,4 @@
+VG;http://vg.no;500
+#test kommentar
+Dagbladet;http://dagbladet.no;500
+Nettavisen;http://nettavisen.no;500

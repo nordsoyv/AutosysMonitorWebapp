@@ -5,15 +5,9 @@ ASM.drawTable = function() {
 		tableHTML += "<tr>";
 		tableHTML += "<td>" + ASM.systems[int].name + "</td>";
 		tableHTML += "<td>" + ASM.systems[int].url + "</td>";
-		tableHTML += "<td><div id=" + ASM.createSystemPingId(int) + " >"
-				+ ASM.systems[int].ping + "</div></td>";
-		// tableHTML += "<td><div id=" + ASM.createSystemAliveId(int) + " >" +
-		// ASM.systems[int].alive + "</div></td>" ;
-		tableHTML += "<td><img id=" + ASM.createSystemAliveId(int)
-				+ " src=\"resources/images/Red-ball.png\" /></td>";
-		tableHTML += "<td><div id="
-				+ ASM.createSystemImgId(int)
-				+ " hidden=\"true\" ><img src=\"resources/images/spinner2.gif\" /></div></td>";
+		tableHTML += "<td><div id=" + ASM.createSystemPingId(int) + " >" + ASM.systems[int].ping + "</div></td>";
+		tableHTML += "<td><img id=" + ASM.createSystemAliveId(int) + " src=\"resources/images/Red-ball.png\" /></td>";
+		tableHTML += "<td><div id=" + ASM.createSystemImgId(int) + " hidden=\"true\" ><img src=\"resources/images/spinner2.gif\" /></div></td>";
 		tableHTML += "</tr>";
 	}
 
@@ -36,25 +30,25 @@ ASM.refreshSystem = function(id) {
 	ASM.currRequest = $.ajax({
 		url : "pingSystem",
 		type : "POST",
-		data :  jsonSystem,
+		data : jsonSystem,
 		dataType : "json",
 		contentType : "application/json; charset=utf-8"
 	});
-	ASM.currRequest.done(function(data,code,jqXHR) {
-		ASM.systemPingOk(id,data);
+	ASM.currRequest.done(function(data, code, jqXHR) {
+		ASM.systemPingOk(id, data);
 	});
 	ASM.currRequest.fail(function(jqXHR, textStatus) {
 		ASM.systemPingFail(id, jqXHR, textStatus);
 	});
 };
 
-ASM.systemPingOk = function(id,data) {
+ASM.systemPingOk = function(id, data) {
 	ASM.systems[id] = data;
 	ASM.systemPingContinue(id);
 };
 
 ASM.systemPingFail = function(id, jqXHR, textStatus) {
-	ASM.systems[id].alive = false;	
+	ASM.systems[id].alive = false;
 	ASM.systemPingContinue(id);
 };
 
@@ -63,15 +57,15 @@ ASM.systemPingContinue = function(id) {
 	var pingId = "#" + ASM.createSystemPingId(id);
 	var aliveId = "#" + ASM.createSystemAliveId(id);
 	var aliveimg = $(aliveId);
-//	var time = new Date();
-	//ASM.systems[id].ping = time.getTime() - ASM.currStartTime;
+	// var time = new Date();
+	// ASM.systems[id].ping = time.getTime() - ASM.currStartTime;
 	$(pingId).html(ASM.systems[id].ping);
 	$(aliveId).html(ASM.systems[id].alive);
 	$(imgId).hide();
-	if(ASM.systems[id].alive === true){
-		aliveimg.attr('src', "resources/images/Green-ball.png");	
-	}else{
-		aliveimg.attr('src', "resources/images/Red-ball.png");	
+	if (ASM.systems[id].alive === true) {
+		aliveimg.attr('src', "resources/images/Green-ball.png");
+	} else {
+		aliveimg.attr('src', "resources/images/Red-ball.png");
 	}
 	ASM.refreshSystem(id + 1);
 };

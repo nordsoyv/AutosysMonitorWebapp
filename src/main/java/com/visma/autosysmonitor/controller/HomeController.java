@@ -47,7 +47,9 @@ public class HomeController {
 		String formattedDate = dateFormat.format(date);
 
 		// repo.updateAll();
-
+		repo.clear();
+		repo.readFromFile("C:/kode/STS-Workspace/AutosysMonitor/src/main/resources/systems.txt");
+		
 		model.addAttribute("serverTime", formattedDate);
 		model.addAttribute("systeminfo", repo.getAll());
 		return "home";
