@@ -5,8 +5,7 @@
 <title>AutosysMonitor</title>
 <link rel="stylesheet" type="text/css" href="resources/css/main.css" />
 
-<script type="text/javascript"
-	src="resources/js/jquery-1.7.1.min.js"></script>
+<script type="text/javascript" src="resources/js/jquery-1.7.1.min.js"></script>
 
 <script type="text/javascript">
 	ASM = {};
@@ -26,8 +25,20 @@
 		$("#refreshButton").click(function() {
 			ASM.refreshTable();
 		});
+
+		$("#setIntervalButton").click(function() {
+			ASM.setInterval();
+		});
 		
+		$("#setActiveCheckbox").click(function() {
+			ASM.setRefreshActive();
+		});
+		
+		
+		//kaller denne her for å sette intervall ved oppstart
+		ASM.setInterval();
 		ASM.drawTable();
+		ASM.isRefreshing = false;
 	});
 </script>
 <script type="text/javascript" src="resources/js/main.js"></script>
@@ -36,7 +47,10 @@
 	<h1>AutosysMonitor</h1>
 	<p>Systemer som sjekkes:</p>
 	<div id="systemDisplay" class="display"></div>
-	<button id="refreshButton">Refresh</button><br />
-	Refresh intervall:<input type="text" id="refeshInterval"  value="5000" />
+	<button id="refreshButton">Refresh alle</button>
+	<br /> Refresh intervall:
+	<input type="number" id="refeshInterval" value="5000" />
+	<button id="setIntervalButton">Sett intervall</button>
+	Aktive: <input type="checkbox" id="setActiveCheckbox"  checked="checked" >
 </body>
 </html>

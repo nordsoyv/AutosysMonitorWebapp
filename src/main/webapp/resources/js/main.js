@@ -38,12 +38,18 @@ ASM.drawHeadingTableRow = function(int ){
 
 
 ASM.refreshTable = function() {
+	if(ASM.isRefreshing){
+		return;
+	}
+	ASM.isRefreshing = true;
 	ASM.refreshSystem(0);
 };
 
 ASM.refreshSystem = function(id) {
-	if (id >= ASM.systems.length)
+	if (id >= ASM.systems.length){
+		ASM.isRefreshing = false;
 		return;
+	}
 	if (ASM.isSystemInfoHeadline(id) ) {
 		//Dette er en overskrift , skip til neste
 		ASM.refreshSystem(id+1);
@@ -83,8 +89,6 @@ ASM.systemPingContinue = function(id) {
 	var pingId = "#" + ASM.createSystemPingId(id);
 	var aliveId = "#" + ASM.createSystemAliveId(id);
 	var aliveimg = $(aliveId);
-	// var time = new Date();
-	// ASM.systems[id].ping = time.getTime() - ASM.currStartTime;
 	$(pingId).html(ASM.systems[id].ping);
 	$(aliveId).html(ASM.systems[id].alive);
 	$(imgId).hide();
@@ -94,6 +98,30 @@ ASM.systemPingContinue = function(id) {
 		aliveimg.attr('src', "resources/images/Red-ball.png");
 	}
 	ASM.refreshSystem(id + 1);
+};
+
+ASM.setInterval= function(){
+	if(ASM.intervalHandle !== undefined || ASM.intervalHandle !== null){
+		clearInterval(ASM.intervalHandle);
+	}
+	var interval = $("#refeshInterval");
+	ASM.refreshInterval = parseInt(interval.val());
+	ASM.intervalHandle = setInterval( function (){ ASM.refreshTable();  }  ,   ASM.refreshInterval);
+	var check = $('#setActiveCheckbox');
+	check.prop("checked", true);
+};
+
+ASM.setRefreshActive = function (){
+	if($('#setActiveCheckbox:checked').val() !== undefined){
+		//is checked
+		ASM.setInterval();
+		ASM.refreshTable();
+		
+	}else{
+		if(ASM.intervalHandle !== undefined || ASM.intervalHandle !== null){
+			clearInterval(ASM.intervalHandle);
+		}
+	}
 };
 
 ASM.createSystemImgId = function(id) {
