@@ -1,3 +1,4 @@
+-Aviser;--;500
 VG;http://vg.no;500
 #test kommentar
 Dagbladet;http://dagbladet.no;500

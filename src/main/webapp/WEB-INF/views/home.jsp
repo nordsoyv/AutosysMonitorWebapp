@@ -2,7 +2,7 @@
 <%@ page session="false"%>
 <html>
 <head>
-<title>Home</title>
+<title>AutosysMonitor</title>
 <link rel="stylesheet" type="text/css" href="resources/css/main.css" />
 
 <script type="text/javascript"
@@ -33,10 +33,10 @@
 <script type="text/javascript" src="resources/js/main.js"></script>
 </head>
 <body>
-	<h1>Hello world!</h1>
-
-	<P>The time on the server is ${serverTime}.</P>
+	<h1>AutosysMonitor</h1>
+	<p>Systemer som sjekkes:</p>
 	<div id="systemDisplay" class="display"></div>
-	<button id="refreshButton" >Refresh</button>
+	<button id="refreshButton">Refresh</button><br />
+	Refresh intervall:<input type="text" id="refeshInterval"  value="5000" />
 </body>
 </html>
