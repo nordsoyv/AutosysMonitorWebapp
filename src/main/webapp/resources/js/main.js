@@ -53,6 +53,7 @@ ASM.refreshSystem = function(id) {
 	if (ASM.isSystemInfoHeadline(id) ) {
 		//Dette er en overskrift , skip til neste
 		ASM.refreshSystem(id+1);
+		return;
 	}
 	var jsonSystem = JSON.stringify(ASM.systems[id]);
 	var imgId = "#" + ASM.createSystemImgId(id);
@@ -137,7 +138,8 @@ ASM.createSystemAliveId = function(id) {
 };
 
 ASM.isSystemInfoHeadline = function (id){
-	if (ASM.systems[id].name.substring(0, 1) === "-") {
+	var name = ASM.systems[id].name;
+	if (name.substring(0, 1) == "-") {
 		return true;
 	}else{
 		return false;
