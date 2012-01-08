@@ -2,6 +2,7 @@ package com.visma.autosysmonitor.controller;
 
 import java.text.DateFormat;
 import java.util.Date;
+import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 
@@ -57,10 +58,22 @@ public class HomeController {
 
 	@RequestMapping(value = "/pingSystem", method = RequestMethod.POST)
 	public  @ResponseBody SystemInfoTO pingSystem(@RequestBody SystemInfoTO system) {
+		logger.info("Getting system: " + system.getName());
 		SystemInfo sys = new SystemInfo(system);
 		sys.update();
 		SystemInfoTO retval = new SystemInfoTO(sys);
 		return retval;
+	}
+	
+	@RequestMapping(value ="/allSystems" , method= RequestMethod.GET)
+	public @ResponseBody SystemInfoTO[] allSystems(){
+		List<SystemInfo> ret =  repo.getAll();
+		SystemInfoTO[] systems = new SystemInfoTO[ret.size()];
+		for(int i = 0 ; i<ret.size();++i){
+			systems[i] = new SystemInfoTO(ret.get(i));
+		}
+		
+		return systems;
 	}
 
 }

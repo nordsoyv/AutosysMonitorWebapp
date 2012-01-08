@@ -101,6 +101,27 @@ ASM.systemPingContinue = function(id) {
 	ASM.refreshSystem(id + 1);
 };
 
+ASM.getSystems = function(){
+	var req =$.ajax({
+		url : "allSystems",
+		type : "GET",
+		contentType : "application/json; charset=utf-8"
+	});
+	req.done(function(data, code, jqXHR) {
+		ASM.setAllSystems(data);
+	});
+	req.fail(function(jqXHR, textStatus) {
+		alert("Kunne ikke lese inn systemliste fra server");
+	});	
+};
+
+
+
+ASM.setAllSystems = function (data){
+	ASM.systems=data;
+	ASM.drawTable();
+};
+
 ASM.setInterval= function(){
 	if(ASM.intervalHandle !== undefined || ASM.intervalHandle !== null){
 		clearInterval(ASM.intervalHandle);

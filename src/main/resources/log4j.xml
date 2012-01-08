@@ -12,7 +12,7 @@
 	
 	<!-- Application Loggers -->
 	<logger name="com.visma.autosysmonitor">
-		<level value="info" />
+		<level value="error" />
 	</logger>
 	
 	<!-- 3rdparty Loggers -->

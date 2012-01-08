@@ -11,16 +11,7 @@
 	ASM = {};
 
 	$(document).ready(function() {
-		ASM.systems = new Array();
-		<c:forEach items="${systeminfo}" var="system">
-		systemInfo = new Object();
-		systemInfo.name = '${system.name}';
-		systemInfo.url = '${system.url}';
-		systemInfo.ping = '${system.ping}';
-		systemInfo.alive = '${system.alive}';
-		systemInfo.timeout = '${system.timeout}';
-		ASM.systems.push(systemInfo);
-		</c:forEach>
+		ASM.getSystems();
 
 		$("#refreshButton").click(function() {
 			ASM.refreshTable();
@@ -29,15 +20,13 @@
 		$("#setIntervalButton").click(function() {
 			ASM.setInterval();
 		});
-		
+
 		$("#setActiveCheckbox").click(function() {
 			ASM.setRefreshActive();
 		});
-		
-		
+
 		//kaller denne her for å sette intervall ved oppstart
 		ASM.setInterval();
-		ASM.drawTable();
 		ASM.isRefreshing = false;
 	});
 </script>
@@ -51,6 +40,7 @@
 	<br /> Refresh intervall:
 	<input type="number" id="refeshInterval" value="5000" />
 	<button id="setIntervalButton">Sett intervall</button>
-	Aktive: <input type="checkbox" id="setActiveCheckbox"  checked="checked" >
+	Aktive:
+	<input type="checkbox" id="setActiveCheckbox" checked="checked">
 </body>
 </html>
