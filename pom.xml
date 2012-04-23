@@ -6,10 +6,10 @@
 	<artifactId>autosysmonitor</artifactId>
 	<name>AutosysMonitor</name>
 	<packaging>war</packaging>
-	<version>1.0.0-BUILD-SNAPSHOT</version>
+	<version>1.0.0-SNAPSHOT</version>
 	<properties>
 		<java-version>1.6</java-version>
-		<org.springframework-version>3.0.6.RELEASE</org.springframework-version>
+		<org.springframework-version>3.1.0.RELEASE</org.springframework-version>
 		<org.aspectj-version>1.6.9</org.aspectj-version>
 		<org.slf4j-version>1.5.10</org.slf4j-version>
 	</properties>
@@ -149,7 +149,7 @@
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-war-plugin</artifactId>
 				<configuration>
-					<warName>${project.name}</warName>
+					<warName>${project.artifactId}</warName>
 				</configuration>
 			</plugin>
 			<plugin>

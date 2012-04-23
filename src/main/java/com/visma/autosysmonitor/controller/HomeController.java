@@ -1,12 +1,7 @@
 package com.visma.autosysmonitor.controller;
 
-import java.text.DateFormat;
-import java.util.Date;
 import java.util.List;
 import java.util.Locale;
-import java.util.Map;
-
-import javax.servlet.http.HttpServletResponse;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -28,8 +23,7 @@ import com.visma.autosysmonitor.domain.SystemInfoTO;
 @Controller
 public class HomeController {
 
-	private static final Logger logger = LoggerFactory
-			.getLogger(HomeController.class);
+	private static final Logger logger = LoggerFactory.getLogger(HomeController.class);
 
 	@Autowired
 	private SystemInfoUpdater repo;
@@ -39,40 +33,32 @@ public class HomeController {
 	 */
 	@RequestMapping(value = "/", method = RequestMethod.GET)
 	public String home(Locale locale, Model model) {
-		logger.info("Welcome home! the client locale is " + locale.toString());
-
-		Date date = new Date();
-		DateFormat dateFormat = DateFormat.getDateTimeInstance(DateFormat.LONG,
-				DateFormat.LONG, locale);
-
-		String formattedDate = dateFormat.format(date);
-
-		// repo.updateAll();
-		repo.clear();
-		repo.readFromFile("C:/kode/STS-Workspace/AutosysMonitor/src/main/resources/systems.txt");
 		
-		model.addAttribute("serverTime", formattedDate);
-		model.addAttribute("systeminfo", repo.getAll());
+		logger.error("Hit root context");
+		repo.clear();
+		repo.readFromFile("systems.txt");
 		return "home";
 	}
 
 	@RequestMapping(value = "/pingSystem", method = RequestMethod.POST)
-	public  @ResponseBody SystemInfoTO pingSystem(@RequestBody SystemInfoTO system) {
+	public @ResponseBody
+	SystemInfoTO pingSystem(@RequestBody SystemInfoTO system) {
 		logger.info("Getting system: " + system.getName());
 		SystemInfo sys = new SystemInfo(system);
 		sys.update();
 		SystemInfoTO retval = new SystemInfoTO(sys);
 		return retval;
 	}
-	
-	@RequestMapping(value ="/allSystems" , method= RequestMethod.GET)
-	public @ResponseBody SystemInfoTO[] allSystems(){
-		List<SystemInfo> ret =  repo.getAll();
+
+	@RequestMapping(value = "/allSystems", method = RequestMethod.GET)
+	public @ResponseBody
+	SystemInfoTO[] allSystems() {
+		List<SystemInfo> ret = repo.getAll();
 		SystemInfoTO[] systems = new SystemInfoTO[ret.size()];
-		for(int i = 0 ; i<ret.size();++i){
+		for (int i = 0; i < ret.size(); ++i) {
 			systems[i] = new SystemInfoTO(ret.get(i));
 		}
-		
+
 		return systems;
 	}
 

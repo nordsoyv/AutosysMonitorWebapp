@@ -1,24 +1,33 @@
 package com.visma.autosysmonitor.da;
 
+import java.io.BufferedInputStream;
 import java.io.BufferedReader;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.springframework.beans.BeansException;
+import org.springframework.beans.factory.access.BeanFactoryLocator;
+import org.springframework.beans.factory.access.BeanFactoryReference;
+import org.springframework.beans.factory.access.SingletonBeanFactoryLocator;
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.ApplicationContextAware;
+import org.springframework.core.io.Resource;
 import org.springframework.stereotype.Repository;
 
 import com.visma.autosysmonitor.domain.SystemInfo;
 
 @Repository
-public class SystemInfoUpdater {
+public class SystemInfoUpdater implements ApplicationContextAware{
 
 	List<SystemInfo> data = new ArrayList<SystemInfo>();
-
+	ApplicationContext ctx = null;
 	public SystemInfoUpdater() {
 
 	}
@@ -28,11 +37,13 @@ public class SystemInfoUpdater {
 	}
 
 	public void readFromFile(String fileName) {
+		Resource r =ctx.getResource("classpath:systems.txt");
+		BufferedReader br = null;
 		String line;
-		BufferedReader in = null;
 		try {
-			in = new BufferedReader(new FileReader(fileName));
-			while ((line = in.readLine()) != null) {
+			InputStream is = r.getInputStream();
+	        br = new BufferedReader(new InputStreamReader(is));
+			while ((line = br.readLine()) != null) {
 				String[] elem = line.split(";");
 				if(elem[0].startsWith("#") ){
 					continue;
@@ -48,7 +59,7 @@ public class SystemInfoUpdater {
 			e.printStackTrace();
 		} finally {
 			try {
-				in.close();
+				br.close();
 			} catch (IOException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
@@ -68,6 +79,11 @@ public class SystemInfoUpdater {
 	
 	public void clear(){
 		data.clear();
+	}
+
+	@Override
+	public void setApplicationContext(ApplicationContext applicationContext) throws BeansException {
+		ctx = applicationContext;
 	}
 	
 

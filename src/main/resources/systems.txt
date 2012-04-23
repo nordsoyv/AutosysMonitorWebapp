@@ -1,3 +1,5 @@
+#Navn;URL;Timeout
+# Linjer som begynner med - , blir parset som overskrifter
 -Aviser;--;500
 VG;http://vg.no;500
 #test kommentar
