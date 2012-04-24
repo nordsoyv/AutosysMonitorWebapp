@@ -128,7 +128,7 @@ ASM.setInterval= function(){
 		clearInterval(ASM.intervalHandle);
 	}
 	var interval = $("#refeshInterval");
-	ASM.refreshInterval = parseInt(interval.val());
+	ASM.refreshInterval = parseInt(interval.val()) * 1000;
 	ASM.intervalHandle = setInterval( function (){ ASM.refreshTable();  }  ,   ASM.refreshInterval);
 	var check = $('#setActiveCheckbox');
 	check.prop("checked", true);

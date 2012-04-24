@@ -38,7 +38,7 @@
 	<div id="systemDisplay" class="display"></div>
 	<button id="refreshButton">Refresh alle</button>
 	<br /> Refresh intervall:
-	<input type="number" id="refeshInterval" value="5000" step="1000" />
+	<input type="number" id="refeshInterval" value="5" step="1" min="1" />
 	<button id="setIntervalButton">Sett intervall</button>
 	Aktive:
 	<input type="checkbox" id="setActiveCheckbox" checked="checked">
