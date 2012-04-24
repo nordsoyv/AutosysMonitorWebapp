@@ -19,8 +19,8 @@ ASM.drawSystemTableRow = function(int ){
 	tableHTML += "<td>" + ASM.systems[int].name + "</td>";
 	tableHTML += "<td>" + ASM.systems[int].url + "</td>";
 	tableHTML += "<td><div id=" + ASM.createSystemPingId(int) + " >" + ASM.systems[int].ping + "</div></td>";
-	tableHTML += "<td><img id=" + ASM.createSystemAliveId(int) + " src=\"resources/images/Red-ball.png\" /></td>";
-	tableHTML += "<td><div id=" + ASM.createSystemImgId(int) + " hidden=\"true\" ><img src=\"resources/images/spinner2.gif\" /></div></td>";
+	tableHTML += "<td><img id=" + ASM.createSystemAliveId(int) + " src=\"/autosysmonitor/resources/images/Red-ball.png\" /></td>";
+	tableHTML += "<td><div id=" + ASM.createSystemImgId(int) + " hidden=\"true\" ><img src=\"/autosysmonitor/resources/images/spinner2.gif\" /></div></td>";
 	tableHTML += "</tr>";
 	return tableHTML;
 };
@@ -45,6 +45,7 @@ ASM.refreshTable = function() {
 	ASM.refreshSystem(0);
 };
 
+
 ASM.refreshSystem = function(id) {
 	if (id >= ASM.systems.length){
 		ASM.isRefreshing = false;
@@ -61,7 +62,7 @@ ASM.refreshSystem = function(id) {
 	var date = new Date();
 	ASM.currStartTime = date.getTime();
 	ASM.currRequest = $.ajax({
-		url : "pingSystem",
+		url : "/autosysmonitor/pingSystem",
 		type : "POST",
 		data : jsonSystem,
 		dataType : "json",
@@ -94,16 +95,16 @@ ASM.systemPingContinue = function(id) {
 	$(aliveId).html(ASM.systems[id].alive);
 	$(imgId).hide();
 	if (ASM.systems[id].alive === true) {
-		aliveimg.attr('src', "resources/images/Green-ball.png");
+		aliveimg.attr('src', "/autosysmonitor/resources/images/Green-ball.png");
 	} else {
-		aliveimg.attr('src', "resources/images/Red-ball.png");
+		aliveimg.attr('src', "/autosysmonitor/resources/images/Red-ball.png");
 	}
 	ASM.refreshSystem(id + 1);
 };
 
 ASM.getSystems = function(){
 	var req =$.ajax({
-		url : "allSystems",
+		url : "/autosysmonitor/allSystems",
 		type : "GET",
 		contentType : "application/json; charset=utf-8"
 	});

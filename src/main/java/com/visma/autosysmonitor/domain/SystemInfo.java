@@ -40,9 +40,7 @@ public class SystemInfo {
 		this.url = to.getUrl();
 		this.timeout = to.getTimeout();
 		this.alive = to.isAlive();
-		this.ping = to.getPing();
-		
-		
+		this.ping = to.getPing();	
 	}
 	
 	public void update() {
