@@ -43,6 +43,11 @@ public class SystemInfo {
 		this.ping = to.getPing();	
 	}
 	
+	public SystemInfoTO toSystemInfoTO(){
+		SystemInfoTO sys = new SystemInfoTO(this);
+		return sys;
+	}
+	
 	public void update() {
 
 		long start = System.currentTimeMillis();

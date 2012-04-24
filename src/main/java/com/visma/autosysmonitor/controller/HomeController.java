@@ -17,9 +17,6 @@ import com.visma.autosysmonitor.da.SystemInfoUpdater;
 import com.visma.autosysmonitor.domain.SystemInfo;
 import com.visma.autosysmonitor.domain.SystemInfoTO;
 
-/**
- * Handles requests for the application home page.
- */
 @Controller
 public class HomeController {
 
@@ -28,13 +25,8 @@ public class HomeController {
 	@Autowired
 	private SystemInfoUpdater repo;
 
-	/**
-	 * Simply selects the home view to render by returning its name.
-	 */
 	@RequestMapping(value = "/", method = RequestMethod.GET)
 	public String home(Locale locale, Model model) {
-
-		logger.error("Hit root context");
 		repo.clear();
 		repo.readFromFile();
 		return "home";
@@ -44,10 +36,7 @@ public class HomeController {
 	public @ResponseBody
 	SystemInfoTO pingSystem(@RequestBody SystemInfoTO system) {
 		logger.info("Getting system: " + system.getName());
-		SystemInfo sys = new SystemInfo(system);
-		sys.update();
-		SystemInfoTO retval = new SystemInfoTO(sys);
-		return retval;
+		return repo.updateSystem(system).toSystemInfoTO();
 	}
 
 	@RequestMapping(value = "/allSystems", method = RequestMethod.GET)
@@ -56,7 +45,7 @@ public class HomeController {
 		List<SystemInfo> ret = repo.getAll();
 		SystemInfoTO[] systems = new SystemInfoTO[ret.size()];
 		for (int i = 0; i < ret.size(); ++i) {
-			systems[i] = new SystemInfoTO(ret.get(i));
+			systems[i] = ret.get(i).toSystemInfoTO();
 		}
 
 		return systems;

@@ -15,6 +15,7 @@ import org.springframework.core.io.Resource;
 import org.springframework.stereotype.Repository;
 
 import com.visma.autosysmonitor.domain.SystemInfo;
+import com.visma.autosysmonitor.domain.SystemInfoTO;
 
 @Repository
 public class SystemInfoUpdater implements ApplicationContextAware {
@@ -70,10 +71,27 @@ public class SystemInfoUpdater implements ApplicationContextAware {
 		data.add(system);
 	}
 
+	public SystemInfo updateSystem(SystemInfoTO sys) {
+		SystemInfo systemToUpdate = getSystem(sys);
+		if (systemToUpdate != null) {
+			systemToUpdate.update();
+			return systemToUpdate;
+		}
+		return null;
+	}
+
 	public void updateAll() {
 		for (SystemInfo system : data) {
 			system.update();
 		}
+	}
+
+	public SystemInfo getSystem(SystemInfoTO sys) {
+		for (SystemInfo system : data) {
+			if (system.getName().equals(sys.getName()))
+				return system;
+		}
+		return null;
 	}
 
 	public void clear() {
