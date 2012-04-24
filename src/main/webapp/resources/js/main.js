@@ -1,3 +1,8 @@
+ASM.renderSystemsView = function(){
+	ASM.drawTable();
+};
+
+
 ASM.drawTable = function() {
 	var tableHTML = "<table>";
 	tableHTML += "<tr><th>Navn</th><th>Url</th><th>Ping</th><th>Alive</th><th width=\"16px\" ></th></tr>";
@@ -120,7 +125,7 @@ ASM.getSystems = function(){
 
 ASM.setAllSystems = function (data){
 	ASM.systems=data;
-	ASM.drawTable();
+	ASM.renderSystemsView();
 };
 
 ASM.setInterval= function(){
