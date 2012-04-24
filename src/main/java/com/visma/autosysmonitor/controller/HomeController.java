@@ -33,10 +33,10 @@ public class HomeController {
 	 */
 	@RequestMapping(value = "/", method = RequestMethod.GET)
 	public String home(Locale locale, Model model) {
-		
+
 		logger.error("Hit root context");
 		repo.clear();
-		repo.readFromFile("systems.txt");
+		repo.readFromFile();
 		return "home";
 	}
 
