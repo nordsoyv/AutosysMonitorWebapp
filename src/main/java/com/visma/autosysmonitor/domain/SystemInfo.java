@@ -1,12 +1,10 @@
 package com.visma.autosysmonitor.domain;
 
 import java.io.IOException;
-import java.net.UnknownHostException;
 
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
 import org.apache.http.client.ClientProtocolException;
-import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.params.HttpConnectionParams;
@@ -35,46 +33,43 @@ public class SystemInfo {
 		this.ping = 0;
 	}
 
-	public SystemInfo(SystemInfoTO to){
+	public SystemInfo(SystemInfoTO to) {
 		this.name = to.getName();
 		this.url = to.getUrl();
 		this.timeout = to.getTimeout();
 		this.alive = to.isAlive();
-		this.ping = to.getPing();	
+		this.ping = to.getPing();
 	}
-	
-	public SystemInfoTO toSystemInfoTO(){
+
+	public SystemInfoTO toSystemInfoTO() {
 		SystemInfoTO sys = new SystemInfoTO(this);
 		return sys;
 	}
-	
+
 	public void update() {
 
 		long start = System.currentTimeMillis();
 		DefaultHttpClient httpClient = new DefaultHttpClient();
 		HttpParams params = httpClient.getParams();
 		HttpConnectionParams.setConnectionTimeout(params, this.timeout);
-		HttpConnectionParams.setSoTimeout(params, this.timeout);		
+		HttpConnectionParams.setSoTimeout(params, this.timeout);
 		HttpGet httpget = new HttpGet(this.url);
 		HttpResponse response;
 		try {
 			response = httpClient.execute(httpget);
 			HttpEntity entity = response.getEntity();
-			alive=true;
-			
+			alive = true;
+
 		} catch (ClientProtocolException e) {
-			// TODO Auto-generated catch block
-			alive=false;
+			alive = false;
 			e.printStackTrace();
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			alive=false;
+			alive = false;
 			e.printStackTrace();
-		}
-		catch(Exception e){
-			alive=false;
+		} catch (Exception e) {
+			alive = false;
 			e.printStackTrace();
-		}finally{
+		} finally {
 			httpget.abort();
 			ping = (int) (System.currentTimeMillis() - start);
 		}
