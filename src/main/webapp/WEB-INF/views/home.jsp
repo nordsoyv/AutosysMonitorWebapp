@@ -3,14 +3,15 @@
 <html>
 <head>
 <title>AutosysMonitor</title>
-<link rel="stylesheet" type="text/css" href="/autosysmonitor/resources/css/main.css" />
+<link rel="stylesheet" type="text/css"
+	href="/autosysmonitor/resources/css/main.css" />
 
 <!--script type="text/javascript" src="/autosysmonitor/resources/js/jquery-1.7.1.min.js"></script-->
-<script type="text/javascript" src="/autosysmonitor/resources/js/jquery-1.7.2.js"></script>
-<script type="text/javascript" src="/autosysmonitor/resources/js/main.js"></script>
+<script type="text/javascript"
+	src="/autosysmonitor/resources/js/jquery-1.7.2.js"></script>
+<script type="text/javascript"
+	src="/autosysmonitor/resources/js/main.js"></script>
 <script type="text/javascript">
-	
-
 	$(document).ready(function() {
 		ASM.getSystems();
 
@@ -25,11 +26,6 @@
 		$("#setActiveCheckbox").click(function() {
 			ASM.setRefreshActive();
 		});
-		
-		$("#setNumberColumns").click(function() {
-			ASM.setNumberColumns();
-		});
-
 
 		//kaller denne her for å sette intervall ved oppstart
 		ASM.setInterval();
@@ -45,14 +41,10 @@
 	<button id="setIntervalButton">Sett intervall</button>
 	Aktive:
 	<input type="checkbox" id="setActiveCheckbox" checked="checked">
-	Antall kolonner: <input type="number" id="numberColumns" value="9" step="1" min="1" max="10" />
-	<button id="setNumberColumns">Sett kolonner</button>
 	<p>Systemer som sjekkes:</p>
-	<div id="systemDisplay" class="display"></div>
-	<div id="systemDisplay2" class="displayGrid">
-		
+	<!-- div id="systemDisplay" class="display"></div-->
+	<div id="systemDisplay2" class="displayGrid"></div>
 
-	</div>
 	<!-- button id="refreshButton">Refresh alle</button-->
 </body>
 </html>

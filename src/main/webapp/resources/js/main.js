@@ -2,45 +2,34 @@ ASM = {};
 
 ASM.gridDisplay = function() {
 
-	var numberOfColumns = 9;
-	
 	function drawGridView() {
-		var gridHTML = "";
-		var currRowPos = 0;
+		var gridHTML = '<div class="displayGridMain">';
 		gridHTML += drawGridHeader(0);
 		for ( var int = 1; int < ASM.systems.length; int++) {
 			if (ASM.isSystemInfoHeadline(int)) {
-				gridHTML += "</tbody></table><br />";
+				gridHTML += '</div><br />';
 				gridHTML += drawGridHeader(int);
-				currRowPos = 0;
 			} else {
-				if (currRowPos >= numberOfColumns) {
-					currRowPos = 0;
-					gridHTML += "</tr>";
-				}
-				if (currRowPos == 0) {
-					gridHTML += "<tr>";
-				}
 				gridHTML += drawGridCell(int);
-				currRowPos++;
 			}
 		}
-		gridHTML += "</tbody></table>";
+		gridHTML += "</div>";
 		$("#systemDisplay2").html(gridHTML);
 	}
 
 	function drawGridHeader(int) {
-		var html = "<table><tr><th>";
-		html += ASM.systems[int].name.substring(1, ASM.systems[int].name.length);
-		html += "</th></tr><tbody>";
+		var html ='<div class="displayGridSubheading">'; 
+		html += '<div>' + ASM.systems[int].name.substring(1, ASM.systems[int].name.length) + '</div>' ;
 		return html;
 	}
 
 	function drawGridCell(int) {
-		var html = "<td><div id=\"" + ASM.createSystemPingId(int) + "\" class=\"isgrey displayGridCell\" >";
-		html += ASM.systems[int].name;
-		html += "<div id=" + ASM.createSystemImgId(int)
-				+ " hidden=\"true\" ><img src=\"/autosysmonitor/resources/images/spinner2.gif\" /></div></div></td>";
+		var html = '<div class="displayGridCell isgrey"  id="' +   ASM.createSystemPingId(int)   +   '" >';
+		html  +=  ASM.systems[int].name;
+		html += '<div id="' + ASM.createSystemImgId(int) + '" hidden="true" >';
+		html += '<img src="/autosysmonitor/resources/images/spinner2.gif" />';
+		html += '</div></div>';
+		
 		return html;
 	}
 
@@ -67,11 +56,8 @@ ASM.gridDisplay = function() {
 		$(imgId).show();
 	};
 	
-	this.setNumberColumns = function(number){
-		numberOfColumns = number;
-	};
-	
 };
+
 
 ASM.tableDisplay = function() {
 
@@ -155,14 +141,6 @@ ASM.refreshTable = function() {
 	}
 	ASM.isRefreshing = true;
 	ASM.refreshSystem(0);
-};
-
-
-ASM.setNumberColumns = function(){
-	var columns = $("#numberColumns");
-	ASM.display.setNumberColumns( parseInt(columns.val()));
-	ASM.display.render();
-
 };
 
 ASM.refreshSystem = function(id) {

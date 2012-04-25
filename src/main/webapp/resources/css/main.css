@@ -12,37 +12,50 @@
 	border: 1px solid #EDCAFA;
 }
 
-
-
 .displayGrid table {
 	background-color:#EEEEEE ; 
-/*	border-collapse: collapse; */
 	padding: 5px;
 }
 
-.displayGrid th {
-/*	background-color: #FFFFFF; */
-/*	border: 5px solid #EDCAFA; */
+.displayGridMain {
+	background-color:#EEEEEE ; 
+	padding: 5px;
+	display: block;
+	float: left;
 }
 
-.displayGrid td {
-/*	border: 1px solid #BBBBBB;
-	background-color: #BBBBBB;
-	text-align: center;
-	vertical-align: middle; */
+.displayGridSubheading {
+/*	background-color:#EEEEEE ; 
+	padding: 5px; */
+	display: block;
+	float: left;
+	font-weight: bold;
+	font-size: larger;
 }
 
 .displayGridCell {
 	height: 50px;
-	width:200px; 
+	width:150px; 
 	text-align: center;
 	vertical-align: middle;
 	display: block;
 	padding-top: 10px;
+	margin: 5px;
+	float: left; 
+	font-weight: normal;
+	font-size: medium;
+
 }
 
+.displayGridSep {
+	height: 5px;
+	width: 5px;
+	display: block;
+	float: left;
+	
+}
 .isgreen {
-	background-color: #66FF00;
+	background-color: #00FF33;
 }
 
 .isred {
