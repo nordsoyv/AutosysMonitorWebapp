@@ -8,3 +8,4 @@ Nettavisen;http://nettavisen.no;500
 Google;http://google.com;500
 Yr;http://yr.no;500
 Nrk;http://nrk.no;500
+FAIL;http://asdf.cds;500
