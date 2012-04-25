@@ -5,11 +5,11 @@ ASM.gridDisplay = function() {
 	function drawGridView() {
 		var gridHTML = "<div class=\"displayGrid\">";
 		var currRowPos = 0;
-		gridHTML += ASM.drawGridHeader(0);
+		gridHTML += drawGridHeader(0);
 		for ( var int = 1; int < ASM.systems.length; int++) {
 			if (ASM.isSystemInfoHeadline(int)) {
 				gridHTML += "</tbody></table><br />";
-				gridHTML += ASM.drawGridHeader(int);
+				gridHTML += drawGridHeader(int);
 				currRowPos = 0;
 			} else {
 				if (currRowPos > 4) {
@@ -19,74 +19,114 @@ ASM.gridDisplay = function() {
 				if (currRowPos == 0) {
 					gridHTML += "<tr>";
 				}
-				gridHTML += ASM.drawGridCell(int);
+				gridHTML += drawGridCell(int);
 				currRowPos++;
 			}
 		}
 		gridHTML += "</tbody></table></div>";
 		$("#systemDisplay2").html(gridHTML);
 	}
-};
 
-ASM.renderSystemsView = function() {
-	// ASM.drawTable();
-	ASM.drawGridView();
-};
-
-ASM.drawGridView = function() {
-
-};
-
-ASM.drawGridHeader = function(int) {
-	var html = "<table><tr><th>";
-	html += ASM.systems[int].name.substring(1, ASM.systems[int].name.length);
-	html += "</th></tr><tbody>";
-	return html;
-};
-
-ASM.drawGridCell = function(int) {
-	var html = "<td><div id=\"" + ASM.createSystemPingId(int) + "\" class=\"isgrey\" >";
-	html += ASM.systems[int].name;
-	html += "</div></td>";
-	return html;
-};
-
-ASM.drawTable = function() {
-	var tableHTML = "<table>";
-	tableHTML += "<tr><th>Navn</th><th>Url</th><th>Ping</th><th>Alive</th><th width=\"16px\" ></th></tr>";
-	for ( var int = 0; int < ASM.systems.length; int++) {
-		if (ASM.isSystemInfoHeadline(int)) {
-			tableHTML += ASM.drawHeadingTableRow(int);
-		} else {
-			tableHTML += ASM.drawSystemTableRow(int);
-		}
+	function drawGridHeader(int) {
+		var html = "<table><tr><th>";
+		html += ASM.systems[int].name.substring(1, ASM.systems[int].name.length);
+		html += "</th></tr><tbody>";
+		return html;
 	}
 
-	tableHTML = tableHTML + "</table>";
-	$("#systemDisplay").html(tableHTML);
+	function drawGridCell(int) {
+		var html = "<td><div id=\"" + ASM.createSystemPingId(int) + "\" class=\"isgrey\" >";
+		html += ASM.systems[int].name;
+		html += "</div></td>";
+		return html;
+	}
+
+	this.updateSystemStatus = function(id) {
+		var pingId = "#" + ASM.createSystemPingId(id);
+		var sysCell = $(pingId);
+		if (ASM.systems[id].alive === true) {
+			sysCell.removeClass("isgrey");
+			sysCell.addClass("isgreen");
+		} else {
+			sysCell.removeClass("isgrey");
+			sysCell.addClass("isred");
+		}
+	};
+
+	this.render = function() {
+		drawGridView();
+	};
 };
 
-ASM.drawSystemTableRow = function(int) {
-	var tableHTML = "<tr>";
-	tableHTML += "<td>" + ASM.systems[int].name + "</td>";
-	tableHTML += "<td>" + ASM.systems[int].url + "</td>";
-	tableHTML += "<td><div id=" + ASM.createSystemPingId(int) + " >" + ASM.systems[int].ping + "</div></td>";
-	tableHTML += "<td><img id=" + ASM.createSystemAliveId(int) + " src=\"/autosysmonitor/resources/images/Red-ball.png\" /></td>";
-	tableHTML += "<td><div id=" + ASM.createSystemImgId(int)
-			+ " hidden=\"true\" ><img src=\"/autosysmonitor/resources/images/spinner2.gif\" /></div></td>";
-	tableHTML += "</tr>";
-	return tableHTML;
+ASM.tableDisplay = function() {
+
+	function drawTable() {
+		var tableHTML = "<table>";
+		tableHTML += "<tr><th>Navn</th><th>Url</th><th>Ping</th><th>Alive</th><th width=\"16px\" ></th></tr>";
+		for ( var int = 0; int < ASM.systems.length; int++) {
+			if (ASM.isSystemInfoHeadline(int)) {
+				tableHTML += drawHeadingTableRow(int);
+			} else {
+				tableHTML += drawSystemTableRow(int);
+			}
+		}
+
+		tableHTML = tableHTML + "</table>";
+		$("#systemDisplay").html(tableHTML);
+	}
+
+	function drawSystemTableRow(int) {
+		var tableHTML = "<tr>";
+		tableHTML += "<td>" + ASM.systems[int].name + "</td>";
+		tableHTML += "<td>" + ASM.systems[int].url + "</td>";
+		tableHTML += "<td><div id=" + ASM.createSystemPingId(int) + " >" + ASM.systems[int].ping + "</div></td>";
+		tableHTML += "<td><img id=" + ASM.createSystemAliveId(int) + " src=\"/autosysmonitor/resources/images/Red-ball.png\" /></td>";
+		tableHTML += "<td><div id=" + ASM.createSystemImgId(int)
+				+ " hidden=\"true\" ><img src=\"/autosysmonitor/resources/images/spinner2.gif\" /></div></td>";
+		tableHTML += "</tr>";
+		return tableHTML;
+	}
+
+	function drawHeadingTableRow(int) {
+		var tableHTML = "<tr>";
+		tableHTML += "<td>" + ASM.systems[int].name.substring(1, ASM.systems[int].name.length) + "</td>";
+		tableHTML += "<td>----------------------</td>";
+		tableHTML += "<td></td>";
+		tableHTML += "<td></td>";
+		tableHTML += "<td></td>";
+		tableHTML += "</tr>";
+		return tableHTML;
+	}
+	
+	this.render = function() {
+		drawTable();
+	};
+	
+	
+	this.updateSystemStatus = function(id) {
+		var imgId = "#" + ASM.createSystemImgId(id);
+		var pingId = "#" + ASM.createSystemPingId(id);
+		var aliveId = "#" + ASM.createSystemAliveId(id);
+		var aliveimg = $(aliveId);
+		$(pingId).html(ASM.systems[id].ping);
+		$(aliveId).html(ASM.systems[id].alive);
+		$(imgId).hide();
+		if (ASM.systems[id].alive === true) {
+			aliveimg.attr('src', "/autosysmonitor/resources/images/Green-ball.png");
+		} else {
+			aliveimg.attr('src', "/autosysmonitor/resources/images/Red-ball.png");
+		}
+	};
+	
 };
 
-ASM.drawHeadingTableRow = function(int) {
-	var tableHTML = "<tr>";
-	tableHTML += "<td>" + ASM.systems[int].name.substring(1, ASM.systems[int].name.length) + "</td>";
-	tableHTML += "<td>----------------------</td>";
-	tableHTML += "<td></td>";
-	tableHTML += "<td></td>";
-	tableHTML += "<td></td>";
-	tableHTML += "</tr>";
-	return tableHTML;
+ASM.init = function() {
+	ASM.display = new ASM.gridDisplay();
+	//ASM.display = new ASM.tableDisplay();
+}();
+
+ASM.renderSystemsView = function() {
+	ASM.display.render();
 };
 
 ASM.refreshTable = function() {
@@ -138,35 +178,8 @@ ASM.systemPingFail = function(id, jqXHR, textStatus) {
 };
 
 ASM.systemPingContinue = function(id) {
-	ASM.updateCellSystemStatus(id);
+	ASM.display.updateSystemStatus(id);
 	ASM.refreshSystem(id + 1);
-};
-
-ASM.updateCellSystemStatus = function(id) {
-	var pingId = "#" + ASM.createSystemPingId(id);
-	var sysCell = $(pingId);
-	if (ASM.systems[id].alive === true) {
-		sysCell.removeClass("isgrey");
-		sysCell.addClass("isgreen");
-	} else {
-		sysCell.removeClass("isgrey");
-		sysCell.addClass("isred");
-	}
-};
-
-ASM.updateTableSystemStatus = function(id) {
-	var imgId = "#" + ASM.createSystemImgId(id);
-	var pingId = "#" + ASM.createSystemPingId(id);
-	var aliveId = "#" + ASM.createSystemAliveId(id);
-	var aliveimg = $(aliveId);
-	$(pingId).html(ASM.systems[id].ping);
-	$(aliveId).html(ASM.systems[id].alive);
-	$(imgId).hide();
-	if (ASM.systems[id].alive === true) {
-		aliveimg.attr('src', "/autosysmonitor/resources/images/Green-ball.png");
-	} else {
-		aliveimg.attr('src', "/autosysmonitor/resources/images/Red-ball.png");
-	}
 };
 
 ASM.getSystems = function() {
