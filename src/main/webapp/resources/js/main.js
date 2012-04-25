@@ -2,7 +2,7 @@ ASM = {};
 
 ASM.gridDisplay = function() {
 
-	var numberOfColumns = 4;
+	var numberOfColumns = 9;
 	
 	function drawGridView() {
 		var gridHTML = "";

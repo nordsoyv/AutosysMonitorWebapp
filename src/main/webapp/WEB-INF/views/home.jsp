@@ -45,7 +45,7 @@
 	<button id="setIntervalButton">Sett intervall</button>
 	Aktive:
 	<input type="checkbox" id="setActiveCheckbox" checked="checked">
-	Antall kolonner: <input type="number" id="numberColumns" value="5" step="1" min="1" max="10" />
+	Antall kolonner: <input type="number" id="numberColumns" value="9" step="1" min="1" max="10" />
 	<button id="setNumberColumns">Sett kolonner</button>
 	<p>Systemer som sjekkes:</p>
 	<div id="systemDisplay" class="display"></div>
