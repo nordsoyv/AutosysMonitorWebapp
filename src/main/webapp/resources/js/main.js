@@ -1,15 +1,63 @@
-ASM.renderSystemsView = function(){
-	ASM.drawTable();
+ASM = {};
+
+ASM.gridDisplay = function() {
+
+	function drawGridView() {
+		var gridHTML = "<div class=\"displayGrid\">";
+		var currRowPos = 0;
+		gridHTML += ASM.drawGridHeader(0);
+		for ( var int = 1; int < ASM.systems.length; int++) {
+			if (ASM.isSystemInfoHeadline(int)) {
+				gridHTML += "</tbody></table><br />";
+				gridHTML += ASM.drawGridHeader(int);
+				currRowPos = 0;
+			} else {
+				if (currRowPos > 4) {
+					currRowPos = 0;
+					gridHTML += "</tr>";
+				}
+				if (currRowPos == 0) {
+					gridHTML += "<tr>";
+				}
+				gridHTML += ASM.drawGridCell(int);
+				currRowPos++;
+			}
+		}
+		gridHTML += "</tbody></table></div>";
+		$("#systemDisplay2").html(gridHTML);
+	}
 };
 
+ASM.renderSystemsView = function() {
+	// ASM.drawTable();
+	ASM.drawGridView();
+};
+
+ASM.drawGridView = function() {
+
+};
+
+ASM.drawGridHeader = function(int) {
+	var html = "<table><tr><th>";
+	html += ASM.systems[int].name.substring(1, ASM.systems[int].name.length);
+	html += "</th></tr><tbody>";
+	return html;
+};
+
+ASM.drawGridCell = function(int) {
+	var html = "<td><div id=\"" + ASM.createSystemPingId(int) + "\" class=\"isgrey\" >";
+	html += ASM.systems[int].name;
+	html += "</div></td>";
+	return html;
+};
 
 ASM.drawTable = function() {
 	var tableHTML = "<table>";
 	tableHTML += "<tr><th>Navn</th><th>Url</th><th>Ping</th><th>Alive</th><th width=\"16px\" ></th></tr>";
 	for ( var int = 0; int < ASM.systems.length; int++) {
-		if (ASM.isSystemInfoHeadline(int)){
+		if (ASM.isSystemInfoHeadline(int)) {
 			tableHTML += ASM.drawHeadingTableRow(int);
-		}else{
+		} else {
 			tableHTML += ASM.drawSystemTableRow(int);
 		}
 	}
@@ -18,21 +66,21 @@ ASM.drawTable = function() {
 	$("#systemDisplay").html(tableHTML);
 };
 
-
-ASM.drawSystemTableRow = function(int ){
+ASM.drawSystemTableRow = function(int) {
 	var tableHTML = "<tr>";
 	tableHTML += "<td>" + ASM.systems[int].name + "</td>";
 	tableHTML += "<td>" + ASM.systems[int].url + "</td>";
 	tableHTML += "<td><div id=" + ASM.createSystemPingId(int) + " >" + ASM.systems[int].ping + "</div></td>";
 	tableHTML += "<td><img id=" + ASM.createSystemAliveId(int) + " src=\"/autosysmonitor/resources/images/Red-ball.png\" /></td>";
-	tableHTML += "<td><div id=" + ASM.createSystemImgId(int) + " hidden=\"true\" ><img src=\"/autosysmonitor/resources/images/spinner2.gif\" /></div></td>";
+	tableHTML += "<td><div id=" + ASM.createSystemImgId(int)
+			+ " hidden=\"true\" ><img src=\"/autosysmonitor/resources/images/spinner2.gif\" /></div></td>";
 	tableHTML += "</tr>";
 	return tableHTML;
 };
 
-ASM.drawHeadingTableRow = function(int ){
+ASM.drawHeadingTableRow = function(int) {
 	var tableHTML = "<tr>";
-	tableHTML += "<td>" + ASM.systems[int].name.substring(1,ASM.systems[int].name.length) + "</td>";
+	tableHTML += "<td>" + ASM.systems[int].name.substring(1, ASM.systems[int].name.length) + "</td>";
 	tableHTML += "<td>----------------------</td>";
 	tableHTML += "<td></td>";
 	tableHTML += "<td></td>";
@@ -41,24 +89,22 @@ ASM.drawHeadingTableRow = function(int ){
 	return tableHTML;
 };
 
-
 ASM.refreshTable = function() {
-	if(ASM.isRefreshing){
+	if (ASM.isRefreshing) {
 		return;
 	}
 	ASM.isRefreshing = true;
 	ASM.refreshSystem(0);
 };
 
-
 ASM.refreshSystem = function(id) {
-	if (id >= ASM.systems.length){
+	if (id >= ASM.systems.length) {
 		ASM.isRefreshing = false;
 		return;
 	}
-	if (ASM.isSystemInfoHeadline(id) ) {
-		//Dette er en overskrift , skip til neste
-		ASM.refreshSystem(id+1);
+	if (ASM.isSystemInfoHeadline(id)) {
+		// Dette er en overskrift , skip til neste
+		ASM.refreshSystem(id + 1);
 		return;
 	}
 	var jsonSystem = JSON.stringify(ASM.systems[id]);
@@ -92,6 +138,23 @@ ASM.systemPingFail = function(id, jqXHR, textStatus) {
 };
 
 ASM.systemPingContinue = function(id) {
+	ASM.updateCellSystemStatus(id);
+	ASM.refreshSystem(id + 1);
+};
+
+ASM.updateCellSystemStatus = function(id) {
+	var pingId = "#" + ASM.createSystemPingId(id);
+	var sysCell = $(pingId);
+	if (ASM.systems[id].alive === true) {
+		sysCell.removeClass("isgrey");
+		sysCell.addClass("isgreen");
+	} else {
+		sysCell.removeClass("isgrey");
+		sysCell.addClass("isred");
+	}
+};
+
+ASM.updateTableSystemStatus = function(id) {
 	var imgId = "#" + ASM.createSystemImgId(id);
 	var pingId = "#" + ASM.createSystemPingId(id);
 	var aliveId = "#" + ASM.createSystemAliveId(id);
@@ -104,11 +167,10 @@ ASM.systemPingContinue = function(id) {
 	} else {
 		aliveimg.attr('src', "/autosysmonitor/resources/images/Red-ball.png");
 	}
-	ASM.refreshSystem(id + 1);
 };
 
-ASM.getSystems = function(){
-	var req =$.ajax({
+ASM.getSystems = function() {
+	var req = $.ajax({
 		url : "/autosysmonitor/allSystems",
 		type : "GET",
 		contentType : "application/json; charset=utf-8"
@@ -118,35 +180,35 @@ ASM.getSystems = function(){
 	});
 	req.fail(function(jqXHR, textStatus) {
 		alert("Kunne ikke lese inn systemliste fra server");
-	});	
+	});
 };
 
-
-
-ASM.setAllSystems = function (data){
-	ASM.systems=data;
+ASM.setAllSystems = function(data) {
+	ASM.systems = data;
 	ASM.renderSystemsView();
 };
 
-ASM.setInterval= function(){
-	if(ASM.intervalHandle !== undefined || ASM.intervalHandle !== null){
+ASM.setInterval = function() {
+	if (ASM.intervalHandle !== undefined || ASM.intervalHandle !== null) {
 		clearInterval(ASM.intervalHandle);
 	}
 	var interval = $("#refeshInterval");
 	ASM.refreshInterval = parseInt(interval.val()) * 1000;
-	ASM.intervalHandle = setInterval( function (){ ASM.refreshTable();  }  ,   ASM.refreshInterval);
+	ASM.intervalHandle = setInterval(function() {
+		ASM.refreshTable();
+	}, ASM.refreshInterval);
 	var check = $('#setActiveCheckbox');
 	check.prop("checked", true);
 };
 
-ASM.setRefreshActive = function (){
-	if($('#setActiveCheckbox:checked').val() !== undefined){
-		//is checked
+ASM.setRefreshActive = function() {
+	if ($('#setActiveCheckbox:checked').val() !== undefined) {
+		// is checked
 		ASM.setInterval();
 		ASM.refreshTable();
-		
-	}else{
-		if(ASM.intervalHandle !== undefined || ASM.intervalHandle !== null){
+
+	} else {
+		if (ASM.intervalHandle !== undefined || ASM.intervalHandle !== null) {
 			clearInterval(ASM.intervalHandle);
 		}
 	}
@@ -164,11 +226,11 @@ ASM.createSystemAliveId = function(id) {
 	return "systemAlive" + id;
 };
 
-ASM.isSystemInfoHeadline = function (id){
+ASM.isSystemInfoHeadline = function(id) {
 	var name = ASM.systems[id].name;
 	if (name.substring(0, 1) == "-") {
 		return true;
-	}else{
+	} else {
 		return false;
 	}
 };

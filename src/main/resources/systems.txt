@@ -2,6 +2,9 @@
 # Linjer som begynner med - , blir parset som overskrifter
 -Aviser;--;500
 VG;http://vg.no;500
-#test kommentar
 Dagbladet;http://dagbladet.no;500
 Nettavisen;http://nettavisen.no;500
+-Annet;--;500
+Google;http://google.com;500
+Yr;http://yr.no;500
+Nrk;http://nrk.no;500
