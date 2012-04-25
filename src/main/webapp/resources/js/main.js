@@ -37,13 +37,16 @@ ASM.gridDisplay = function() {
 	function drawGridCell(int) {
 		var html = "<td><div id=\"" + ASM.createSystemPingId(int) + "\" class=\"isgrey\" >";
 		html += ASM.systems[int].name;
-		html += "</div></td>";
+		html += "<div id=" + ASM.createSystemImgId(int)
+				+ " hidden=\"true\" ><img src=\"/autosysmonitor/resources/images/spinner2.gif\" /></div></div></td>";
 		return html;
 	}
 
 	this.updateSystemStatus = function(id) {
 		var pingId = "#" + ASM.createSystemPingId(id);
 		var sysCell = $(pingId);
+		var imgId = "#" + ASM.createSystemImgId(id);
+		$(imgId).hide();
 		if (ASM.systems[id].alive === true) {
 			sysCell.removeClass("isgrey");
 			sysCell.addClass("isgreen");
@@ -55,6 +58,11 @@ ASM.gridDisplay = function() {
 
 	this.render = function() {
 		drawGridView();
+	};
+	
+	this.startUpdateSystem = function(id){
+		var imgId = "#" + ASM.createSystemImgId(id);
+		$(imgId).show();
 	};
 };
 
@@ -118,6 +126,11 @@ ASM.tableDisplay = function() {
 		}
 	};
 	
+	this.startUpdateSystem = function(id){
+		var imgId = "#" + ASM.createSystemImgId(id);
+		$(imgId).show();
+	};
+	
 };
 
 ASM.init = function() {
@@ -148,8 +161,7 @@ ASM.refreshSystem = function(id) {
 		return;
 	}
 	var jsonSystem = JSON.stringify(ASM.systems[id]);
-	var imgId = "#" + ASM.createSystemImgId(id);
-	$(imgId).show();
+	ASM.display.startUpdateSystem(id);
 	var date = new Date();
 	ASM.currStartTime = date.getTime();
 	ASM.currRequest = $.ajax({
