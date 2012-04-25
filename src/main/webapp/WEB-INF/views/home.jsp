@@ -5,7 +5,8 @@
 <title>AutosysMonitor</title>
 <link rel="stylesheet" type="text/css" href="/autosysmonitor/resources/css/main.css" />
 
-<script type="text/javascript" src="/autosysmonitor/resources/js/jquery-1.7.1.min.js"></script>
+<!--script type="text/javascript" src="/autosysmonitor/resources/js/jquery-1.7.1.min.js"></script-->
+<script type="text/javascript" src="/autosysmonitor/resources/js/jquery-1.7.2.js"></script>
 <script type="text/javascript" src="/autosysmonitor/resources/js/main.js"></script>
 <script type="text/javascript">
 	
@@ -24,6 +25,11 @@
 		$("#setActiveCheckbox").click(function() {
 			ASM.setRefreshActive();
 		});
+		
+		$("#setNumberColumns").click(function() {
+			ASM.setNumberColumns();
+		});
+
 
 		//kaller denne her for å sette intervall ved oppstart
 		ASM.setInterval();
@@ -34,17 +40,19 @@
 </head>
 <body>
 	<h1>AutosysMonitor</h1>
+	<br /> Refresh intervall:
+	<input type="number" id="refeshInterval" value="5" step="1" min="1" />
+	<button id="setIntervalButton">Sett intervall</button>
+	Aktive:
+	<input type="checkbox" id="setActiveCheckbox" checked="checked">
+	Antall kolonner: <input type="number" id="numberColumns" value="5" step="1" min="1" max="10" />
+	<button id="setNumberColumns">Sett kolonner</button>
 	<p>Systemer som sjekkes:</p>
 	<div id="systemDisplay" class="display"></div>
 	<div id="systemDisplay2" class="displayGrid">
 		
 
 	</div>
-	<button id="refreshButton">Refresh alle</button>
-	<br /> Refresh intervall:
-	<input type="number" id="refeshInterval" value="5" step="1" min="1" />
-	<button id="setIntervalButton">Sett intervall</button>
-	Aktive:
-	<input type="checkbox" id="setActiveCheckbox" checked="checked">
+	<!-- button id="refreshButton">Refresh alle</button-->
 </body>
 </html>

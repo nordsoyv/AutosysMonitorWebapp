@@ -32,33 +32,23 @@
 	vertical-align: middle; */
 }
 
-
-.isgreen {
-	background-color: #66FF00;
-	height: 90px;
-	width:100px; 
+.displayGridCell {
+	height: 50px;
+	width:200px; 
 	text-align: center;
 	vertical-align: middle;
 	display: block;
 	padding-top: 10px;
+}
+
+.isgreen {
+	background-color: #66FF00;
 }
 
 .isred {
 	background-color: #FF0000;
-	height: 90px;
-	width:100px; 
-	text-align: center;
-	vertical-align: middle;
-	display: block;
-	padding-top: 10px;
 }
 
 .isgrey {
 	background-color: #BBBBBB;
-	height: 90px;
-	width:100px; 
-	text-align: center;
-	vertical-align: middle;
-	display: block;
-	padding-top: 10px;
 }

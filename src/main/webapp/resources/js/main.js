@@ -2,8 +2,10 @@ ASM = {};
 
 ASM.gridDisplay = function() {
 
+	var numberOfColumns = 4;
+	
 	function drawGridView() {
-		var gridHTML = "<div class=\"displayGrid\">";
+		var gridHTML = "";
 		var currRowPos = 0;
 		gridHTML += drawGridHeader(0);
 		for ( var int = 1; int < ASM.systems.length; int++) {
@@ -12,7 +14,7 @@ ASM.gridDisplay = function() {
 				gridHTML += drawGridHeader(int);
 				currRowPos = 0;
 			} else {
-				if (currRowPos > 4) {
+				if (currRowPos >= numberOfColumns) {
 					currRowPos = 0;
 					gridHTML += "</tr>";
 				}
@@ -23,7 +25,7 @@ ASM.gridDisplay = function() {
 				currRowPos++;
 			}
 		}
-		gridHTML += "</tbody></table></div>";
+		gridHTML += "</tbody></table>";
 		$("#systemDisplay2").html(gridHTML);
 	}
 
@@ -35,7 +37,7 @@ ASM.gridDisplay = function() {
 	}
 
 	function drawGridCell(int) {
-		var html = "<td><div id=\"" + ASM.createSystemPingId(int) + "\" class=\"isgrey\" >";
+		var html = "<td><div id=\"" + ASM.createSystemPingId(int) + "\" class=\"isgrey displayGridCell\" >";
 		html += ASM.systems[int].name;
 		html += "<div id=" + ASM.createSystemImgId(int)
 				+ " hidden=\"true\" ><img src=\"/autosysmonitor/resources/images/spinner2.gif\" /></div></div></td>";
@@ -64,6 +66,11 @@ ASM.gridDisplay = function() {
 		var imgId = "#" + ASM.createSystemImgId(id);
 		$(imgId).show();
 	};
+	
+	this.setNumberColumns = function(number){
+		numberOfColumns = number;
+	};
+	
 };
 
 ASM.tableDisplay = function() {
@@ -148,6 +155,14 @@ ASM.refreshTable = function() {
 	}
 	ASM.isRefreshing = true;
 	ASM.refreshSystem(0);
+};
+
+
+ASM.setNumberColumns = function(){
+	var columns = $("#numberColumns");
+	ASM.display.setNumberColumns( parseInt(columns.val()));
+	ASM.display.render();
+
 };
 
 ASM.refreshSystem = function(id) {
