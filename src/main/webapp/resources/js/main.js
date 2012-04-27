@@ -40,9 +40,11 @@ ASM.gridDisplay = function() {
 		$(imgId).hide();
 		if (ASM.systems[id].alive === true) {
 			sysCell.removeClass("isgrey");
+			sysCell.removeClass("isred");
 			sysCell.addClass("isgreen");
 		} else {
 			sysCell.removeClass("isgrey");
+			sysCell.removeClass("isgreen");
 			sysCell.addClass("isred");
 		}
 	};
