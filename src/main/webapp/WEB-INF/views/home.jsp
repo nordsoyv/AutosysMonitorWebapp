@@ -37,7 +37,7 @@
 <body>
 	<h1>AutosysMonitor</h1>
 	<br /> Refresh intervall:
-	<input type="number" id="refeshInterval" value="5" step="1" min="1" />
+	<input type="number" id="refeshInterval" value="5" step="1" min="1" style="text-align: right" />
 	<button id="setIntervalButton">Sett intervall</button>
 	Aktive:
 	<input type="checkbox" id="setActiveCheckbox" checked="checked">
