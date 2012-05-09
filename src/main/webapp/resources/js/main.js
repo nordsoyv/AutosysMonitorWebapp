@@ -19,7 +19,7 @@ ASM.gridDisplay = function() {
 
 	function drawGridHeader(int) {
 		var html ='<div class="displayGridSubheading">'; 
-		html += '<div>' + ASM.systems[int].name.substring(1, ASM.systems[int].name.length) + '</div>' ;
+		html += '<div clasS="displayGridSubHeader">' + ASM.systems[int].name.substring(1, ASM.systems[int].name.length) + '</div>' ;
 		return html;
 	}
 

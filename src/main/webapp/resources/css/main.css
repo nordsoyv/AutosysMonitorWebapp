@@ -18,16 +18,19 @@
 }
 
 .displayGridMain {
-	background-color:#EEEEEE ; 
+	/* background-color:#EEEEEE ; */ 
 	padding: 5px;
 	display: block;
 	float: left;
 	margin: 1px;
+	
+	border-top-left-radius: 5px;
+	border-top-right-radius: 5px;
+	border-bottom-left-radius: 5px;
+	border-bottom-right-radius: 5px;
 }
 
 .displayGridSubheading {
-/*	background-color:#EEEEEE ; 
-	padding: 5px; */
 	display: block;
 	float: left;
 	font-weight: bold;
@@ -36,7 +39,17 @@
 	border-color: gray;
 	border-style: solid;
 	margin-bottom: 5px;
+	background-color: #F0F0F0;
+	border-top-left-radius: 5px;
+	border-top-right-radius: 5px;
+	border-bottom-left-radius: 5px;
+	border-bottom-right-radius: 5px;
 	
+	
+}
+
+.displayGridSubHeader {
+	padding-left: 10px;
 }
 
 .displayGridCell {
@@ -52,6 +65,10 @@
 	font-size: medium;
 	border-style: solid;
 	border-width: 2px;
+	border-top-left-radius: 5px;
+	border-top-right-radius: 5px;
+	border-bottom-left-radius: 5px;
+	border-bottom-right-radius: 5px;
 
 }
 
@@ -63,8 +80,8 @@
 	
 }
 .isgreen {
-	background-color: #00FF33;
-		border-color: #00CC00;
+	background-color: #70E23B;
+		border-color: #306430;
 }
 
 .isred {
