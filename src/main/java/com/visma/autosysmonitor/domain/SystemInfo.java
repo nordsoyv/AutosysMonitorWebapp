@@ -33,7 +33,7 @@ public class SystemInfo {
 		this.ping = 0;
 	}
 
-	public SystemInfo(SystemInfoTO to) {
+	public SystemInfo(SystemInfoDTO to) {
 		this.name = to.getName();
 		this.url = to.getUrl();
 		this.timeout = to.getTimeout();
@@ -41,8 +41,8 @@ public class SystemInfo {
 		this.ping = to.getPing();
 	}
 
-	public SystemInfoTO toSystemInfoTO() {
-		SystemInfoTO sys = new SystemInfoTO(this);
+	public SystemInfoDTO toSystemInfoDTO() {
+		SystemInfoDTO sys = new SystemInfoDTO(this);
 		return sys;
 	}
 
