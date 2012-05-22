@@ -9,3 +9,5 @@ HTTP-GET;Google;http://google.com;500
 HTTP-GET;Yr;http://yr.no;500
 HTTP-GET;Nrk;http://nrk.no;500
 HTTP-GET;FAIL;http://asdf.cds;500
+HEADER;-JDBC;--;500
+JDBC;jdbctest;jdbc:oracle:thin:sak/sak@//10.250.5.52:1521/UMDB;5000
