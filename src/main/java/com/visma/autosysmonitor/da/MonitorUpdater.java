@@ -45,12 +45,7 @@ public class MonitorUpdater implements ApplicationContextAware {
 			InputStream is = r.getInputStream();
 			br = new BufferedReader(new InputStreamReader(is));
 			while ((line = br.readLine()) != null) {
-				String[] elem = line.split(";");
-				if (elem[0].startsWith("#")) {
-					continue;
-				}
-				HttpGetMonitor sys = new HttpGetMonitor(elem[0], elem[1], Integer.parseInt(elem[2]));
-				addSystemInfo(sys);
+				addSystemInfo(MonitorFactory.createMonitor(line));
 			}
 		} catch (FileNotFoundException e) {
 			// TODO Auto-generated catch block
@@ -69,7 +64,8 @@ public class MonitorUpdater implements ApplicationContextAware {
 	}
 
 	public void addSystemInfo(Monitor system) {
-		data.add(system);
+		if (system != null)
+			data.add(system);
 	}
 
 	public Monitor updateSystem(MonitorDTO sys) {

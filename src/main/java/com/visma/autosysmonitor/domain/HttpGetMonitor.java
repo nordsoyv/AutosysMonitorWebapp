@@ -70,10 +70,10 @@ public class HttpGetMonitor implements Monitor {
 
 		} catch (ClientProtocolException e) {
 			alive = false;
-			e.printStackTrace();
+//			e.printStackTrace();
 		} catch (IOException e) {
 			alive = false;
-			e.printStackTrace();
+//			e.printStackTrace();
 		} catch (Exception e) {
 			alive = false;
 			e.printStackTrace();
