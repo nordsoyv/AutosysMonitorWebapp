@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import com.visma.autosysmonitor.da.SystemInfoUpdater;
+import com.visma.autosysmonitor.da.MonitorUpdater;
 import com.visma.autosysmonitor.domain.HttpGetMonitor;
 import com.visma.autosysmonitor.domain.MonitorDTO;
 
@@ -23,7 +23,7 @@ public class HomeController {
 	private static final Logger logger = LoggerFactory.getLogger(HomeController.class);
 
 	@Autowired
-	private SystemInfoUpdater repo;
+	private MonitorUpdater repo;
 
 	@RequestMapping(value = "/", method = RequestMethod.GET)
 	public String home(Locale locale, Model model) {

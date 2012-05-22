@@ -18,13 +18,13 @@ import com.visma.autosysmonitor.domain.HttpGetMonitor;
 import com.visma.autosysmonitor.domain.MonitorDTO;
 
 @Repository
-public class SystemInfoUpdater implements ApplicationContextAware {
+public class MonitorUpdater implements ApplicationContextAware {
 
 	private static final String SYSTEM_FILE = "classpath:systems.txt";
 	List<HttpGetMonitor> data = new ArrayList<HttpGetMonitor>();
 	ApplicationContext ctx = null;
 
-	public SystemInfoUpdater() {
+	public MonitorUpdater() {
 
 	}
 
