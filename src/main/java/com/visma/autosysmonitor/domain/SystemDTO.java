@@ -32,7 +32,7 @@ public class SystemDTO {
 		this.ping = 0;
 	}
 
-	public SystemDTO(HttpGetSystem sys){
+	public SystemDTO(HttpGetMonitor sys){
 		this.name = sys.getName();
 		this.url = sys.getUrl();
 		this.timeout = sys.getTimeout();

@@ -10,14 +10,14 @@ import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.params.HttpConnectionParams;
 import org.apache.http.params.HttpParams;
 
-public class HttpGetSystem {
+public class HttpGetMonitor {
 	private String name;
 	private String url;
 	private boolean alive;
 	private int ping;
 	private int timeout;
 
-	public HttpGetSystem(String name, String url, int timeout) {
+	public HttpGetMonitor(String name, String url, int timeout) {
 		this.name = name;
 		this.url = url;
 		this.timeout = timeout;
@@ -25,7 +25,7 @@ public class HttpGetSystem {
 		this.ping = 0;
 	}
 
-	public HttpGetSystem() {
+	public HttpGetMonitor() {
 		this.name = "";
 		this.url = "";
 		this.timeout = 0;
@@ -33,7 +33,7 @@ public class HttpGetSystem {
 		this.ping = 0;
 	}
 
-	public HttpGetSystem(SystemDTO to) {
+	public HttpGetMonitor(SystemDTO to) {
 		this.name = to.getName();
 		this.url = to.getUrl();
 		this.timeout = to.getTimeout();

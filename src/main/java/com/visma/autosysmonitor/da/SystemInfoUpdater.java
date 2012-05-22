@@ -14,21 +14,21 @@ import org.springframework.context.ApplicationContextAware;
 import org.springframework.core.io.Resource;
 import org.springframework.stereotype.Repository;
 
-import com.visma.autosysmonitor.domain.HttpGetSystem;
+import com.visma.autosysmonitor.domain.HttpGetMonitor;
 import com.visma.autosysmonitor.domain.SystemDTO;
 
 @Repository
 public class SystemInfoUpdater implements ApplicationContextAware {
 
 	private static final String SYSTEM_FILE = "classpath:systems.txt";
-	List<HttpGetSystem> data = new ArrayList<HttpGetSystem>();
+	List<HttpGetMonitor> data = new ArrayList<HttpGetMonitor>();
 	ApplicationContext ctx = null;
 
 	public SystemInfoUpdater() {
 
 	}
 
-	public List<HttpGetSystem> getAll() {
+	public List<HttpGetMonitor> getAll() {
 		return java.util.Collections.unmodifiableList(data);
 	}
 
@@ -48,7 +48,7 @@ public class SystemInfoUpdater implements ApplicationContextAware {
 				if (elem[0].startsWith("#")) {
 					continue;
 				}
-				HttpGetSystem sys = new HttpGetSystem(elem[0], elem[1], Integer.parseInt(elem[2]));
+				HttpGetMonitor sys = new HttpGetMonitor(elem[0], elem[1], Integer.parseInt(elem[2]));
 				addSystemInfo(sys);
 			}
 		} catch (FileNotFoundException e) {
@@ -67,12 +67,12 @@ public class SystemInfoUpdater implements ApplicationContextAware {
 		}
 	}
 
-	public void addSystemInfo(HttpGetSystem system) {
+	public void addSystemInfo(HttpGetMonitor system) {
 		data.add(system);
 	}
 
-	public HttpGetSystem updateSystem(SystemDTO sys) {
-		HttpGetSystem systemToUpdate = getSystem(sys);
+	public HttpGetMonitor updateSystem(SystemDTO sys) {
+		HttpGetMonitor systemToUpdate = getSystem(sys);
 		if (systemToUpdate != null) {
 			systemToUpdate.update();
 			return systemToUpdate;
@@ -81,13 +81,13 @@ public class SystemInfoUpdater implements ApplicationContextAware {
 	}
 
 	public void updateAll() {
-		for (HttpGetSystem system : data) {
+		for (HttpGetMonitor system : data) {
 			system.update();
 		}
 	}
 
-	public HttpGetSystem getSystem(SystemDTO sys) {
-		for (HttpGetSystem system : data) {
+	public HttpGetMonitor getSystem(SystemDTO sys) {
+		for (HttpGetMonitor system : data) {
 			if (system.getName().equals(sys.getName()))
 				return system;
 		}
