@@ -10,12 +10,15 @@ import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.params.HttpConnectionParams;
 import org.apache.http.params.HttpParams;
 
+import com.visma.autosysmonitor.da.MonitorFactory;
+
 public class HttpGetMonitor implements Monitor {
 	private String name;
 	private String url;
 	private boolean alive;
 	private int ping;
 	private int timeout;
+	private String type;
 
 	public HttpGetMonitor(String name, String url, int timeout) {
 		this.name = name;
@@ -23,6 +26,7 @@ public class HttpGetMonitor implements Monitor {
 		this.timeout = timeout;
 		this.alive = false;
 		this.ping = 0;
+		this.type = MonitorFactory.HTTPGET;
 	}
 
 	public HttpGetMonitor() {
@@ -31,6 +35,7 @@ public class HttpGetMonitor implements Monitor {
 		this.timeout = 0;
 		this.alive = false;
 		this.ping = 0;
+		this.type = MonitorFactory.HTTPGET;
 	}
 
 	public HttpGetMonitor(MonitorDTO to) {
@@ -39,9 +44,12 @@ public class HttpGetMonitor implements Monitor {
 		this.timeout = to.getTimeout();
 		this.alive = to.isAlive();
 		this.ping = to.getPing();
+		this.type = MonitorFactory.HTTPGET;
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see com.visma.autosysmonitor.domain.Monitor#toSystemInfoDTO()
 	 */
 	@Override
@@ -50,7 +58,9 @@ public class HttpGetMonitor implements Monitor {
 		return sys;
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see com.visma.autosysmonitor.domain.Monitor#update()
 	 */
 	@Override
@@ -70,10 +80,10 @@ public class HttpGetMonitor implements Monitor {
 
 		} catch (ClientProtocolException e) {
 			alive = false;
-//			e.printStackTrace();
+			// e.printStackTrace();
 		} catch (IOException e) {
 			alive = false;
-//			e.printStackTrace();
+			// e.printStackTrace();
 		} catch (Exception e) {
 			alive = false;
 			e.printStackTrace();
@@ -85,7 +95,9 @@ public class HttpGetMonitor implements Monitor {
 		return;
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see com.visma.autosysmonitor.domain.Monitor#getName()
 	 */
 	@Override
@@ -93,7 +105,9 @@ public class HttpGetMonitor implements Monitor {
 		return name;
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see com.visma.autosysmonitor.domain.Monitor#setName(java.lang.String)
 	 */
 	@Override
@@ -101,7 +115,9 @@ public class HttpGetMonitor implements Monitor {
 		this.name = name;
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see com.visma.autosysmonitor.domain.Monitor#getUrl()
 	 */
 	@Override
@@ -109,7 +125,9 @@ public class HttpGetMonitor implements Monitor {
 		return url;
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see com.visma.autosysmonitor.domain.Monitor#setUrl(java.lang.String)
 	 */
 	@Override
@@ -117,7 +135,9 @@ public class HttpGetMonitor implements Monitor {
 		this.url = url;
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see com.visma.autosysmonitor.domain.Monitor#isAlive()
 	 */
 	@Override
@@ -125,7 +145,9 @@ public class HttpGetMonitor implements Monitor {
 		return alive;
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see com.visma.autosysmonitor.domain.Monitor#setAlive(boolean)
 	 */
 	@Override
@@ -133,7 +155,9 @@ public class HttpGetMonitor implements Monitor {
 		this.alive = alive;
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see com.visma.autosysmonitor.domain.Monitor#getPing()
 	 */
 	@Override
@@ -141,7 +165,9 @@ public class HttpGetMonitor implements Monitor {
 		return ping;
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see com.visma.autosysmonitor.domain.Monitor#setPing(int)
 	 */
 	@Override
@@ -149,7 +175,9 @@ public class HttpGetMonitor implements Monitor {
 		this.ping = ping;
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see com.visma.autosysmonitor.domain.Monitor#getTimeout()
 	 */
 	@Override
@@ -157,12 +185,24 @@ public class HttpGetMonitor implements Monitor {
 		return timeout;
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see com.visma.autosysmonitor.domain.Monitor#setTimeout(int)
 	 */
 	@Override
 	public void setTimeout(int timeout) {
 		this.timeout = timeout;
+	}
+
+	@Override
+	public String getType() {
+		return type;
+	}
+
+	@Override
+	public void setType(String type) {
+		this.type = type;
 	}
 
 }

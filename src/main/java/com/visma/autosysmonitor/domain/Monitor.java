@@ -25,5 +25,9 @@ public interface Monitor {
 	public abstract int getTimeout();
 
 	public abstract void setTimeout(int timeout);
+	
+	public abstract String getType();
+	
+	public abstract void setType(String type);
 
 }

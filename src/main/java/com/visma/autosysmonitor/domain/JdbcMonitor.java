@@ -6,12 +6,15 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 
+import com.visma.autosysmonitor.da.MonitorFactory;
+
 public class JdbcMonitor implements Monitor {
 	private String name;
 	private String url;
 	private boolean alive;
 	private int ping;
 	private int timeout;
+	private String type;
 
 	public JdbcMonitor(String name, String url, int timeout) {
 		this.name = name;
@@ -19,6 +22,7 @@ public class JdbcMonitor implements Monitor {
 		this.timeout = timeout;
 		this.alive = false;
 		this.ping = 0;
+		this.type = MonitorFactory.JDBC;
 	}
 
 	public JdbcMonitor() {
@@ -27,6 +31,7 @@ public class JdbcMonitor implements Monitor {
 		this.timeout = 0;
 		this.alive = false;
 		this.ping = 0;
+		this.type = MonitorFactory.JDBC;
 	}
 
 	public JdbcMonitor(MonitorDTO to) {
@@ -35,6 +40,7 @@ public class JdbcMonitor implements Monitor {
 		this.timeout = to.getTimeout();
 		this.alive = to.isAlive();
 		this.ping = to.getPing();
+		this.type = MonitorFactory.JDBC;
 	}
 
 	/*
@@ -180,6 +186,16 @@ public class JdbcMonitor implements Monitor {
 	@Override
 	public void setTimeout(int timeout) {
 		this.timeout = timeout;
+	}
+
+	@Override
+	public String getType() {
+		return type;
+	}
+
+	@Override
+	public void setType(String type) {
+		this.type = type;		
 	}
 
 }

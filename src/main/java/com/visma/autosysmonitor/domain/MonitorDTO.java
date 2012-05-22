@@ -1,13 +1,5 @@
 package com.visma.autosysmonitor.domain;
 
-import java.io.IOException;
-
-import org.apache.http.HttpEntity;
-import org.apache.http.HttpResponse;
-import org.apache.http.client.ClientProtocolException;
-import org.apache.http.client.HttpClient;
-import org.apache.http.client.methods.HttpGet;
-import org.apache.http.impl.client.DefaultHttpClient;
 
 public class MonitorDTO {
 	private String name;
@@ -15,13 +7,15 @@ public class MonitorDTO {
 	private boolean alive;
 	private int ping;
 	private int timeout;
+	private String type;
 
-	public MonitorDTO(String name, String url, int timeout) {
+	public MonitorDTO(String type,String name, String url, int timeout) {
 		this.name = name;
 		this.url = url;
 		this.timeout = timeout;
 		this.alive = false;
 		this.ping = 0;
+		this.type= type;
 	}
 
 	public MonitorDTO() {
@@ -30,6 +24,7 @@ public class MonitorDTO {
 		this.timeout = 0;
 		this.alive = false;
 		this.ping = 0;
+		type= "";
 	}
 
 	public MonitorDTO(Monitor sys){
@@ -38,6 +33,7 @@ public class MonitorDTO {
 		this.timeout = sys.getTimeout();
 		this.alive = sys.isAlive();
 		this.ping = sys.getPing();
+		this.type = sys.getType();
 		
 		
 	}
@@ -80,6 +76,14 @@ public class MonitorDTO {
 
 	public void setTimeout(int timeout) {
 		this.timeout = timeout;
+	}
+
+	public String getType() {
+		return type;
+	}
+
+	public void setType(String type) {
+		this.type = type;
 	}
 
 }

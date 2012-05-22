@@ -7,9 +7,9 @@ import com.visma.autosysmonitor.domain.Monitor;
 
 public class MonitorFactory {
 
-	private static final String HTTPGET = "HTTP-GET";
-	private static final String HEADER = "HEADER";
-	private static final String JDBC = "JDBC";
+	public static final String HTTPGET = "HTTP-GET";
+	public static final String HEADER = "HEADER";
+	public static final String JDBC = "JDBC";
 	
 	
 	public static Monitor createMonitor(String line) {

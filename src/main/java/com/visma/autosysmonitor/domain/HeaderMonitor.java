@@ -1,14 +1,6 @@
 package com.visma.autosysmonitor.domain;
 
-import java.io.IOException;
-
-import org.apache.http.HttpEntity;
-import org.apache.http.HttpResponse;
-import org.apache.http.client.ClientProtocolException;
-import org.apache.http.client.methods.HttpGet;
-import org.apache.http.impl.client.DefaultHttpClient;
-import org.apache.http.params.HttpConnectionParams;
-import org.apache.http.params.HttpParams;
+import com.visma.autosysmonitor.da.MonitorFactory;
 
 public class HeaderMonitor implements Monitor {
 	private String name;
@@ -16,6 +8,7 @@ public class HeaderMonitor implements Monitor {
 	private boolean alive;
 	private int ping;
 	private int timeout;
+	private String type;
 
 	public HeaderMonitor(String name, String url, int timeout) {
 		this.name = name;
@@ -23,6 +16,7 @@ public class HeaderMonitor implements Monitor {
 		this.timeout = timeout;
 		this.alive = false;
 		this.ping = 0;
+		type = MonitorFactory.HEADER;
 	}
 
 	public HeaderMonitor() {
@@ -31,6 +25,7 @@ public class HeaderMonitor implements Monitor {
 		this.timeout = 0;
 		this.alive = false;
 		this.ping = 0;
+		type = MonitorFactory.HEADER;
 	}
 
 	public HeaderMonitor(MonitorDTO to) {
@@ -39,6 +34,7 @@ public class HeaderMonitor implements Monitor {
 		this.timeout = to.getTimeout();
 		this.alive = to.isAlive();
 		this.ping = to.getPing();
+		type = MonitorFactory.HEADER;
 	}
 
 	/* (non-Javadoc)
@@ -136,6 +132,16 @@ public class HeaderMonitor implements Monitor {
 	@Override
 	public void setTimeout(int timeout) {
 		this.timeout = timeout;
+	}
+
+	@Override
+	public String getType() {
+		return type;
+	}
+
+	@Override
+	public void setType(String type) {
+		this.type = type;
 	}
 
 }
