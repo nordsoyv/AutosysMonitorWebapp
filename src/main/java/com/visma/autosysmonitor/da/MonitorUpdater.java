@@ -14,7 +14,6 @@ import org.springframework.context.ApplicationContextAware;
 import org.springframework.core.io.Resource;
 import org.springframework.stereotype.Repository;
 
-import com.visma.autosysmonitor.domain.HttpGetMonitor;
 import com.visma.autosysmonitor.domain.Monitor;
 import com.visma.autosysmonitor.domain.MonitorDTO;
 
@@ -45,7 +44,7 @@ public class MonitorUpdater implements ApplicationContextAware {
 			InputStream is = r.getInputStream();
 			br = new BufferedReader(new InputStreamReader(is));
 			while ((line = br.readLine()) != null) {
-				addSystemInfo(MonitorFactory.createMonitor(line));
+				addMonitor(MonitorFactory.createMonitor(line));
 			}
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();
@@ -60,9 +59,10 @@ public class MonitorUpdater implements ApplicationContextAware {
 		}
 	}
 
-	public void addSystemInfo(Monitor system) {
-		if (system != null)
+	public void addMonitor(Monitor system) {
+		if (system != null) {
 			data.add(system);
+		}
 	}
 
 	public Monitor updateSystem(MonitorDTO sys) {
