@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.visma.autosysmonitor.da.MonitorUpdater;
-import com.visma.autosysmonitor.domain.HttpGetMonitor;
+import com.visma.autosysmonitor.domain.Monitor;
 import com.visma.autosysmonitor.domain.MonitorDTO;
 
 @Controller
@@ -42,7 +42,7 @@ public class HomeController {
 	@RequestMapping(value = "/allSystems", method = RequestMethod.GET)
 	public @ResponseBody
 	MonitorDTO[] allSystems() {
-		List<HttpGetMonitor> ret = repo.getAll();
+		List<Monitor> ret = repo.getAll();
 		MonitorDTO[] systems = new MonitorDTO[ret.size()];
 		for (int i = 0; i < ret.size(); ++i) {
 			systems[i] = ret.get(i).toSystemInfoDTO();

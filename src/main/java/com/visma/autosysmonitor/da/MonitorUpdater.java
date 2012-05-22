@@ -22,14 +22,14 @@ import com.visma.autosysmonitor.domain.MonitorDTO;
 public class MonitorUpdater implements ApplicationContextAware {
 
 	private static final String SYSTEM_FILE = "classpath:systems.txt";
-	List<HttpGetMonitor> data = new ArrayList<HttpGetMonitor>();
+	List<Monitor> data = new ArrayList<Monitor>();
 	ApplicationContext ctx = null;
 
 	public MonitorUpdater() {
 
 	}
 
-	public List<HttpGetMonitor> getAll() {
+	public List<Monitor> getAll() {
 		return java.util.Collections.unmodifiableList(data);
 	}
 
@@ -68,7 +68,7 @@ public class MonitorUpdater implements ApplicationContextAware {
 		}
 	}
 
-	public void addSystemInfo(HttpGetMonitor system) {
+	public void addSystemInfo(Monitor system) {
 		data.add(system);
 	}
 
