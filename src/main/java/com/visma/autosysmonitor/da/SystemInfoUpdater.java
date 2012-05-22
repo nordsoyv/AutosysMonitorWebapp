@@ -14,21 +14,21 @@ import org.springframework.context.ApplicationContextAware;
 import org.springframework.core.io.Resource;
 import org.springframework.stereotype.Repository;
 
-import com.visma.autosysmonitor.domain.SystemInfo;
-import com.visma.autosysmonitor.domain.SystemInfoDTO;
+import com.visma.autosysmonitor.domain.HttpGetSystem;
+import com.visma.autosysmonitor.domain.SystemDTO;
 
 @Repository
 public class SystemInfoUpdater implements ApplicationContextAware {
 
 	private static final String SYSTEM_FILE = "classpath:systems.txt";
-	List<SystemInfo> data = new ArrayList<SystemInfo>();
+	List<HttpGetSystem> data = new ArrayList<HttpGetSystem>();
 	ApplicationContext ctx = null;
 
 	public SystemInfoUpdater() {
 
 	}
 
-	public List<SystemInfo> getAll() {
+	public List<HttpGetSystem> getAll() {
 		return java.util.Collections.unmodifiableList(data);
 	}
 
@@ -48,7 +48,7 @@ public class SystemInfoUpdater implements ApplicationContextAware {
 				if (elem[0].startsWith("#")) {
 					continue;
 				}
-				SystemInfo sys = new SystemInfo(elem[0], elem[1], Integer.parseInt(elem[2]));
+				HttpGetSystem sys = new HttpGetSystem(elem[0], elem[1], Integer.parseInt(elem[2]));
 				addSystemInfo(sys);
 			}
 		} catch (FileNotFoundException e) {
@@ -67,12 +67,12 @@ public class SystemInfoUpdater implements ApplicationContextAware {
 		}
 	}
 
-	public void addSystemInfo(SystemInfo system) {
+	public void addSystemInfo(HttpGetSystem system) {
 		data.add(system);
 	}
 
-	public SystemInfo updateSystem(SystemInfoDTO sys) {
-		SystemInfo systemToUpdate = getSystem(sys);
+	public HttpGetSystem updateSystem(SystemDTO sys) {
+		HttpGetSystem systemToUpdate = getSystem(sys);
 		if (systemToUpdate != null) {
 			systemToUpdate.update();
 			return systemToUpdate;
@@ -81,13 +81,13 @@ public class SystemInfoUpdater implements ApplicationContextAware {
 	}
 
 	public void updateAll() {
-		for (SystemInfo system : data) {
+		for (HttpGetSystem system : data) {
 			system.update();
 		}
 	}
 
-	public SystemInfo getSystem(SystemInfoDTO sys) {
-		for (SystemInfo system : data) {
+	public HttpGetSystem getSystem(SystemDTO sys) {
+		for (HttpGetSystem system : data) {
 			if (system.getName().equals(sys.getName()))
 				return system;
 		}

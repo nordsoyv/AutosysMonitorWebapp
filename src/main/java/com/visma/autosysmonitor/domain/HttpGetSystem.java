@@ -10,14 +10,14 @@ import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.params.HttpConnectionParams;
 import org.apache.http.params.HttpParams;
 
-public class SystemInfo {
+public class HttpGetSystem {
 	private String name;
 	private String url;
 	private boolean alive;
 	private int ping;
 	private int timeout;
 
-	public SystemInfo(String name, String url, int timeout) {
+	public HttpGetSystem(String name, String url, int timeout) {
 		this.name = name;
 		this.url = url;
 		this.timeout = timeout;
@@ -25,7 +25,7 @@ public class SystemInfo {
 		this.ping = 0;
 	}
 
-	public SystemInfo() {
+	public HttpGetSystem() {
 		this.name = "";
 		this.url = "";
 		this.timeout = 0;
@@ -33,7 +33,7 @@ public class SystemInfo {
 		this.ping = 0;
 	}
 
-	public SystemInfo(SystemInfoDTO to) {
+	public HttpGetSystem(SystemDTO to) {
 		this.name = to.getName();
 		this.url = to.getUrl();
 		this.timeout = to.getTimeout();
@@ -41,8 +41,8 @@ public class SystemInfo {
 		this.ping = to.getPing();
 	}
 
-	public SystemInfoDTO toSystemInfoDTO() {
-		SystemInfoDTO sys = new SystemInfoDTO(this);
+	public SystemDTO toSystemInfoDTO() {
+		SystemDTO sys = new SystemDTO(this);
 		return sys;
 	}
 

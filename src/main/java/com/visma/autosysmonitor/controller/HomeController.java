@@ -14,8 +14,8 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.visma.autosysmonitor.da.SystemInfoUpdater;
-import com.visma.autosysmonitor.domain.SystemInfo;
-import com.visma.autosysmonitor.domain.SystemInfoDTO;
+import com.visma.autosysmonitor.domain.HttpGetSystem;
+import com.visma.autosysmonitor.domain.SystemDTO;
 
 @Controller
 public class HomeController {
@@ -34,16 +34,16 @@ public class HomeController {
 
 	@RequestMapping(value = "/pingSystem", method = RequestMethod.POST)
 	public @ResponseBody
-	SystemInfoDTO pingSystem(@RequestBody SystemInfoDTO system) {
+	SystemDTO pingSystem(@RequestBody SystemDTO system) {
 		logger.info("Getting system: " + system.getName());
 		return repo.updateSystem(system).toSystemInfoDTO();
 	}
 
 	@RequestMapping(value = "/allSystems", method = RequestMethod.GET)
 	public @ResponseBody
-	SystemInfoDTO[] allSystems() {
-		List<SystemInfo> ret = repo.getAll();
-		SystemInfoDTO[] systems = new SystemInfoDTO[ret.size()];
+	SystemDTO[] allSystems() {
+		List<HttpGetSystem> ret = repo.getAll();
+		SystemDTO[] systems = new SystemDTO[ret.size()];
 		for (int i = 0; i < ret.size(); ++i) {
 			systems[i] = ret.get(i).toSystemInfoDTO();
 		}
