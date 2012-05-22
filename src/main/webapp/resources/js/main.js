@@ -19,7 +19,7 @@ ASM.gridDisplay = function() {
 
 	function drawGridHeader(int) {
 		var html ='<div class="displayGridSubheading">'; 
-		html += '<div clasS="displayGridSubHeader">' + ASM.systems[int].name.substring(1, ASM.systems[int].name.length) + '</div>' ;
+		html += '<div clasS="displayGridSubHeader">' + ASM.systems[int].name + '</div>' ;
 		return html;
 	}
 
@@ -247,10 +247,16 @@ ASM.createSystemAliveId = function(id) {
 };
 
 ASM.isSystemInfoHeadline = function(id) {
-	var name = ASM.systems[id].name;
-	if (name.substring(0, 1) == "-") {
+	if(ASM.systems[id].type == "HEADER" ){
 		return true;
-	} else {
+	}else{
 		return false;
 	}
+	
+/*	var name = ASM.systems[id].name;
+	if (name.substring(0, 1) == "-") {
+		
+	} else {
+		return false;
+	} */
 };
