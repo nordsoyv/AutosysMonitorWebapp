@@ -9,14 +9,14 @@ import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.impl.client.DefaultHttpClient;
 
-public class SystemDTO {
+public class MonitorDTO {
 	private String name;
 	private String url;
 	private boolean alive;
 	private int ping;
 	private int timeout;
 
-	public SystemDTO(String name, String url, int timeout) {
+	public MonitorDTO(String name, String url, int timeout) {
 		this.name = name;
 		this.url = url;
 		this.timeout = timeout;
@@ -24,7 +24,7 @@ public class SystemDTO {
 		this.ping = 0;
 	}
 
-	public SystemDTO() {
+	public MonitorDTO() {
 		this.name = "";
 		this.url = "";
 		this.timeout = 0;
@@ -32,7 +32,7 @@ public class SystemDTO {
 		this.ping = 0;
 	}
 
-	public SystemDTO(HttpGetMonitor sys){
+	public MonitorDTO(HttpGetMonitor sys){
 		this.name = sys.getName();
 		this.url = sys.getUrl();
 		this.timeout = sys.getTimeout();

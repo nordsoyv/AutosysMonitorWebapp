@@ -33,7 +33,7 @@ public class HttpGetMonitor {
 		this.ping = 0;
 	}
 
-	public HttpGetMonitor(SystemDTO to) {
+	public HttpGetMonitor(MonitorDTO to) {
 		this.name = to.getName();
 		this.url = to.getUrl();
 		this.timeout = to.getTimeout();
@@ -41,8 +41,8 @@ public class HttpGetMonitor {
 		this.ping = to.getPing();
 	}
 
-	public SystemDTO toSystemInfoDTO() {
-		SystemDTO sys = new SystemDTO(this);
+	public MonitorDTO toSystemInfoDTO() {
+		MonitorDTO sys = new MonitorDTO(this);
 		return sys;
 	}
 
