@@ -15,6 +15,7 @@ import org.springframework.core.io.Resource;
 import org.springframework.stereotype.Repository;
 
 import com.visma.autosysmonitor.domain.HttpGetMonitor;
+import com.visma.autosysmonitor.domain.Monitor;
 import com.visma.autosysmonitor.domain.MonitorDTO;
 
 @Repository
@@ -71,8 +72,8 @@ public class MonitorUpdater implements ApplicationContextAware {
 		data.add(system);
 	}
 
-	public HttpGetMonitor updateSystem(MonitorDTO sys) {
-		HttpGetMonitor systemToUpdate = getSystem(sys);
+	public Monitor updateSystem(MonitorDTO sys) {
+		Monitor systemToUpdate = getSystem(sys);
 		if (systemToUpdate != null) {
 			systemToUpdate.update();
 			return systemToUpdate;
@@ -81,13 +82,13 @@ public class MonitorUpdater implements ApplicationContextAware {
 	}
 
 	public void updateAll() {
-		for (HttpGetMonitor system : data) {
+		for (Monitor system : data) {
 			system.update();
 		}
 	}
 
-	public HttpGetMonitor getSystem(MonitorDTO sys) {
-		for (HttpGetMonitor system : data) {
+	public Monitor getSystem(MonitorDTO sys) {
+		for (Monitor system : data) {
 			if (system.getName().equals(sys.getName()))
 				return system;
 		}
