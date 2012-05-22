@@ -1,11 +1,11 @@
-#Navn;URL;Timeout
-# Linjer som begynner med - , blir parset som overskrifter
--Aviser;--;500
-VG;http://vg.no;500
-Dagbladet;http://dagbladet.no;500
-Nettavisen;http://nettavisen.no;500
--Annet;--;500
-Google;http://google.com;500
-Yr;http://yr.no;500
-Nrk;http://nrk.no;500
-FAIL;http://asdf.cds;500
+#Type;Navn;URL;Timeout
+# Linjer som begynner med HEADER og første bokstav i navn = "-" blir parset som overskrifter
+HEADER;-Aviser;--;500
+HTTP-GET;VG;http://vg.no;500
+HTTP-GET;Dagbladet;http://dagbladet.no;500
+HTTP-GET;Nettavisen;http://nettavisen.no;500
+HEADER;-Annet;--;500
+HTTP-GET;Google;http://google.com;500
+HTTP-GET;Yr;http://yr.no;500
+HTTP-GET;Nrk;http://nrk.no;500
+HTTP-GET;FAIL;http://asdf.cds;500
