@@ -24,12 +24,28 @@ ASM.gridDisplay = function() {
 	}
 
 	function drawGridCell(int) {
+		if(ASM.systems[int].type == "HTTP-GET"){
+			return drawHttpGetCell(int);
+		}else if(ASM.systems[int].type == "JDBC"){
+			return drawJdbcCell(int);
+		}
+	}
+
+	function drawHttpGetCell(int){
 		var html = '<div class="displayGridCell isgrey"  id="' +   ASM.createSystemPingId(int)   +   '" >';
 		html  +=  ASM.systems[int].name;
 		html += '<div id="' + ASM.createSystemImgId(int) + '" hidden="true" >';
 		html += '<img src="/autosysmonitor/resources/images/spinner2.gif" />';
 		html += '</div></div>';
-		
+		return html;
+	}
+	
+	function drawJdbcCell(int){
+		var html = '<div class="displayGridCell isgrey"  id="' +   ASM.createSystemPingId(int)   +   '" >';
+		html  +=  ASM.systems[int].name;
+		html += '<div id="' + ASM.createSystemImgId(int) + '" hidden="true" >';
+		html += '<img src="/autosysmonitor/resources/images/spinner2.gif" />';
+		html += '</div></div>';
 		return html;
 	}
 
