@@ -78,6 +78,7 @@ public class JdbcMonitor implements Monitor {
 
 			} finally {
 				stmt.close();
+				conn.close();
 			}
 		} catch (ClassNotFoundException e) {
 			alive= false;
@@ -86,6 +87,7 @@ public class JdbcMonitor implements Monitor {
 			alive= false;
 			e.printStackTrace();
 		}
+		
 	}
 
 	/*
