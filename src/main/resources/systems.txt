@@ -1,5 +1,5 @@
 #Type;Navn;URL;Timeout
-# Linjer som begynner med HEADER og første bokstav i navn = "-" blir parset som overskrifter
+# Linjer som begynner med HEADER blir parset som overskrifter
 HEADER;Aviser;--;500
 HTTP-GET;VG;http://vg.no;500
 HTTP-GET;Dagbladet;http://dagbladet.no;500
