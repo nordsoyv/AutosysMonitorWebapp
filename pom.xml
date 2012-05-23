@@ -129,6 +129,19 @@
   			<version>1.6</version>
 		</dependency>
 
+		<!-- Oracle weblogic JMX -->
+		<dependency>
+  			<groupId>weblogic</groupId>
+  			<artifactId>wljmxclient</artifactId>
+  			<version>1.0</version>
+		</dependency>
+		
+		<dependency>
+  			<groupId>weblogic</groupId>
+  			<artifactId>wlclient</artifactId>
+			<version>1.0</version>
+		</dependency>
+		
 		<!-- Test -->
 		<dependency>
 			<groupId>junit</groupId>
