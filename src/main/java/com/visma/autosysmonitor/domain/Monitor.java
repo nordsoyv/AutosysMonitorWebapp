@@ -2,7 +2,7 @@ package com.visma.autosysmonitor.domain;
 
 public interface Monitor {
 
-	public abstract MonitorDTO toSystemInfoDTO();
+	public abstract MonitorDTO toMonitorDTO();
 
 	public abstract void update();
 

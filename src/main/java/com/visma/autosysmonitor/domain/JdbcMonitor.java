@@ -49,7 +49,7 @@ public class JdbcMonitor implements Monitor {
 	 * @see com.visma.autosysmonitor.domain.Monitor#toSystemInfoDTO()
 	 */
 	@Override
-	public MonitorDTO toSystemInfoDTO() {
+	public MonitorDTO toMonitorDTO() {
 		MonitorDTO sys = new MonitorDTO(this);
 		return sys;
 	}

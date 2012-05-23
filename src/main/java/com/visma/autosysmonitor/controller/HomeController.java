@@ -36,7 +36,7 @@ public class HomeController {
 	public @ResponseBody
 	MonitorDTO pingSystem(@RequestBody MonitorDTO system) {
 		logger.info("Getting system: " + system.getName());
-		return repo.updateSystem(system).toSystemInfoDTO();
+		return repo.updateSystem(system).toMonitorDTO();
 	}
 
 	@RequestMapping(value = "/allSystems", method = RequestMethod.GET)
@@ -45,7 +45,7 @@ public class HomeController {
 		List<Monitor> ret = repo.getAll();
 		MonitorDTO[] systems = new MonitorDTO[ret.size()];
 		for (int i = 0; i < ret.size(); ++i) {
-			systems[i] = ret.get(i).toSystemInfoDTO();
+			systems[i] = ret.get(i).toMonitorDTO();
 		}
 
 		return systems;
