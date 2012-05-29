@@ -1,5 +1,8 @@
 package com.visma.autosysmonitor.domain;
 
+import java.util.HashMap;
+import java.util.Map;
+
 
 public class MonitorDTO {
 	private String name;
@@ -8,6 +11,7 @@ public class MonitorDTO {
 	private int ping;
 	private int timeout;
 	private String type;
+	private Map<String, Object> data;
 
 	public MonitorDTO(String type,String name, String url, int timeout) {
 		this.name = name;
@@ -16,6 +20,7 @@ public class MonitorDTO {
 		this.alive = false;
 		this.ping = 0;
 		this.type= type;
+		this.setData(new HashMap<String, Object>());
 	}
 
 	public MonitorDTO() {
@@ -25,6 +30,7 @@ public class MonitorDTO {
 		this.alive = false;
 		this.ping = 0;
 		type= "";
+		this.setData(new HashMap<String, Object>());
 	}
 
 	public MonitorDTO(Monitor sys){
@@ -34,7 +40,7 @@ public class MonitorDTO {
 		this.alive = sys.isAlive();
 		this.ping = sys.getPing();
 		this.type = sys.getType();
-		
+		this.setData(sys.getData());
 		
 	}
 	
@@ -84,6 +90,14 @@ public class MonitorDTO {
 
 	public void setType(String type) {
 		this.type = type;
+	}
+
+	public Map<String, Object> getData() {
+		return data;
+	}
+
+	public void setData(Map<String, Object> data) {
+		this.data = data;
 	}
 
 }

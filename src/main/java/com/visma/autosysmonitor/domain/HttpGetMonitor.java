@@ -1,6 +1,7 @@
 package com.visma.autosysmonitor.domain;
 
 import java.io.IOException;
+import java.util.Map;
 
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
@@ -203,6 +204,15 @@ public class HttpGetMonitor implements Monitor {
 	@Override
 	public void setType(String type) {
 		this.type = type;
+	}
+
+	@Override
+	public Map<String, Object> getData() {
+		return null;
+	}
+
+	@Override
+	public void setData(Map<String, Object> map) {
 	}
 
 }

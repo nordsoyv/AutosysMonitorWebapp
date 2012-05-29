@@ -1,5 +1,7 @@
 package com.visma.autosysmonitor.domain;
 
+import java.util.Map;
+
 public interface Monitor {
 
 	public abstract MonitorDTO toMonitorDTO();
@@ -30,4 +32,8 @@ public interface Monitor {
 	
 	public abstract void setType(String type);
 
+	public abstract Map<String, Object> getData();
+	
+	public abstract void setData(Map<String, Object> map);
+	
 }

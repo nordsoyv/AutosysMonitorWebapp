@@ -3,7 +3,7 @@ package com.visma.autosysmonitor.da;
 import com.visma.autosysmonitor.domain.HeaderMonitor;
 import com.visma.autosysmonitor.domain.HttpGetMonitor;
 import com.visma.autosysmonitor.domain.JdbcMonitor;
-import com.visma.autosysmonitor.domain.JmxMonitor;
+import com.visma.autosysmonitor.domain.JmxServerInstanceMonitor;
 import com.visma.autosysmonitor.domain.Monitor;
 
 public class MonitorFactory {
@@ -12,6 +12,7 @@ public class MonitorFactory {
 	public static final String HEADER = "HEADER";
 	public static final String JDBC = "JDBC";
 	public static final String JMX = "JMX";
+	public static final String JMXSERVER = "JMXSERVER";
 	
 	
 	
@@ -29,8 +30,8 @@ public class MonitorFactory {
 		if (elem[0].equalsIgnoreCase(JDBC)){
 			return new JdbcMonitor(elem[1], elem[2], Integer.parseInt(elem[3]));
 		}
-		if(elem[0].equalsIgnoreCase(JMX)){
-			return new JmxMonitor(elem[1], elem[2], Integer.parseInt(elem[3]));
+		if(elem[0].equalsIgnoreCase(JMXSERVER)){
+			return new JmxServerInstanceMonitor(elem[1], elem[2], Integer.parseInt(elem[3]));
 		}
 		return null;
 	}

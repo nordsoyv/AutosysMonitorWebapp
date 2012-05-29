@@ -5,6 +5,7 @@ import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.Map;
 
 import com.visma.autosysmonitor.da.MonitorFactory;
 
@@ -198,6 +199,15 @@ public class JdbcMonitor implements Monitor {
 	@Override
 	public void setType(String type) {
 		this.type = type;		
+	}
+
+	@Override
+	public Map<String, Object> getData() {
+		return null;
+	}
+
+	@Override
+	public void setData(Map<String, Object> map) {
 	}
 
 }

@@ -1,5 +1,7 @@
 package com.visma.autosysmonitor.domain;
 
+import java.util.Map;
+
 import com.visma.autosysmonitor.da.MonitorFactory;
 
 public class HeaderMonitor implements Monitor {
@@ -142,6 +144,15 @@ public class HeaderMonitor implements Monitor {
 	@Override
 	public void setType(String type) {
 		this.type = type;
+	}
+
+	@Override
+	public Map<String, Object> getData() {
+		return null;
+	}
+
+	@Override
+	public void setData(Map<String, Object> map) {
 	}
 
 }
