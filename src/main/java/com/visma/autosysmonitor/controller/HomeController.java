@@ -36,7 +36,10 @@ public class HomeController {
 	public @ResponseBody
 	MonitorDTO pingSystem(@RequestBody MonitorDTO system) {
 		logger.info("Getting system: " + system.getName());
-		return repo.updateSystem(system).toMonitorDTO();
+		Monitor sys =repo.updateSystem(system);
+		if(sys != null)
+			return sys.toMonitorDTO();
+		return null;
 	}
 
 	@RequestMapping(value = "/allSystems", method = RequestMethod.GET)
