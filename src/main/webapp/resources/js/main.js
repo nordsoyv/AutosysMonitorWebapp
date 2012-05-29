@@ -24,13 +24,36 @@ ASM.gridDisplay = function() {
 	}
 
 	function drawGridCell(int) {
-		if(ASM.systems[int].type == "HTTP-GET"){
+		if(isHttpGet(int)){
 			return drawHttpGetCell(int);
-		}else if(ASM.systems[int].type == "JDBC"){
+		}else if(isJdbc(int)){
 			return drawJdbcCell(int);
+		}else if(isJmxServer(int)){
+			return drawJmxServerInstanceCell(int);
 		}
 	}
-
+	
+	function isHttpGet(int){
+		if(ASM.systems[int].type == "HTTP-GET"){
+			return true;
+		}
+		return false;
+	}
+	
+	function isJdbc(int){
+		if(ASM.systems[int].type == "JDBC"){
+			return true;
+		}
+		return false;
+	}
+	
+	function isJmxServer(int){
+		if(ASM.systems[int].type == "JMXSERVER"){
+			return true;
+		}
+		return false;
+	}
+			
 	function drawHttpGetCell(int){
 		var html = '<div class="displayGridCell isgrey"  id="' +   ASM.createSystemPingId(int)   +   '" >';
 		html  +=  ASM.systems[int].name;
@@ -49,7 +72,27 @@ ASM.gridDisplay = function() {
 		return html;
 	}
 
+	function drawJmxServerInstanceCell(int){
+		var html = '<div  id="' +   ASM.createSystemPingId(int)   +   '" >';
+		html  +=  ASM.systems[int].name;
+		html += '<div id="' + ASM.createSystemImgId(int) + '" hidden="true" >';
+		html += '<img src="/autosysmonitor/resources/images/spinner2.gif" />';
+		html += '</div></div>';
+		return html;
+		
+	}
+	
 	this.updateSystemStatus = function(id) {
+		if(isHttpGet(id)){
+			updateHttpGetSystem(id);
+		}else if(isJdbc(id)){
+			updateJdbcSystem(id);
+		}else if(isJmxServer(id)){
+			updateJmxServerSystem(id);
+		}
+	};
+
+	function updateHttpGetSystem(id){
 		var pingId = "#" + ASM.createSystemPingId(id);
 		var sysCell = $(pingId);
 		var imgId = "#" + ASM.createSystemImgId(id);
@@ -63,8 +106,36 @@ ASM.gridDisplay = function() {
 			sysCell.removeClass("isgreen");
 			sysCell.addClass("isred");
 		}
-	};
-
+	}
+	
+	function updateJdbcSystem(id){
+		//same as httpget
+		updateHttpGetSystem(id);
+	}
+	
+	function updateJmxServerSystem(id){
+		var sysid = "#"+ ASM.createSystemPingId(id);
+		sysdiv = $(sysid);
+		
+		var html ="";
+		var data = ASM.systems[id].data;
+		var keys = Object.keys(data);
+		for(var i =  0 ; i< keys.length; i++){
+			html += "<div " ;
+			if (data[keys[i]]=="RUNNING"){
+				html += 'class="displayGridCell isgreen" >' ;
+			}else{
+				html += 'class="displayGridCell isred" >' ;
+			}
+			html += keys[i];
+			html += '</div>';
+		}
+		html += '<div id="' + ASM.createSystemImgId(id) + '" hidden="true" >';
+		html += '<img src="/autosysmonitor/resources/images/spinner2.gif" />';
+		html += '</div>';
+		sysdiv.html(html);
+	}
+	
 	this.render = function() {
 		drawGridView();
 	};
