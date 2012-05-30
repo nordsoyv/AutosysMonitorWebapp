@@ -1,7 +1,6 @@
 package com.visma.autosysmonitor.domain;
 
 import java.io.IOException;
-import java.util.Map;
 
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
@@ -13,13 +12,11 @@ import org.apache.http.params.HttpParams;
 
 import com.visma.autosysmonitor.da.MonitorFactory;
 
-public class HttpGetMonitor implements Monitor {
-	private String name;
-	private String url;
-	private boolean alive;
-	private int ping;
-	private int timeout;
-	private String type;
+public class HttpGetMonitor extends BaseMonitor {
+
+	{
+		type = MonitorFactory.HTTPGET;
+	}
 
 	public HttpGetMonitor(String name, String url, int timeout) {
 		this.name = name;
@@ -27,7 +24,6 @@ public class HttpGetMonitor implements Monitor {
 		this.timeout = timeout;
 		this.alive = false;
 		this.ping = 0;
-		this.type = MonitorFactory.HTTPGET;
 	}
 
 	public HttpGetMonitor() {
@@ -36,7 +32,6 @@ public class HttpGetMonitor implements Monitor {
 		this.timeout = 0;
 		this.alive = false;
 		this.ping = 0;
-		this.type = MonitorFactory.HTTPGET;
 	}
 
 	public HttpGetMonitor(MonitorDTO to) {
@@ -45,18 +40,6 @@ public class HttpGetMonitor implements Monitor {
 		this.timeout = to.getTimeout();
 		this.alive = to.isAlive();
 		this.ping = to.getPing();
-		this.type = MonitorFactory.HTTPGET;
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see com.visma.autosysmonitor.domain.Monitor#toSystemInfoDTO()
-	 */
-	@Override
-	public MonitorDTO toMonitorDTO() {
-		MonitorDTO sys = new MonitorDTO(this);
-		return sys;
 	}
 
 	/*
@@ -94,125 +77,6 @@ public class HttpGetMonitor implements Monitor {
 		}
 
 		return;
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see com.visma.autosysmonitor.domain.Monitor#getName()
-	 */
-	@Override
-	public String getName() {
-		return name;
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see com.visma.autosysmonitor.domain.Monitor#setName(java.lang.String)
-	 */
-	@Override
-	public void setName(String name) {
-		this.name = name;
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see com.visma.autosysmonitor.domain.Monitor#getUrl()
-	 */
-	@Override
-	public String getUrl() {
-		return url;
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see com.visma.autosysmonitor.domain.Monitor#setUrl(java.lang.String)
-	 */
-	@Override
-	public void setUrl(String url) {
-		this.url = url;
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see com.visma.autosysmonitor.domain.Monitor#isAlive()
-	 */
-	@Override
-	public boolean isAlive() {
-		return alive;
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see com.visma.autosysmonitor.domain.Monitor#setAlive(boolean)
-	 */
-	@Override
-	public void setAlive(boolean alive) {
-		this.alive = alive;
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see com.visma.autosysmonitor.domain.Monitor#getPing()
-	 */
-	@Override
-	public int getPing() {
-		return ping;
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see com.visma.autosysmonitor.domain.Monitor#setPing(int)
-	 */
-	@Override
-	public void setPing(int ping) {
-		this.ping = ping;
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see com.visma.autosysmonitor.domain.Monitor#getTimeout()
-	 */
-	@Override
-	public int getTimeout() {
-		return timeout;
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see com.visma.autosysmonitor.domain.Monitor#setTimeout(int)
-	 */
-	@Override
-	public void setTimeout(int timeout) {
-		this.timeout = timeout;
-	}
-
-	@Override
-	public String getType() {
-		return type;
-	}
-
-	@Override
-	public void setType(String type) {
-		this.type = type;
-	}
-
-	@Override
-	public Map<String, Object> getData() {
-		return null;
-	}
-
-	@Override
-	public void setData(Map<String, Object> map) {
 	}
 
 }
