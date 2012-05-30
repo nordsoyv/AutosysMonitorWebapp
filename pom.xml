@@ -130,7 +130,8 @@
 		</dependency>
 
 		<!-- Oracle weblogic JMX -->
-		<dependency>
+
+  		 <dependency>
   			<groupId>weblogic</groupId>
   			<artifactId>wljmxclient</artifactId>
   			<version>1.0</version>
@@ -142,6 +143,24 @@
 			<version>1.0</version>
 		</dependency>
 		
+		<dependency>
+  			<groupId>weblogic</groupId>
+  			<artifactId>wljmsclient</artifactId>
+  			<version>10.3.4.0</version>
+		</dependency>
+<!--		
+  		<dependency>
+  			<groupId>weblogic</groupId>
+  			<artifactId>weblogic</artifactId>
+  			<version>10.3</version>
+		</dependency>
+
+  		<dependency>
+  			<groupId>weblogic</groupId>
+  			<artifactId>wlfullclient</artifactId>
+  			<version>10.3</version>
+		</dependency> 
+-->	
 		<!-- Test -->
 		<dependency>
 			<groupId>junit</groupId>

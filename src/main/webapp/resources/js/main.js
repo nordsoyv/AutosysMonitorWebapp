@@ -30,6 +30,8 @@ ASM.gridDisplay = function() {
 			return drawJdbcCell(int);
 		}else if(isJmxServer(int)){
 			return drawJmxServerInstanceCell(int);
+		}else if(isJmxApp(int)){
+			return drawJmxAppInstanceCell(int);
 		}
 	}
 	
@@ -49,6 +51,13 @@ ASM.gridDisplay = function() {
 	
 	function isJmxServer(int){
 		if(ASM.systems[int].type == "JMXSERVER"){
+			return true;
+		}
+		return false;
+	}
+	
+	function isJmxApp(int){
+		if(ASM.systems[int].type == "JMXAPPS"){
 			return true;
 		}
 		return false;
@@ -82,6 +91,16 @@ ASM.gridDisplay = function() {
 		
 	}
 	
+	
+	function drawJmxAppInstanceCell(int){
+		var html = '<div  id="' +   ASM.createSystemPingId(int)   +   '" >';
+		html  +=  ASM.systems[int].name;
+		html += '<div id="' + ASM.createSystemImgId(int) + '" hidden="true" >';
+		html += '<img src="/autosysmonitor/resources/images/spinner2.gif" />';
+		html += '</div></div>';
+		return html;		
+	}
+	
 	this.updateSystemStatus = function(id) {
 		if(isHttpGet(id)){
 			updateHttpGetSystem(id);
@@ -89,6 +108,8 @@ ASM.gridDisplay = function() {
 			updateJdbcSystem(id);
 		}else if(isJmxServer(id)){
 			updateJmxServerSystem(id);
+		}else if(isJmxApp(id)){
+			updateJmxAppSystem(id);
 		}
 	};
 
@@ -124,6 +145,8 @@ ASM.gridDisplay = function() {
 			html += "<div " ;
 			if (data[keys[i]]=="RUNNING"){
 				html += 'class="displayGridCell isgreen" >' ;
+			}else if(data[keys[i]]=="STUCK") {
+				html += 'class="displayGridCell isyellow" >' ;
 			}else{
 				html += 'class="displayGridCell isred" >' ;
 			}
@@ -134,6 +157,30 @@ ASM.gridDisplay = function() {
 		html += '<img src="/autosysmonitor/resources/images/spinner2.gif" />';
 		html += '</div>';
 		sysdiv.html(html);
+	}
+	
+	function updateJmxAppSystem(id){
+		var sysid = "#"+ ASM.createSystemPingId(id);
+		sysdiv = $(sysid);
+		
+		var html ="";
+		var data = ASM.systems[id].data;
+		var keys = Object.keys(data);
+		for(var i =  0 ; i< keys.length; i++){
+			html += "<div " ;
+			if (data[keys[i]]==1){
+				html += 'class="displayGridCell isgreen" >' ;
+			}else{
+				html += 'class="displayGridCell isred" >' ;
+			}
+			html += keys[i];
+			html += '</div>';
+		}
+		html += '<div id="' + ASM.createSystemImgId(id) + '" hidden="true" >';
+		html += '<img src="/autosysmonitor/resources/images/spinner2.gif" />';
+		html += '</div>';
+		sysdiv.html(html);
+		
 	}
 	
 	this.render = function() {

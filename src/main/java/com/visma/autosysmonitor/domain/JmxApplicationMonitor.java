@@ -14,9 +14,11 @@ import javax.management.remote.JMXConnectorFactory;
 import javax.management.remote.JMXServiceURL;
 import javax.naming.Context;
 
+//import weblogic.health.HealthState;
+
 import com.visma.autosysmonitor.da.MonitorFactory;
 
-public class JmxServerInstanceMonitor implements Monitor {
+public class JmxApplicationMonitor implements Monitor {
 	private String name;
 	private String url;
 	private boolean alive;
@@ -27,41 +29,42 @@ public class JmxServerInstanceMonitor implements Monitor {
 	private String user;
 	private String password;
 	private String type;
+	private String serverInstance;
 
 	private final ObjectName service;
 	private MBeanServerConnection connection;
 	private JMXConnector connector;
-	private Map<String, Object> serverStatusMap;
-	
-	public JmxServerInstanceMonitor(String name, String url, int timeout) {
+	private Map<String, Object> appStatusMap;
+
+	public JmxApplicationMonitor(String name, String url, int timeout) {
 		this.name = name;
 		this.url = url;
 		this.timeout = timeout;
 		this.alive = false;
 		this.ping = 0;
-		this.type = MonitorFactory.JMXSERVER;
-		serverStatusMap = new  HashMap<String, Object>();
+		this.type = MonitorFactory.JMXAPPS;
+		appStatusMap = new  HashMap<String, Object>();
 		parseUrl();
 	}
 
-	public JmxServerInstanceMonitor() {
+	public JmxApplicationMonitor() {
 		this.name = "";
 		this.url = "";
 		this.timeout = 0;
 		this.alive = false;
 		this.ping = 0;
-		this.type = MonitorFactory.JMXSERVER;
-		serverStatusMap = new  HashMap<String, Object>();
+		this.type = MonitorFactory.JMXAPPS;
+		appStatusMap = new  HashMap<String, Object>();
 	}
 
-	public JmxServerInstanceMonitor(MonitorDTO to) {
+	public JmxApplicationMonitor(MonitorDTO to) {
 		this.name = to.getName();
 		this.url = to.getUrl();
 		this.timeout = to.getTimeout();
 		this.alive = to.isAlive();
 		this.ping = to.getPing();
-		this.type = MonitorFactory.JMXSERVER;
-		serverStatusMap = new  HashMap<String, Object>();
+		this.type = MonitorFactory.JMXAPPS;
+		appStatusMap = new  HashMap<String, Object>();
 		parseUrl();
 	}
 
@@ -69,8 +72,9 @@ public class JmxServerInstanceMonitor implements Monitor {
 		String[] elem = url.split(":");
 		host = elem[0];
 		port = Integer.parseInt(elem[1]);
-		user = elem[2];
-		password = elem[3];
+		serverInstance = elem[2];
+		user = elem[3];
+		password = elem[4];
 	}
 
 	/*
@@ -92,19 +96,10 @@ public class JmxServerInstanceMonitor implements Monitor {
 	@Override
 	public void update() {
 		try {
+			appStatusMap.clear();
 			initConnection();
-			ObjectName[] serverRT = getServerRuntimes();
-			System.out.println("got server runtimes");
-			int length = (int) serverRT.length;
-			for (int i = 0; i < length; i++) {
-				String name = (String) connection.getAttribute(serverRT[i], "Name");
-				String state = (String) connection.getAttribute(serverRT[i], "State");
-				ObjectName threadpool = (ObjectName) connection.getAttribute(serverRT[i], "ThreadPoolRuntime");
-				int hoggingThreads = (Integer) connection.getAttribute(threadpool, "HoggingThreadCount");
-				if(hoggingThreads>0)
-					state= "STUCK";
-				this.serverStatusMap.put(name, state);
-			}
+			//printNameAndState();
+			getServletData();
 			connector.close();
 		} catch (MalformedURLException e) {
 			// TODO Auto-generated catch block
@@ -148,6 +143,22 @@ public class JmxServerInstanceMonitor implements Monitor {
 		return (ObjectName[]) connection.getAttribute(service, "ServerRuntimes");
 	}
 
+	public void getServletData() throws Exception {
+		ObjectName[] serverRT = getServerRuntimes();
+		
+		for(int i = 0; i< serverRT.length; i++){
+			String serverName = (String) connection.getAttribute(serverRT[i], "Name");
+			if(serverName.equalsIgnoreCase(serverInstance)){
+				//Found serverinstance 
+				ObjectName[] appRT = (ObjectName[]) connection.getAttribute(serverRT[i], "ApplicationRuntimes");
+				for(int j = 0 ; j < appRT.length; j++){
+					String appName = (String) connection.getAttribute(appRT[j], "Name");
+					//HealthState health = (HealthState) connection.getAttribute(appRT[j], "HealthState");
+					appStatusMap.put(appName,1 );
+				}
+			}
+		}
+	}
 
 	/*
 	 * (non-Javadoc)
@@ -261,12 +272,12 @@ public class JmxServerInstanceMonitor implements Monitor {
 
 	@Override
 	public Map<String, Object> getData() {
-		return this.serverStatusMap;
+		return appStatusMap;
 	}
 
 	@Override
 	public void setData(Map<String, Object> map) {
-		this.serverStatusMap = map;
+		appStatusMap= map;
 	}
 
 }
