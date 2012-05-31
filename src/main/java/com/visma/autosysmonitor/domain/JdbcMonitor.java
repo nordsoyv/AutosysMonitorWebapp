@@ -65,10 +65,10 @@ public class JdbcMonitor extends BaseMonitor {
 			}
 		} catch (ClassNotFoundException e) {
 			alive = false;
-			e.printStackTrace();
+			//e.printStackTrace();
 		} catch (SQLException e) {
 			alive = false;
-			e.printStackTrace();
+			//e.printStackTrace();
 		}
 
 	}
