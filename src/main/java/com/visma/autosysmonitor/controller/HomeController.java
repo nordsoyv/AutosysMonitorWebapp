@@ -14,12 +14,11 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.visma.autosysmonitor.da.MonitorUpdater;
-import com.visma.autosysmonitor.domain.BaseMonitor;
 import com.visma.autosysmonitor.domain.Monitor;
 import com.visma.autosysmonitor.domain.MonitorDTO;
 
 @Controller
-public class HomeController extends BaseMonitor {
+public class HomeController {
 
 	private static final Logger logger = LoggerFactory.getLogger(HomeController.class);
 
