@@ -20,7 +20,7 @@ public class HttpGetMonitor extends BaseMonitor {
 
 	public HttpGetMonitor(String name, String url, int timeout) {
 		this.name = name;
-		this.url = url;
+		setUrl(url);
 		this.timeout = timeout;
 		this.alive = false;
 		this.ping = 0;
@@ -28,7 +28,7 @@ public class HttpGetMonitor extends BaseMonitor {
 
 	public HttpGetMonitor() {
 		this.name = "";
-		this.url = "";
+		setUrl("");
 		this.timeout = 0;
 		this.alive = false;
 		this.ping = 0;
@@ -36,7 +36,7 @@ public class HttpGetMonitor extends BaseMonitor {
 
 	public HttpGetMonitor(MonitorDTO to) {
 		this.name = to.getName();
-		this.url = to.getUrl();
+		setUrl(to.getUrl());
 		this.timeout = to.getTimeout();
 		this.alive = to.isAlive();
 		this.ping = to.getPing();
@@ -55,7 +55,7 @@ public class HttpGetMonitor extends BaseMonitor {
 		HttpParams params = httpClient.getParams();
 		HttpConnectionParams.setConnectionTimeout(params, this.timeout);
 		HttpConnectionParams.setSoTimeout(params, this.timeout);
-		HttpGet httpget = new HttpGet(this.url);
+		HttpGet httpget = new HttpGet(getUrl());
 		HttpResponse response;
 		try {
 			response = httpClient.execute(httpget);

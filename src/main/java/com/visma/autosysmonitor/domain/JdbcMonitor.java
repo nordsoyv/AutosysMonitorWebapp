@@ -15,7 +15,7 @@ public class JdbcMonitor extends BaseMonitor {
 
 	public JdbcMonitor(String name, String url, int timeout) {
 		this.name = name;
-		this.url = url;
+		setUrl(url);
 		this.timeout = timeout;
 		this.alive = false;
 		this.ping = 0;
@@ -23,7 +23,7 @@ public class JdbcMonitor extends BaseMonitor {
 
 	public JdbcMonitor() {
 		this.name = "";
-		this.url = "";
+		setUrl("");
 		this.timeout = 0;
 		this.alive = false;
 		this.ping = 0;
@@ -31,7 +31,7 @@ public class JdbcMonitor extends BaseMonitor {
 
 	public JdbcMonitor(MonitorDTO to) {
 		this.name = to.getName();
-		this.url = to.getUrl();
+		setUrl(to.getUrl());
 		this.timeout = to.getTimeout();
 		this.alive = to.isAlive();
 		this.ping = to.getPing();
@@ -46,7 +46,7 @@ public class JdbcMonitor extends BaseMonitor {
 	public void update() {
 		try {
 			Class.forName("oracle.jdbc.OracleDriver");
-			Connection conn = DriverManager.getConnection(this.url);
+			Connection conn = DriverManager.getConnection(getUrl());
 			Statement stmt = conn.createStatement();
 			try {
 				ResultSet rset = stmt.executeQuery("select 1 from DUAL");

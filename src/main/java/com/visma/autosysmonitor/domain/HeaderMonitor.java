@@ -10,7 +10,7 @@ public class HeaderMonitor extends BaseMonitor  {
 	
 	public HeaderMonitor(String name, String url, int timeout) {
 		this.name = name;
-		this.url = url;
+		setUrl(url);
 		this.timeout = timeout;
 		this.alive = false;
 		this.ping = 0;
@@ -18,7 +18,7 @@ public class HeaderMonitor extends BaseMonitor  {
 
 	public HeaderMonitor() {
 		this.name = "";
-		this.url = "";
+		setUrl("");
 		this.timeout = 0;
 		this.alive = false;
 		this.ping = 0;
@@ -26,7 +26,7 @@ public class HeaderMonitor extends BaseMonitor  {
 
 	public HeaderMonitor(MonitorDTO to) {
 		this.name = to.getName();
-		this.url = to.getUrl();
+		setUrl(to.getUrl());
 		this.timeout = to.getTimeout();
 		this.alive = to.isAlive();
 		this.ping = to.getPing();

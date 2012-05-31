@@ -6,7 +6,7 @@ import java.util.Map;
 public abstract class BaseMonitor implements Monitor {
 
 	protected String name;
-	protected String url;
+	private String url;
 	protected boolean alive;
 	protected int ping;
 	protected int timeout;

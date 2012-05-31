@@ -15,7 +15,7 @@ public class JmxServerInstanceMonitor extends JmxBaseMonitor {
 
 	public JmxServerInstanceMonitor(String name, String url, int timeout) {
 		this.name = name;
-		this.url = url;
+		setUrl(url);
 		this.timeout = timeout;
 		this.alive = false;
 		this.ping = 0;
@@ -24,7 +24,7 @@ public class JmxServerInstanceMonitor extends JmxBaseMonitor {
 
 	public JmxServerInstanceMonitor() {
 		this.name = "";
-		this.url = "";
+		setUrl("");
 		this.timeout = 0;
 		this.alive = false;
 		this.ping = 0;
@@ -32,7 +32,7 @@ public class JmxServerInstanceMonitor extends JmxBaseMonitor {
 
 	public JmxServerInstanceMonitor(MonitorDTO to) {
 		this.name = to.getName();
-		this.url = to.getUrl();
+		setUrl(to.getUrl());
 		this.timeout = to.getTimeout();
 		this.alive = to.isAlive();
 		this.ping = to.getPing();
@@ -40,7 +40,7 @@ public class JmxServerInstanceMonitor extends JmxBaseMonitor {
 	}
 
 	private void parseUrl() {
-		String[] elem = url.split(":");
+		String[] elem = getUrl().split(":");
 		host = elem[0];
 		port = Integer.parseInt(elem[1]);
 		user = elem[2];
@@ -57,7 +57,7 @@ public class JmxServerInstanceMonitor extends JmxBaseMonitor {
 		try {
 			initConnection();
 			ObjectName[] serverRT = getServerRuntimes();
-			System.out.println("got server runtimes");
+//			System.out.println("got server runtimes");
 			int length = (int) serverRT.length;
 			for (int i = 0; i < length; i++) {
 				String name = (String) connection.getAttribute(serverRT[i], "Name");
