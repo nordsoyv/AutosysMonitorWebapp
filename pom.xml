@@ -6,7 +6,7 @@
 	<artifactId>autosysmonitor</artifactId>
 	<name>AutosysMonitor</name>
 	<packaging>war</packaging>
-	<version>1.0.0</version>
+	<version>1.1.0-SNAPSHOT</version>
 	<properties>
 		<java-version>1.6</java-version>
 		<org.springframework-version>3.1.0.RELEASE</org.springframework-version>
