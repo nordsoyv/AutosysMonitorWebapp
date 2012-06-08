@@ -154,6 +154,7 @@ ASM.gridDisplay = function() {
 			allServers[keys[i]] = newData[keys[i]]; 
 		}
 		ASM.systems[id].allServers = allServers;
+		allServersKeys = Object.keys(allServers);
 		for(var i =  0 ; i< allServersKeys.length; i++){
 			html += "<div " ;
 			if (allServers[allServersKeys[i]]=="RUNNING"){
