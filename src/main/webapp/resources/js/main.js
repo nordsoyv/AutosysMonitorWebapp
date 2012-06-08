@@ -139,13 +139,26 @@ ASM.gridDisplay = function() {
 		sysdiv = $(sysid);
 		
 		var html ="";
-		var data = ASM.systems[id].data;
-		var keys = Object.keys(data);
+		var newData = ASM.systems[id].data;
+		var allServers = ASM.systems[id].allServers;
+		if(allServers === undefined || allServers === null){
+			allServers = {};
+		}
+		var allServersKeys = Object.keys(allServers);
+		var keys = Object.keys(newData);
+		
+		for(var i =  0 ; i< allServersKeys.length; i++){
+			allServers[allServersKeys[i]] = "DEAD"; 
+		}
 		for(var i =  0 ; i< keys.length; i++){
+			allServers[keys[i]] = newData[keys[i]]; 
+		}
+		ASM.systems[id].allServers = allServers;
+		for(var i =  0 ; i< allServersKeys.length; i++){
 			html += "<div " ;
-			if (data[keys[i]]=="RUNNING"){
+			if (allServers[allServersKeys[i]]=="RUNNING"){
 				html += 'class="displayGridCell isgreen" >' ;
-			}else if(data[keys[i]]=="STUCK") {
+			}else if(allServers[allServersKeys[i]]=="STUCK") {
 				html += 'class="displayGridCell isyellow" >' ;
 			}else{
 				html += 'class="displayGridCell isred" >' ;
@@ -289,7 +302,10 @@ ASM.refreshSystem = function(id) {
 		ASM.refreshSystem(id + 1);
 		return;
 	}
+	var allServers = ASM.systems[id].allServers;
+	delete ASM.systems[id].allServers;
 	var jsonSystem = JSON.stringify(ASM.systems[id]);
+	ASM.systems[id].allServers = allServers;
 	ASM.display.startUpdateSystem(id);
 	var date = new Date();
 	ASM.currStartTime = date.getTime();
@@ -309,7 +325,14 @@ ASM.refreshSystem = function(id) {
 };
 
 ASM.systemPingOk = function(id, data) {
-	ASM.systems[id] = data;
+	if(ASM.systems[id].type == "JMXSERVER"){
+		//need to preserve old serverlist
+		var allServers =ASM.systems[id].allServers;
+		ASM.systems[id] = data;
+		ASM.systems[id].allServers = allServers;
+	}else{
+		ASM.systems[id] = data;
+	}
 	ASM.systemPingContinue(id);
 };
 

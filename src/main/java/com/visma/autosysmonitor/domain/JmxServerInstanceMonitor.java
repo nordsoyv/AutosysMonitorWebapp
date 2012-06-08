@@ -59,13 +59,18 @@ public class JmxServerInstanceMonitor extends JmxBaseMonitor {
 			ObjectName[] serverRT = getServerRuntimes();
 //			System.out.println("got server runtimes");
 			int length = (int) serverRT.length;
+			for (String key : data.keySet()){
+				data.put(key, "UNKNOWN");
+			}
 			for (int i = 0; i < length; i++) {
 				String name = (String) connection.getAttribute(serverRT[i], "Name");
 				String state = (String) connection.getAttribute(serverRT[i], "State");
 				ObjectName threadpool = (ObjectName) connection.getAttribute(serverRT[i], "ThreadPoolRuntime");
 				int hoggingThreads = (Integer) connection.getAttribute(threadpool, "HoggingThreadCount");
-				if (hoggingThreads > 0)
+				if (hoggingThreads > 0){
 					state = "STUCK";
+				}
+		
 				this.data.put(name, state);
 			}
 			connector.close();
