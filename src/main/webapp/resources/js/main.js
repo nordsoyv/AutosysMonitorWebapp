@@ -164,7 +164,7 @@ ASM.gridDisplay = function() {
 			}else{
 				html += 'class="displayGridCell isred" >' ;
 			}
-			html += keys[i];
+			html += allServersKeys[i];
 			html += '</div>';
 		}
 		html += '<div id="' + ASM.createSystemImgId(id) + '" hidden="true" >';
