@@ -7,7 +7,7 @@ ASM.gridDisplay = function() {
 		gridHTML += drawGridHeader(0);
 		for ( var int = 1; int < ASM.systems.length; int++) {
 			if (ASM.isSystemInfoHeadline(int)) {
-				gridHTML += '</div><br />';
+				gridHTML += '</div>';
 				gridHTML += drawGridHeader(int);
 			} else {
 				gridHTML += drawGridCell(int);
