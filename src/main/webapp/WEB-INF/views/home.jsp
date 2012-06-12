@@ -8,6 +8,8 @@
 
 <!--script type="text/javascript" src="/autosysmonitor/resources/js/jquery-1.7.1.min.js"></script-->
 <script type="text/javascript"
+	src="/autosysmonitor/resources/js/json2.js"></script>
+<script type="text/javascript"
 	src="/autosysmonitor/resources/js/jquery-1.7.2.js"></script>
 <script type="text/javascript"
 	src="/autosysmonitor/resources/js/main.js"></script>

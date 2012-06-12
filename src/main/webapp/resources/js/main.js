@@ -1,5 +1,15 @@
 ASM = {};
 
+
+Object.keys = Object.keys || function(o) {
+    var result = [];
+    for(var name in o) {
+        if (o.hasOwnProperty(name))
+          result.push(name);
+    }
+    return result;
+};
+
 ASM.gridDisplay = function() {
 
 	function drawGridView() {
@@ -171,6 +181,9 @@ ASM.gridDisplay = function() {
 		html += '<img src="/autosysmonitor/resources/images/spinner2.gif" />';
 		html += '</div>';
 		sysdiv.html(html);
+		
+		var imgId = "#" + ASM.createSystemImgId(id);
+		$(imgId).hide();
 	}
 	
 	function updateJmxAppSystem(id){
