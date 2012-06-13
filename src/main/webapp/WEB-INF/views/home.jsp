@@ -6,13 +6,12 @@
 <link rel="stylesheet" type="text/css"
 	href="/autosysmonitor/resources/css/main.css" />
 
-<!--script type="text/javascript" src="/autosysmonitor/resources/js/jquery-1.7.1.min.js"></script-->
-<script type="text/javascript"
-	src="/autosysmonitor/resources/js/json2.js"></script>
-<script type="text/javascript"
-	src="/autosysmonitor/resources/js/jquery-1.7.2.js"></script>
-<script type="text/javascript"
-	src="/autosysmonitor/resources/js/main.js"></script>
+
+<script type="text/javascript"	src="/autosysmonitor/resources/js/json2.js"></script>
+<script type="text/javascript"	src="/autosysmonitor/resources/js/jquery-1.7.2.js"></script>
+<script type="text/javascript"  src="/autosysmonitor/resources/js/griddisplay.js"></script>
+<script type="text/javascript"  src="/autosysmonitor/resources/js/systems.js"></script>
+<script type="text/javascript"	src="/autosysmonitor/resources/js/main.js"></script>
 <script type="text/javascript">
 	$(document).ready(function() {
 		ASM.getSystems();
