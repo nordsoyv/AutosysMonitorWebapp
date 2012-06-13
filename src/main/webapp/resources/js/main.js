@@ -63,7 +63,10 @@ ASM.setAllSystems = function(data) {
 		}
 		if(ASM.isJdbc(data[i])){
 			ASM.systems.push(new ASM.JdbcSystem(data[i]));
+		}if(ASM.isHttpGet(data[i])){
+			ASM.systems.push(new ASM.HttpGetSystem(data[i]));
 		}
+		
 	}
 };
 

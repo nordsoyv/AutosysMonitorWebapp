@@ -33,6 +33,7 @@ ASM.GridDisplay = function() {
 	var generateGridCell = function(system){
 		var cellDiv =$(document.createElement('div'));
 		cellDiv.attr("id" , ASM.createSystemCellId(system));
+		cellDiv.addClass("displayGridCellWrapper");
 		return cellDiv;
 	};
 	

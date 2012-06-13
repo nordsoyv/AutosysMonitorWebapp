@@ -3,6 +3,97 @@ if (!ASM) {
 	ASM = {};
 }
 
+ASM.HttpGetSystem = function(system) {
+	var name;
+	var url;
+	var alive;
+	var ping;
+	var timeout;
+	var data = {};
+	var type;
+
+	var toDTO = function() {
+		var dto = {};
+		dto.name = name;
+		dto.url = url;
+		dto.alive = alive;
+		dto.ping = ping;
+		dto.timeout = timeout;
+		dto.data = {};
+		dto.type = type;
+		return dto;
+	};
+
+	var setState = function(system) {
+		name = system.name;
+		url = system.url;
+		alive = system.alive;
+		ping = system.ping;
+		timeout = system.timeout;
+		data = system.data;
+		type = system.type;
+	};
+
+	// will alter the display to indicate that an update is running
+	var startUpdate = function() {
+	};
+
+	var stopUpdate = function() {
+	};
+
+	// get updated data from server
+	this.update = function(callback) {
+
+		var jsonDTO = JSON.stringify(toDTO());
+		startUpdate();
+		var request = $.ajax({
+			url : "/autosysmonitor/pingSystem",
+			type : "POST",
+			data : jsonDTO,
+			dataType : "json",
+			contentType : "application/json; charset=utf-8"
+		});
+		request.done(function(data, code, jqXHR) {
+			setState(data);
+			stopUpdate();
+			draw();
+			callback();
+		});
+		request.fail(function(jqHXR, textStatus) {
+			alive = false;
+			stopUpdate();
+			draw();
+			callback();
+		});
+	};
+
+	// draw
+	var draw = function() {
+		var idString = "#" + ASM.createSystemCellId({
+			name : name
+		});
+		var cellDiv = $(idString);
+		cellDiv.empty();
+		var httpGetDiv = $(document.createElement('div'));
+		httpGetDiv.addClass('displayGridCell');
+		if (alive) {
+			httpGetDiv.addClass('isgreen');
+		} else {
+			httpGetDiv.addClass('isred');
+		}
+		httpGetDiv.text(name);
+		httpGetDiv.appendTo(cellDiv);
+
+	};
+
+	this.draw = draw;
+
+	setState(system);
+
+};
+
+
+
 ASM.JdbcSystem = function(system) {
 	var name;
 	var url;

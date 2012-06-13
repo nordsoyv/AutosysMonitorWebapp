@@ -1,9 +1,9 @@
 #Type;Navn;URL;Timeout
 # Linjer som begynner med HEADER blir parset som overskrifter
-#HEADER;Aviser;--;500
-#HTTP-GET;VG;http://vg.no;500
-#HTTP-GET;Dagbladet;http://dagbladet.no;500
-#HTTP-GET;Nettavisen;http://nettavisen.no;500
+HEADER;Aviser;--;500
+HTTP-GET;VG;http://vg.no;500
+HTTP-GET;Dagbladet;http://dagbladet.no;500
+HTTP-GET;Nettavisen;http://nettavisen.no;500
 #HEADER;Annet;--;500
 #HTTP-GET;Google;http://google.com;500
 #HTTP-GET;Yr;http://yr.no;500
