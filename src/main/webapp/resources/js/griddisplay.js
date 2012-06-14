@@ -24,7 +24,7 @@ ASM.GridDisplay = function() {
 		if(currentHeader != null){
 			currentHeader.appendTo(mainDiv);
 		}
-		$("#systemDisplay2").append(mainDiv);
+		$("#systemDisplay2").empty().append(mainDiv);
 		
 	};
 	

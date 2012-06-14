@@ -9,6 +9,7 @@
 
 <script type="text/javascript"	src="/autosysmonitor/resources/js/lib/json2.js"></script>
 <script type="text/javascript"	src="/autosysmonitor/resources/js/lib/jquery-1.7.2.js"></script>
+<script type="text/javascript"  src="/autosysmonitor/resources/js/global.js"></script>
 <script type="text/javascript"  src="/autosysmonitor/resources/js/griddisplay.js"></script>
 <script type="text/javascript"  src="/autosysmonitor/resources/js/systems.js"></script>
 <script type="text/javascript"	src="/autosysmonitor/resources/js/main.js"></script>

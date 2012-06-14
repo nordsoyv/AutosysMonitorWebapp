@@ -3,49 +3,64 @@ if (!ASM) {
 	ASM = {};
 }
 
-ASM.HttpGetSystem = function(system) {
-	var name;
-	var url;
-	var alive;
-	var ping;
-	var timeout;
-	var data = {};
-	var type;
+ASM.baseSystem = function(system) {
+	var that = {};
 
-	var toDTO = function() {
+	that.name;
+	that.url;
+	that.alive;
+	that.ping;
+	that.timeout;
+	that.data = {};
+	that.type;
+
+	that.toDTO = function() {
 		var dto = {};
-		dto.name = name;
-		dto.url = url;
-		dto.alive = alive;
-		dto.ping = ping;
-		dto.timeout = timeout;
+		dto.name = that.name;
+		dto.url = that.url;
+		dto.alive = that.alive;
+		dto.ping = that.ping;
+		dto.timeout = that.timeout;
 		dto.data = {};
-		dto.type = type;
+		dto.type = that.type;
 		return dto;
 	};
 
-	var setState = function(system) {
-		name = system.name;
-		url = system.url;
-		alive = system.alive;
-		ping = system.ping;
-		timeout = system.timeout;
-		data = system.data;
-		type = system.type;
+	that.setState = function(system) {
+		that.name = system.name;
+		that.url = system.url;
+		that.alive = system.alive;
+		that.ping = system.ping;
+		that.timeout = system.timeout;
+		that.data = system.data;
+		that.type = system.type;
 	};
 
 	// will alter the display to indicate that an update is running
-	var startUpdate = function() {
+	that.startUpdate = function() {
 	};
 
-	var stopUpdate = function() {
+	that.stopUpdate = function() {
 	};
+	
+	
+	that.update = function(callback){};
+	that.draw = function(){};
+	
+	that.setState(system);
+	
+	return that;
+};
 
+
+ASM.httpGetSystem = function(system) {
+	var that = ASM.baseSystem(system);
+	
 	// get updated data from server
-	this.update = function(callback) {
+	that.update = function(callback) {
 
-		var jsonDTO = JSON.stringify(toDTO());
-		startUpdate();
+		var jsonDTO = JSON.stringify(that.toDTO());
+		that.startUpdate();
 		var request = $.ajax({
 			url : "/autosysmonitor/pingSystem",
 			type : "POST",
@@ -54,89 +69,49 @@ ASM.HttpGetSystem = function(system) {
 			contentType : "application/json; charset=utf-8"
 		});
 		request.done(function(data, code, jqXHR) {
-			setState(data);
-			stopUpdate();
-			draw();
+			that.setState(data);
+			that.stopUpdate();
+			that.draw();
 			callback();
 		});
 		request.fail(function(jqHXR, textStatus) {
-			alive = false;
-			stopUpdate();
-			draw();
+			that.alive = false;
+			that.stopUpdate();
+			that.draw();
 			callback();
 		});
 	};
 
-	// draw
-	var draw = function() {
+	that.draw = function() {
 		var idString = "#" + ASM.createSystemCellId({
-			name : name
+			name : that.name
 		});
 		var cellDiv = $(idString);
 		cellDiv.empty();
 		var httpGetDiv = $(document.createElement('div'));
 		httpGetDiv.addClass('displayGridCell');
-		if (alive) {
+		if (that.alive) {
 			httpGetDiv.addClass('isgreen');
 		} else {
 			httpGetDiv.addClass('isred');
 		}
-		httpGetDiv.text(name);
+		httpGetDiv.text(that.name);
 		httpGetDiv.appendTo(cellDiv);
 
 	};
-
-	this.draw = draw;
-
-	setState(system);
+	
+	return that;
 
 };
 
-
-
-ASM.JdbcSystem = function(system) {
-	var name;
-	var url;
-	var alive;
-	var ping;
-	var timeout;
-	var data = {};
-	var type;
-
-	var toDTO = function() {
-		var dto = {};
-		dto.name = name;
-		dto.url = url;
-		dto.alive = alive;
-		dto.ping = ping;
-		dto.timeout = timeout;
-		dto.data = {};
-		dto.type = type;
-		return dto;
-	};
-
-	var setState = function(system) {
-		name = system.name;
-		url = system.url;
-		alive = system.alive;
-		ping = system.ping;
-		timeout = system.timeout;
-		data = system.data;
-		type = system.type;
-	};
-
-	// will alter the display to indicate that an update is running
-	var startUpdate = function() {
-	};
-
-	var stopUpdate = function() {
-	};
-
+ASM.jdbcSystem = function(system) {
+	var that = ASM.baseSystem(system);
+	
 	// get updated data from server
-	this.update = function(callback) {
+	that.update = function(callback) {
 
-		var jsonDTO = JSON.stringify(toDTO());
-		startUpdate();
+		var jsonDTO = JSON.stringify(that.toDTO());
+		that.startUpdate();
 		var request = $.ajax({
 			url : "/autosysmonitor/pingSystem",
 			type : "POST",
@@ -145,99 +120,70 @@ ASM.JdbcSystem = function(system) {
 			contentType : "application/json; charset=utf-8"
 		});
 		request.done(function(data, code, jqXHR) {
-			setState(data);
-			stopUpdate();
-			draw();
+			that.setState(data);
+			that.stopUpdate();
+			that.draw();
 			callback();
 		});
 		request.fail(function(jqHXR, textStatus) {
-			alive = false;
-			stopUpdate();
-			draw();
+			that.alive = false;
+			that.stopUpdate();
+			that.draw();
 			callback();
 		});
 	};
 
 	// draw
-	var draw = function() {
+	that.draw = function() {
 		var idString = "#" + ASM.createSystemCellId({
-			name : name
+			name : that.name
 		});
 		var cellDiv = $(idString);
 		cellDiv.empty();
 		var jdbcDiv = $(document.createElement('div'));
 		jdbcDiv.addClass('displayGridCell');
-		if (alive) {
+		if (that.alive) {
 			jdbcDiv.addClass('isgreen');
 		} else {
 			jdbcDiv.addClass('isred');
 		}
-		jdbcDiv.text(name);
+		jdbcDiv.text(that.name);
 		jdbcDiv.appendTo(cellDiv);
 
 	};
 
-	this.draw = draw;
 
-	setState(system);
+	that.setState(system);
+	return that;
 
 };
 
-ASM.JMXServer = function(system) {
+ASM.jmxServer = function(system) {
 
-	var name;
-	var url;
-	var alive;
-	var ping;
-	var timeout;
-	var data = {};
-	var type;
-	var allServers = {};
-
-	var toDTO = function() {
-		var dto = {};
-		dto.name = name;
-		dto.url = url;
-		dto.alive = alive;
-		dto.ping = ping;
-		dto.timeout = timeout;
-		dto.data = {};
-		dto.type = type;
-		return dto;
-	};
-
-	var setState = function(system) {
-		name = system.name;
-		url = system.url;
-		alive = system.alive;
-		ping = system.ping;
-		timeout = system.timeout;
-		data = system.data;
-		type = system.type;
-
-		var allServersKeys = Object.keys(allServers);
-		var keys = Object.keys(data);
+	var that = ASM.baseSystem(system);
+	that.allServers = {};
+	
+	var super_setState = that.setState;
+	
+	that.setState = function(system) {
+		super_setState(system);
+		
+		var allServersKeys = Object.keys(that.allServers);
+		var keys = Object.keys(that.data);
 
 		for ( var i = 0; i < allServersKeys.length; i++) {
-			allServers[allServersKeys[i]] = "DEAD";
+			that.allServers[allServersKeys[i]] = "DEAD";
 		}
 		for ( var i = 0; i < keys.length; i++) {
-			allServers[keys[i]] = data[keys[i]];
+			that.allServers[keys[i]] = that.data[keys[i]];
 		}
-	};
-
-	// will alter the display to indicate that an update is running
-	var startUpdate = function() {
-	};
-
-	var stopUpdate = function() {
 	};
 
 	// get updated data from server
-	this.update = function(callback) {
+	that.update = function(callback) {
 
-		var jsonDTO = JSON.stringify(toDTO());
-		startUpdate();
+		var jsonDTO = JSON.stringify(that.toDTO());
+		that.startUpdate();
 		var request = $.ajax({
 			url : "/autosysmonitor/pingSystem",
 			type : "POST",
@@ -246,36 +192,36 @@ ASM.JMXServer = function(system) {
 			contentType : "application/json; charset=utf-8"
 		});
 		request.done(function(data, code, jqXHR) {
-			setState(data);
-			stopUpdate();
-			draw();
+			that.setState(data);
+			that.stopUpdate();
+			that.draw();
 			callback();
 		});
 		request.fail(function(jqHXR, textStatus) {
-			alive = false;
-			stopUpdate();
-			draw();
+			that.alive = false;
+			that.stopUpdate();
+			that.draw();
 			callback();
 		});
 	};
 
 	// draw
-	var draw = function() {
+	that.draw = function() {
 		var idString = "#" + ASM.createSystemCellId({
-			name : name
+			name : that.name
 		});
 		var cellDiv = $(idString);
 		cellDiv.empty();
-		var allKeys = Object.keys(allServers);
+		var allKeys = Object.keys(that.allServers);
 
 		for ( var i = 0; i < allKeys.length; i++) {
 			var serverDiv = $(document.createElement('div'));
 			serverDiv.addClass('displayGridCell');
-			if (allServers[allKeys[i]] == "RUNNING") {
+			if (that.allServers[allKeys[i]] == "RUNNING") {
 				serverDiv.addClass('isgreen');
-			} else if (allServers[allKeys[i]] == "DEAD") {
+			} else if (that.allServers[allKeys[i]] == "DEAD") {
 				serverDiv.addClass('isred');
-			} else if (allServers[allKeys[i]] == "STUCK") {
+			} else if (that.allServers[allKeys[i]] == "STUCK") {
 				serverDiv.addClass('isyellow');
 			} else {
 				serverDiv.addClass('isgrey');
@@ -286,8 +232,8 @@ ASM.JMXServer = function(system) {
 		}
 
 	};
-	this.draw = draw;
 
-	setState(system);
+	that.setState(system);
+	return that;
 
 };

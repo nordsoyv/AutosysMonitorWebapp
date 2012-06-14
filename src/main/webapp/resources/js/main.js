@@ -3,16 +3,6 @@ if (!ASM) {
 	ASM = {};
 }
 
-//for IE8
-Object.keys = Object.keys || function(o) {
-	var result = [];
-	for ( var name in o) {
-		if (o.hasOwnProperty(name))
-			result.push(name);
-	}
-	return result;
-};
-
 ASM.init = function() {
 	ASM.display = new ASM.GridDisplay();
 }();
@@ -36,7 +26,6 @@ ASM.refreshSystem = function(id) {
 
 };
 
-
 ASM.getSystems = function() {
 	var req = $.ajax({
 		url : "/autosysmonitor/allSystems",
@@ -59,14 +48,15 @@ ASM.setAllSystems = function(data) {
 			continue;
 		}
 		if (ASM.isJmxServer(data[i])) {
-			ASM.systems.push(new ASM.JMXServer(data[i]));
+			ASM.systems.push(ASM.jmxServer(data[i]));
 		}
-		if(ASM.isJdbc(data[i])){
-			ASM.systems.push(new ASM.JdbcSystem(data[i]));
-		}if(ASM.isHttpGet(data[i])){
-			ASM.systems.push(new ASM.HttpGetSystem(data[i]));
+		if (ASM.isJdbc(data[i])) {
+			ASM.systems.push(ASM.jdbcSystem(data[i]));
 		}
-		
+		if (ASM.isHttpGet(data[i])) {
+			ASM.systems.push(ASM.httpGetSystem(data[i]));
+		}
+
 	}
 };
 
