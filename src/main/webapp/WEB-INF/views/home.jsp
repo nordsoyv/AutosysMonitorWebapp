@@ -41,8 +41,8 @@
 	<br /> Refresh intervall:
 	<input type="number" id="refeshInterval" value="60" step="1" min="1" style="text-align: right" />
 	<button id="setIntervalButton">Sett intervall</button>
-	Aktiv:
-	<input type="checkbox" id="setActiveCheckbox" checked="checked">
+	
+	<label>Aktiv:<input type="checkbox" id="setActiveCheckbox" checked="checked"></label>
 	<p>Systemer som sjekkes:</p>
 	<!-- div id="systemDisplay" class="display"></div-->
 	<div id="systemDisplay2" class="displayGrid"></div>
