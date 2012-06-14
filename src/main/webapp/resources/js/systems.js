@@ -96,6 +96,7 @@ ASM.httpGetSystem = function(system) {
 			httpGetDiv.addClass('isred');
 		}
 		httpGetDiv.text(that.name);
+		httpGetDiv.attr('title', that.url);
 		httpGetDiv.appendTo(cellDiv);
 
 	};
@@ -148,6 +149,7 @@ ASM.jdbcSystem = function(system) {
 			jdbcDiv.addClass('isred');
 		}
 		jdbcDiv.text(that.name);
+		jdbcDiv.attr('title', that.url);
 		jdbcDiv.appendTo(cellDiv);
 
 	};
@@ -164,9 +166,9 @@ ASM.jmxServer = function(system) {
 	that.allServers = {};
 	
 	var super_setState = that.setState;
-	
 	that.setState = function(system) {
 		super_setState(system);
+		that.ip = that.url.split(":")[0];
 		
 		var allServersKeys = Object.keys(that.allServers);
 		var keys = Object.keys(that.data);
@@ -227,6 +229,7 @@ ASM.jmxServer = function(system) {
 				serverDiv.addClass('isgrey');
 			}
 			serverDiv.text(allKeys[i]);
+			serverDiv.attr('title', that.ip);
 			serverDiv.appendTo(cellDiv);
 
 		}
