@@ -38,32 +38,32 @@ ASM.baseSystem = function(system) {
 	};
 
 	// will alter the display to indicate that an update is running
-	that.startUpdate = function(){
+	that.startUpdate = function() {
 		var idString = "#" + ASM.createSystemCellId({
 			name : that.name
 		});
 		var cellDiv = $(idString);
 		var updateDiv = $(document.createElement('div'));
 		updateDiv.addClass('displayCellUpdate').appendTo(cellDiv);
-		
+
 	};
 
 	that.stopUpdate = function() {
 	};
-	
-	
-	that.update = function(callback){};
-	that.draw = function(){};
-	
+
+	that.update = function(callback) {
+	};
+	that.draw = function() {
+	};
+
 	that.setState(system);
-	
+
 	return that;
 };
 
-
 ASM.httpGetSystem = function(system) {
 	var that = ASM.baseSystem(system);
-	
+
 	// get updated data from server
 	that.update = function(callback) {
 
@@ -99,23 +99,23 @@ ASM.httpGetSystem = function(system) {
 		var httpGetDiv = $(document.createElement('div'));
 		httpGetDiv.addClass('displayGridCell');
 		if (that.alive) {
-			httpGetDiv.addClass('isgreen');
+			httpGetDiv.addClass('isAlive');
 		} else {
-			httpGetDiv.addClass('isred');
+			httpGetDiv.addClass('isDead');
 		}
 		httpGetDiv.text(that.name);
 		httpGetDiv.attr('title', that.url);
 		httpGetDiv.appendTo(cellDiv);
 
 	};
-	
+
 	return that;
 
 };
 
 ASM.jdbcSystem = function(system) {
 	var that = ASM.baseSystem(system);
-	
+
 	// get updated data from server
 	that.update = function(callback) {
 
@@ -152,16 +152,15 @@ ASM.jdbcSystem = function(system) {
 		var jdbcDiv = $(document.createElement('div'));
 		jdbcDiv.addClass('displayGridCell');
 		if (that.alive) {
-			jdbcDiv.addClass('isgreen');
+			jdbcDiv.addClass('isAlive');
 		} else {
-			jdbcDiv.addClass('isred');
+			jdbcDiv.addClass('isDead');
 		}
 		jdbcDiv.text(that.name);
 		jdbcDiv.attr('title', that.url);
 		jdbcDiv.appendTo(cellDiv);
 
 	};
-
 
 	that.setState(system);
 	return that;
@@ -172,12 +171,12 @@ ASM.jmxServer = function(system) {
 
 	var that = ASM.baseSystem(system);
 	that.allServers = {};
-	
+
 	var super_setState = that.setState;
 	that.setState = function(system) {
 		super_setState(system);
 		that.ip = that.url.split(":")[0];
-		
+
 		var allServersKeys = Object.keys(that.allServers);
 		var keys = Object.keys(that.data);
 
@@ -188,7 +187,7 @@ ASM.jmxServer = function(system) {
 			that.allServers[keys[i]] = that.data[keys[i]];
 		}
 	};
-	
+
 	// get updated data from server
 	that.update = function(callback) {
 
@@ -228,13 +227,13 @@ ASM.jmxServer = function(system) {
 			var serverDiv = $(document.createElement('div'));
 			serverDiv.addClass('displayGridCell');
 			if (that.allServers[allKeys[i]] == "RUNNING") {
-				serverDiv.addClass('isgreen');
+				serverDiv.addClass('isAlive');
 			} else if (that.allServers[allKeys[i]] == "DEAD") {
-				serverDiv.addClass('isred');
+				serverDiv.addClass('isDead');
 			} else if (that.allServers[allKeys[i]] == "STUCK") {
-				serverDiv.addClass('isyellow');
+				serverDiv.addClass('isUnknown');
 			} else {
-				serverDiv.addClass('isgrey');
+				serverDiv.addClass('isUnknown');
 			}
 			serverDiv.text(allKeys[i]);
 			serverDiv.attr('title', that.ip);

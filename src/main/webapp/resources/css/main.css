@@ -90,22 +90,22 @@
 	float: left;
 	
 }
-.isgreen {
+.isAlive {
 	background-color: #70E23B;
 		border-color: #306430;
 }
 
-.isred {
+.isDead {
 	background-color: #FF0000;
 		border-color: #800000;
 }
 
-.isgrey {
+.isUnknown {
 	background-color: #BBBBBB;
 		border-color: #999999;
 }
 
-.isyellow {
+.isUnstable {
 	background-color: #FFFF66;
 		border-color: #CCCC52;
 }
