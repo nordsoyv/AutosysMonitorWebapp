@@ -27,7 +27,7 @@ ASM.refreshSystem = function(id) {
 
 };
 
-ASM.getSystems = function() {
+ASM.getSystems = function(callback) {
 	var req = $.ajax({
 		url : "/autosysmonitor/allSystems",
 		type : "GET",
@@ -35,6 +35,9 @@ ASM.getSystems = function() {
 	});
 	req.done(function(data, code, jqXHR) {
 		ASM.setAllSystems(data);
+		if(callback != null && callback != undefined){
+			callback();
+		}
 	});
 	req.fail(function(jqXHR, textStatus) {
 		alert("Kunne ikke lese inn systemliste fra server");

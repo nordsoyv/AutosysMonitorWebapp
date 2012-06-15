@@ -15,7 +15,10 @@
 <script type="text/javascript"	src="/autosysmonitor/resources/js/main.js"></script>
 <script type="text/javascript">
 	$(document).ready(function() {
-		ASM.getSystems();
+		ASM.setInterval();
+		ASM.isRefreshing = false;
+		
+		ASM.getSystems(ASM.refreshTable);
 
 		$("#refreshButton").click(function() {
 			ASM.refreshTable();
@@ -30,8 +33,8 @@
 		});
 
 		//kaller denne her for å sette intervall ved oppstart
-		ASM.setInterval();
-		ASM.isRefreshing = false;
+		
+		
 	});
 </script>
 
