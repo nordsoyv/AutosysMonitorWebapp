@@ -38,15 +38,15 @@
 </head>
 <body>
 	<h1>AutosysMonitor</h1>
-	<br /> Refresh intervall:
-	<input type="number" id="refeshInterval" value="60" step="1" min="1" style="text-align: right" />
-	<button id="setIntervalButton">Sett intervall</button>
-	
+	<br /> 
+	<input type="hidden" id="refeshInterval" value="120" step="1" min="1" style="text-align: right"  />
+	<!--  button id="setIntervalButton">Sett intervall</button-->
+	<button id="refreshButton">Refresh</button>
 	<label>Aktiv:<input type="checkbox" id="setActiveCheckbox" checked="checked"></label>
 	<p>Systemer som sjekkes:</p>
 	<!-- div id="systemDisplay" class="display"></div-->
 	<div id="systemDisplay2" class="displayGrid"></div>
 
-	<!-- button id="refreshButton">Refresh alle</button-->
+	
 </body>
 </html>
