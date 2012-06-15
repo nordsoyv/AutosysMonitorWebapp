@@ -231,7 +231,7 @@ ASM.jmxServer = function(system) {
 			} else if (that.allServers[allKeys[i]] == "DEAD") {
 				serverDiv.addClass('isDead');
 			} else if (that.allServers[allKeys[i]] == "STUCK") {
-				serverDiv.addClass('isUnknown');
+				serverDiv.addClass('isUnstable');
 			} else {
 				serverDiv.addClass('isUnknown');
 			}
