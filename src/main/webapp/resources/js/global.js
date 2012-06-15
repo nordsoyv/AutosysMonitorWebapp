@@ -1,3 +1,4 @@
+"use strict";
 //for IE8
 Object.keys = Object.keys || function(o) {
 	var result = [];
@@ -7,7 +8,7 @@ Object.keys = Object.keys || function(o) {
 	}
 	return result;
 };
-
+/*
 Function.prototype.method = function (name, func) {
     this.prototype[name] = func;
     return this;
@@ -39,3 +40,6 @@ Function.method('inherits', function (parent) {
     });
     return this;
 });
+
+
+*/

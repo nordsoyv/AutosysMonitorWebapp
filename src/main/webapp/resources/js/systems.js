@@ -1,3 +1,4 @@
+"use strict";
 var ASM;
 if (!ASM) {
 	ASM = {};
