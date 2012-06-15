@@ -1,21 +1,4 @@
-.display table {
-	background-color:#BCB9C9 ; 
-	border-collapse: collapse;
-}
 
-.display th {
-	background-color: #8F7CF2;
-	border: 1px solid #EDCAFA;
-}
-
-.display td {
-	border: 1px solid #EDCAFA;
-}
-
-.displayGrid table {
-	background-color:#EEEEEE ; 
-	padding: 5px;
-}
 
 .displayGridMain {
 	/* background-color:#EEEEEE ; */ 
@@ -56,6 +39,8 @@
 .displayGridCellWrapper {
 	display: block;
 	float: left; 
+	z-index: 0;
+	position: relative;
 }
 
 .displayGridCell {
@@ -75,9 +60,24 @@
 	border-top-right-radius: 5px;
 	border-bottom-left-radius: 5px;
 	border-bottom-right-radius: 5px;
+	z-index: 0;
 
 }
 
+.displayCellUpdate{
+	z-index: 10;
+	width: 100%;
+	height:100%;
+	position:absolute;
+	top : 0;
+	left:0;
+	background-color: gray;
+	-ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=50)";
+        filter: alpha(opacity=50);
+        opacity: 0.5;
+	
+	
+}
 
 .displayGridCell:hover  {
 	box-shadow: 2px 2px 5px;

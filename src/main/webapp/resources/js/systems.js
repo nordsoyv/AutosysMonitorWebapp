@@ -38,7 +38,14 @@ ASM.baseSystem = function(system) {
 	};
 
 	// will alter the display to indicate that an update is running
-	that.startUpdate = function() {
+	that.startUpdate = function(){
+		var idString = "#" + ASM.createSystemCellId({
+			name : that.name
+		});
+		var cellDiv = $(idString);
+		var updateDiv = $(document.createElement('div'));
+		updateDiv.addClass('displayCellUpdate').appendTo(cellDiv);
+		
 	};
 
 	that.stopUpdate = function() {
@@ -181,7 +188,7 @@ ASM.jmxServer = function(system) {
 			that.allServers[keys[i]] = that.data[keys[i]];
 		}
 	};
-
+	
 	// get updated data from server
 	that.update = function(callback) {
 
