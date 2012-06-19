@@ -113,6 +113,59 @@ ASM.httpGetSystem = function(system) {
 
 };
 
+ASM.httpPostSystem = function(system) {
+	var that = ASM.baseSystem(system);
+
+	// get updated data from server
+	that.update = function(callback) {
+
+		var jsonDTO = JSON.stringify(that.toDTO());
+		that.startUpdate();
+		var request = $.ajax({
+			url : "/autosysmonitor/pingSystem",
+			type : "POST",
+			data : jsonDTO,
+			dataType : "json",
+			contentType : "application/json; charset=utf-8"
+		});
+		request.done(function(data, code, jqXHR) {
+			that.setState(data);
+			that.stopUpdate();
+			that.draw();
+			callback();
+		});
+		request.fail(function(jqHXR, textStatus) {
+			that.alive = false;
+			that.stopUpdate();
+			that.draw();
+			callback();
+		});
+	};
+
+	that.draw = function() {
+		var idString = "#" + ASM.createSystemCellId({
+			name : that.name
+		});
+		var cellDiv = $(idString);
+		cellDiv.empty();
+		var httpGetDiv = $(document.createElement('div'));
+		httpGetDiv.addClass('displayGridCell');
+		if (that.alive) {
+			httpGetDiv.addClass('isAlive');
+		} else {
+			httpGetDiv.addClass('isDead');
+		}
+		httpGetDiv.text(that.name);
+		httpGetDiv.attr('title', that.url);
+		httpGetDiv.appendTo(cellDiv);
+
+	};
+
+	return that;
+
+};
+
+
 ASM.jdbcSystem = function(system) {
 	var that = ASM.baseSystem(system);
 

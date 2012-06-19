@@ -1,0 +1,23 @@
+<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:urn="urn:no:vegvesen:felles:kontekst:LoggKontekstType-1.0" xmlns:urn1="urn:no:vegvesen:felles:kontekst:svvCommonHeaderType-1.0" xmlns:urn2="urn:no:vegvesen:iam:melding:autosys-roller-2.2" xmlns:urn3="urn:no:vegvesen:iam:type:autosys-roller-2.2">
+   <soapenv:Header>
+      <urn:logHeader>
+         <urn:AvsenderSystemId>test</urn:AvsenderSystemId>
+         <urn:AvsenderKomponentId>test</urn:AvsenderKomponentId>
+         <urn:OriginerendeMiljo>utv</urn:OriginerendeMiljo>
+      </urn:logHeader>
+      <urn1:svvCommonHeader>
+         <urn1:BrukerId>na1005</urn1:BrukerId>
+         <urn1:SystemId>utv</urn1:SystemId>
+         <urn1:HendelsesId>utv</urn1:HendelsesId>
+         <urn1:ArbeidsstedId>test</urn1:ArbeidsstedId>
+      </urn1:svvCommonHeader>
+   </soapenv:Header>
+   <soapenv:Body>
+      <urn2:HentBrukerRequest>
+         <urn3:BrukerId>na1005</urn3:BrukerId>
+         <urn3:SsoId>na1005</urn3:SsoId>
+         <!--1 or more repetitions:-->
+         <urn3:Rollefilter>test</urn3:Rollefilter>
+      </urn2:HentBrukerRequest>
+   </soapenv:Body>
+</soapenv:Envelope>

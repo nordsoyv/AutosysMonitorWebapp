@@ -44,7 +44,7 @@ public class MonitorUpdater implements ApplicationContextAware {
 			InputStream is = r.getInputStream();
 			br = new BufferedReader(new InputStreamReader(is));
 			while ((line = br.readLine()) != null) {
-				addMonitor(MonitorFactory.createMonitor(line));
+				addMonitor(MonitorFactory.createMonitor(line,ctx));
 			}
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();

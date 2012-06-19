@@ -60,6 +60,9 @@ ASM.setAllSystems = function(data) {
 		if (ASM.isHttpGet(data[i])) {
 			ASM.systems.push(ASM.httpGetSystem(data[i]));
 		}
+		if (ASM.isHttpPost(data[i])) {
+			ASM.systems.push(ASM.httpPostSystem(data[i]));
+		}
 
 	}
 };
@@ -113,6 +116,13 @@ ASM.isJmxServer = function(system) {
 
 ASM.isJmxApp = function(system) {
 	if (system.type == "JMXAPPS") {
+		return true;
+	}
+	return false;
+};
+
+ASM.isHttpPost = function(system){
+	if (system.type == "HTTP-POST") {
 		return true;
 	}
 	return false;
