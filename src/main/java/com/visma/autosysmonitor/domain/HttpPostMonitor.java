@@ -45,8 +45,8 @@ public class HttpPostMonitor extends BaseMonitor {
 		this.alive = false;
 		this.ping = 0;
 		this.ctx = ctx;
-		this.reqFile = reqFile;
-		this.responseFile = responseFile;
+		this.reqFile = "monitor/" + reqFile;
+		this.responseFile = "monitor/" + responseFile;
 
 	}
 

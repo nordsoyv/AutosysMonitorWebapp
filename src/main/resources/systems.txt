@@ -30,4 +30,4 @@ JDBC;jdbctest;jdbc:oracle:thin:sak/sak@//10.250.5.52:1521/UMDB;5000
 #HEADER;SOA-UTM;--;500
 #JMXSERVER;SOAUTM;10.250.5.102:7001:qoyn:Autosys04;5000
 HEADER;SOAPTEST;--;500
-HTTP-POST;IAM;http://osb.intern.vegvesen.no:8001/ws/tb/no/vegvesen/iam/tjeneste/autosys-roller/2;req.xml;response.xml;1000
+HTTP-POST;IAM;http://osb.intern.vegvesen.no:8001/ws/tb/no/vegvesen/iam/tjeneste/autosys-roller/2;req.xml;iam.response;1000
