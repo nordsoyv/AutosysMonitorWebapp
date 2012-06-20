@@ -51,19 +51,6 @@ ASM.baseSystem = function(system) {
 	that.stopUpdate = function() {
 	};
 
-	that.update = function(callback) {
-	};
-	that.draw = function() {
-	};
-
-	that.setState(system);
-
-	return that;
-};
-
-ASM.httpGetSystem = function(system) {
-	var that = ASM.baseSystem(system);
-
 	// get updated data from server
 	that.update = function(callback) {
 
@@ -90,6 +77,18 @@ ASM.httpGetSystem = function(system) {
 		});
 	};
 
+	that.draw = function() {
+	};
+
+	that.setState(system);
+
+	return that;
+};
+
+ASM.httpGetSystem = function(system) {
+	var that = ASM.baseSystem(system);
+
+	
 	that.draw = function() {
 		var idString = "#" + ASM.createSystemCellId({
 			name : that.name
@@ -115,32 +114,6 @@ ASM.httpGetSystem = function(system) {
 
 ASM.httpPostSystem = function(system) {
 	var that = ASM.baseSystem(system);
-
-	// get updated data from server
-	that.update = function(callback) {
-
-		var jsonDTO = JSON.stringify(that.toDTO());
-		that.startUpdate();
-		var request = $.ajax({
-			url : "/autosysmonitor/pingSystem",
-			type : "POST",
-			data : jsonDTO,
-			dataType : "json",
-			contentType : "application/json; charset=utf-8"
-		});
-		request.done(function(data, code, jqXHR) {
-			that.setState(data);
-			that.stopUpdate();
-			that.draw();
-			callback();
-		});
-		request.fail(function(jqHXR, textStatus) {
-			that.alive = false;
-			that.stopUpdate();
-			that.draw();
-			callback();
-		});
-	};
 
 	that.draw = function() {
 		var idString = "#" + ASM.createSystemCellId({
@@ -168,32 +141,6 @@ ASM.httpPostSystem = function(system) {
 
 ASM.jdbcSystem = function(system) {
 	var that = ASM.baseSystem(system);
-
-	// get updated data from server
-	that.update = function(callback) {
-
-		var jsonDTO = JSON.stringify(that.toDTO());
-		that.startUpdate();
-		var request = $.ajax({
-			url : "/autosysmonitor/pingSystem",
-			type : "POST",
-			data : jsonDTO,
-			dataType : "json",
-			contentType : "application/json; charset=utf-8"
-		});
-		request.done(function(data, code, jqXHR) {
-			that.setState(data);
-			that.stopUpdate();
-			that.draw();
-			callback();
-		});
-		request.fail(function(jqHXR, textStatus) {
-			that.alive = false;
-			that.stopUpdate();
-			that.draw();
-			callback();
-		});
-	};
 
 	// draw
 	that.draw = function() {
@@ -241,32 +188,6 @@ ASM.jmxServer = function(system) {
 		}
 	};
 
-	// get updated data from server
-	that.update = function(callback) {
-
-		var jsonDTO = JSON.stringify(that.toDTO());
-		that.startUpdate();
-		var request = $.ajax({
-			url : "/autosysmonitor/pingSystem",
-			type : "POST",
-			data : jsonDTO,
-			dataType : "json",
-			contentType : "application/json; charset=utf-8"
-		});
-		request.done(function(data, code, jqXHR) {
-			that.setState(data);
-			that.stopUpdate();
-			that.draw();
-			callback();
-		});
-		request.fail(function(jqHXR, textStatus) {
-			that.alive = false;
-			that.stopUpdate();
-			that.draw();
-			callback();
-		});
-	};
-
 	// draw
 	that.draw = function() {
 		var idString = "#" + ASM.createSystemCellId({
@@ -285,6 +206,8 @@ ASM.jmxServer = function(system) {
 				serverDiv.addClass('isDead');
 			} else if (that.allServers[allKeys[i]] == "STUCK") {
 				serverDiv.addClass('isUnstable');
+			} else if(that.allServers[allKeys[i]] == "ADMIN" ){
+				serverDiv.addClass('isAdmin');
 			} else {
 				serverDiv.addClass('isUnknown');
 			}

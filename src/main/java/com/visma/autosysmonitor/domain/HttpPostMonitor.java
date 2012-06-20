@@ -105,7 +105,6 @@ public class HttpPostMonitor extends BaseMonitor {
 		return readBytesFromFile("classpath:" + reqFile);
 	}
 
-	
 	private boolean checkResponse(InputStream responseStream) {
 		try {
 			DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
@@ -119,7 +118,7 @@ public class HttpPostMonitor extends BaseMonitor {
 			db = dbf.newDocumentBuilder();
 			Document responseDoc = db.parse(responseStream);
 			responseDoc.normalizeDocument();
-			BufferedReader br =  new BufferedReader(new InputStreamReader(getResponseFileInputStream()));
+			BufferedReader br = new BufferedReader(new InputStreamReader(getResponseFileInputStream()));
 
 			String line;
 			boolean isEqual = true;
@@ -127,16 +126,16 @@ public class HttpPostMonitor extends BaseMonitor {
 				String[] elem = line.split(":");
 				String key = elem[0];
 				String value = elem[1];
-				Node target =  findNode(responseDoc, key);
+				Node target = findNode(responseDoc, key);
 				String content = target.getTextContent();
-				if(!content.equals(value)){
+				if (!content.equals(value)) {
 					isEqual = false;
 				}
-				
+
 			}
 
 			return isEqual;
-			
+
 		} catch (SAXException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -149,14 +148,14 @@ public class HttpPostMonitor extends BaseMonitor {
 		}
 		return false;
 	}
-	
-	private Node findNode(Node doc, String name){
-		if(doc.getNodeName().equals(name))
+
+	private Node findNode(Node doc, String name) {
+		if (doc.getNodeName().equals(name))
 			return doc;
 		NodeList childNodes = doc.getChildNodes();
-		for(int i = 0 ; i< childNodes.getLength(); i++){
+		for (int i = 0; i < childNodes.getLength(); i++) {
 			Node res = findNode(childNodes.item(i), name);
-			if(res != null)
+			if (res != null)
 				return res;
 		}
 		return null;
@@ -186,8 +185,8 @@ public class HttpPostMonitor extends BaseMonitor {
 			HttpEntity responseEntity = response.getEntity();
 			byte[] responseBytes = new byte[responseEntity.getContent().available()];
 			responseEntity.getContent().read(responseBytes);
-			
-			alive =checkResponse(new ByteArrayInputStream(responseBytes));
+
+			alive = checkResponse(new ByteArrayInputStream(responseBytes));
 		} catch (ClientProtocolException e) {
 			alive = false;
 			// e.printStackTrace();
