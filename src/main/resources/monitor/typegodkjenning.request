@@ -1,0 +1,24 @@
+<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/"
+ xmlns:urn="urn:no:vegvesen:felles.kontekst:tjeneste:svvCommonHeaderType-1.0" 
+ xmlns:urn1="urn:no:vegvesen:kjoretoy:melding:typegodkjenning:Typegodkjenning-1.3" 
+ xmlns:urn2="urn:no:vegvesen:kjoretoy:felles:typegodkjenningIdtype:TypegodkjenningIdType-1.1">
+   <soapenv:Header>
+      <urn:svvCommonHeader>
+         <urn:BrukerId>na1005</urn:BrukerId>
+         <urn:SystemId>1</urn:SystemId>
+         <urn:HendelsesId>2</urn:HendelsesId>
+         <urn:ArbeidsstedId>3</urn:ArbeidsstedId>
+      </urn:svvCommonHeader>
+   </soapenv:Header>
+   <soapenv:Body>
+      <urn1:GetTypegodkjenningRequest>
+         <urn1:TypegodkjenningId>
+            <urn2:typegodkjenningsnummer>e1*98/14*0159*12</urn2:typegodkjenningsnummer>
+            <!--Optional:-->
+            <urn2:variant>R840F0</urn2:variant>
+            <!--Optional:-->
+            <urn2:versjon>TABAA401</urn2:versjon>
+         </urn1:TypegodkjenningId>
+      </urn1:GetTypegodkjenningRequest>
+   </soapenv:Body>
+</soapenv:Envelope>

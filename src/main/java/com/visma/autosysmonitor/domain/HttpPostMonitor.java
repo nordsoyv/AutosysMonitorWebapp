@@ -123,7 +123,7 @@ public class HttpPostMonitor extends BaseMonitor {
 			String line;
 			boolean isEqual = true;
 			while ((line = br.readLine()) != null) {
-				String[] elem = line.split(":");
+				String[] elem = line.split(";");
 				String key = elem[0];
 				String value = elem[1];
 				Node target = findNode(responseDoc, key);
@@ -183,10 +183,25 @@ public class HttpPostMonitor extends BaseMonitor {
 		try {
 			response = httpClient.execute(httpPost);
 			HttpEntity responseEntity = response.getEntity();
-			byte[] responseBytes = new byte[responseEntity.getContent().available()];
-			responseEntity.getContent().read(responseBytes);
+			long numbytes = responseEntity.getContentLength();
+			InputStream content = responseEntity.getContent();
+			byte[] responseBytes = new byte[(int) numbytes];
+			int readBytes = content.read(responseBytes);
+			if(readBytes < numbytes){
+				while(readBytes< numbytes){
+					readBytes += content.read( responseBytes, readBytes, (int) (numbytes-readBytes));
+				}
+			}
+		
 
 			alive = checkResponse(new ByteArrayInputStream(responseBytes));
+			
+			BufferedReader br = new BufferedReader(new InputStreamReader(new ByteArrayInputStream(responseBytes)));
+			String line;
+			while ((line = br.readLine()) != null) {
+				System.out.println(line);
+			}
+			
 		} catch (ClientProtocolException e) {
 			alive = false;
 			// e.printStackTrace();
