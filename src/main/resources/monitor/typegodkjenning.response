@@ -1,3 +1,5 @@
-typegodkjenningsnummer;e1*98/14*0159*12
-ns3:sitteplasserForan;2
-ns3:sitteplasserTotalt;4
+{
+"typegodkjenningsnummer":"e1*98/14*0159*12",
+"ns3:sitteplasserForan":"2",
+"ns3:sitteplasserTotalt":"4"
+}

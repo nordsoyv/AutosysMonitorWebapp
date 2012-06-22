@@ -1,5 +1,7 @@
-Uid;NA1005
-Fornavn;Autosys Testbruker
-Etternavn;NA1005
-EpostAdresse;NA1005@vegvesen.no
-Mobiltelefonnummer;99999999
+{
+"Uid":"NA1005",
+"Fornavn":"Autosys Testbruker",
+"Etternavn":"NA1005",
+"EpostAdresse":"NA1005@vegvesen.no",
+"Mobiltelefonnummer":"99999999"
+}

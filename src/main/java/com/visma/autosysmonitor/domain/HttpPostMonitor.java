@@ -6,6 +6,8 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.util.HashMap;
+import java.util.Map;
 
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
@@ -19,6 +21,9 @@ import org.apache.http.entity.ByteArrayEntity;
 import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.params.HttpConnectionParams;
 import org.apache.http.params.HttpParams;
+import org.codehaus.jackson.JsonParseException;
+import org.codehaus.jackson.map.JsonMappingException;
+import org.codehaus.jackson.map.ObjectMapper;
 import org.springframework.context.ApplicationContext;
 import org.springframework.core.io.Resource;
 import org.w3c.dom.Document;
@@ -76,6 +81,32 @@ public class HttpPostMonitor extends BaseMonitor {
 		}
 		return null;
 	}
+	
+	private Map<String,Object> readJson(){
+		try {
+			ObjectMapper mapper = new ObjectMapper();
+		 
+		
+			Map<String,Object> responseDate =  mapper.readValue(ctx.getResource("classpath:" + responseFile).getInputStream(), Map.class);
+/*			System.out.println(responseDate);
+			for (String key : responseDate.keySet()) {
+				System.out.println(key + " : " + responseDate.get(key));
+				
+			}
+	*/		
+			return responseDate;
+		} catch (JsonParseException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (JsonMappingException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return new HashMap<String, Object>();
+	}
 
 	private byte[] readBytesFromFile(String filename) {
 		Resource r = ctx.getResource(filename);
@@ -119,9 +150,9 @@ public class HttpPostMonitor extends BaseMonitor {
 			Document responseDoc = db.parse(responseStream);
 			responseDoc.normalizeDocument();
 			BufferedReader br = new BufferedReader(new InputStreamReader(getResponseFileInputStream()));
-
-			String line;
 			boolean isEqual = true;
+			/*
+			String line;
 			while ((line = br.readLine()) != null) {
 				String[] elem = line.split(";");
 				String key = elem[0];
@@ -133,7 +164,17 @@ public class HttpPostMonitor extends BaseMonitor {
 				}
 
 			}
-
+*/
+			 Map<String,Object>  responseExpected = readJson();
+			for (String key : responseExpected.keySet() ) {
+				Node target = findNode(responseDoc, key);
+				String content = target.getTextContent();
+				if (!content.equals(responseExpected.get(key))) {
+					isEqual = false;
+				}
+			}
+			
+			
 			return isEqual;
 
 		} catch (SAXException e) {
@@ -168,7 +209,7 @@ public class HttpPostMonitor extends BaseMonitor {
 	 */
 	@Override
 	public void update() {
-
+		readJson();
 		long start = System.currentTimeMillis();
 		DefaultHttpClient httpClient = new DefaultHttpClient();
 		HttpParams params = httpClient.getParams();
