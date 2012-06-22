@@ -1,11 +1,9 @@
 package com.visma.autosysmonitor.domain;
 
-import java.io.BufferedReader;
 import java.io.ByteArrayInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
-import java.io.InputStreamReader;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -24,6 +22,8 @@ import org.apache.http.params.HttpParams;
 import org.codehaus.jackson.JsonParseException;
 import org.codehaus.jackson.map.JsonMappingException;
 import org.codehaus.jackson.map.ObjectMapper;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.context.ApplicationContext;
 import org.springframework.core.io.Resource;
 import org.w3c.dom.Document;
@@ -31,6 +31,7 @@ import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 import org.xml.sax.SAXException;
 
+import com.visma.autosysmonitor.controller.HomeController;
 import com.visma.autosysmonitor.da.MonitorFactory;
 
 public class HttpPostMonitor extends BaseMonitor {
@@ -39,6 +40,7 @@ public class HttpPostMonitor extends BaseMonitor {
 		type = MonitorFactory.HTTPPOST;
 	}
 
+	private static final Logger logger = LoggerFactory.getLogger(HttpPostMonitor.class);
 	private ApplicationContext ctx;
 	private String reqFile;
 	private String responseFile;
@@ -71,39 +73,20 @@ public class HttpPostMonitor extends BaseMonitor {
 		this.ping = to.getPing();
 
 	}
-
-	private InputStream getResponseFileInputStream() {
-		try {
-			return ctx.getResource("classpath:" + responseFile).getInputStream();
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		return null;
-	}
 	
-	private Map<String,Object> readJson(){
+	private Map<String,Object> readResponseFile(){
 		try {
 			ObjectMapper mapper = new ObjectMapper();
-		 
-		
+
+			@SuppressWarnings("unchecked")
 			Map<String,Object> responseDate =  mapper.readValue(ctx.getResource("classpath:" + responseFile).getInputStream(), Map.class);
-/*			System.out.println(responseDate);
-			for (String key : responseDate.keySet()) {
-				System.out.println(key + " : " + responseDate.get(key));
-				
-			}
-	*/		
 			return responseDate;
 		} catch (JsonParseException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			logger.debug("Error reading json file : " + responseFile);
 		} catch (JsonMappingException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			logger.debug("Error reading json file : " + responseFile);
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			logger.debug("Error reading file : " + responseFile);
 		}
 		return new HashMap<String, Object>();
 	}
@@ -149,23 +132,9 @@ public class HttpPostMonitor extends BaseMonitor {
 			db = dbf.newDocumentBuilder();
 			Document responseDoc = db.parse(responseStream);
 			responseDoc.normalizeDocument();
-			BufferedReader br = new BufferedReader(new InputStreamReader(getResponseFileInputStream()));
-			boolean isEqual = true;
-			/*
-			String line;
-			while ((line = br.readLine()) != null) {
-				String[] elem = line.split(";");
-				String key = elem[0];
-				String value = elem[1];
-				Node target = findNode(responseDoc, key);
-				String content = target.getTextContent();
-				if (!content.equals(value)) {
-					isEqual = false;
-				}
 
-			}
-*/
-			 Map<String,Object>  responseExpected = readJson();
+			boolean isEqual = true;
+			Map<String,Object>  responseExpected = readResponseFile();
 			for (String key : responseExpected.keySet() ) {
 				Node target = findNode(responseDoc, key);
 				String content = target.getTextContent();
@@ -173,8 +142,6 @@ public class HttpPostMonitor extends BaseMonitor {
 					isEqual = false;
 				}
 			}
-			
-			
 			return isEqual;
 
 		} catch (SAXException e) {
@@ -209,7 +176,6 @@ public class HttpPostMonitor extends BaseMonitor {
 	 */
 	@Override
 	public void update() {
-		readJson();
 		long start = System.currentTimeMillis();
 		DefaultHttpClient httpClient = new DefaultHttpClient();
 		HttpParams params = httpClient.getParams();
@@ -237,11 +203,13 @@ public class HttpPostMonitor extends BaseMonitor {
 
 			alive = checkResponse(new ByteArrayInputStream(responseBytes));
 			
+			/* for debugging of xml response
 			BufferedReader br = new BufferedReader(new InputStreamReader(new ByteArrayInputStream(responseBytes)));
 			String line;
 			while ((line = br.readLine()) != null) {
 				System.out.println(line);
 			}
+			*/
 			
 		} catch (ClientProtocolException e) {
 			alive = false;
