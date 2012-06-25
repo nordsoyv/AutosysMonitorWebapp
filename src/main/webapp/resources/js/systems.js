@@ -199,20 +199,26 @@ ASM.jmxServer = function(system) {
 
 		for ( var i = 0; i < allKeys.length; i++) {
 			var serverDiv = $(document.createElement('div'));
+			var title = that.ip.toString();
 			serverDiv.addClass('displayGridCell');
 			if (that.allServers[allKeys[i]] == "RUNNING") {
 				serverDiv.addClass('isAlive');
+				title += " RUNNING";  
 			} else if (that.allServers[allKeys[i]] == "DEAD") {
 				serverDiv.addClass('isDead');
+				title += " DEAD";
 			} else if (that.allServers[allKeys[i]] == "STUCK") {
 				serverDiv.addClass('isUnstable');
+				title += " HANGING THREAD";
 			} else if(that.allServers[allKeys[i]] == "ADMIN" ){
 				serverDiv.addClass('isAdmin');
+				title += " ADMIN";
 			} else {
 				serverDiv.addClass('isUnknown');
+				title += " UNKNOWN";
 			}
 			serverDiv.text(allKeys[i]);
-			serverDiv.attr('title', that.ip);
+			serverDiv.attr('title', title);
 			serverDiv.appendTo(cellDiv);
 
 		}
