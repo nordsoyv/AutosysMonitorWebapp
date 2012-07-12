@@ -125,11 +125,16 @@ ASM.httpPostSystem = function(system) {
 		httpGetDiv.addClass('displayGridCell');
 		if (that.alive) {
 			httpGetDiv.addClass('isAlive');
+			httpGetDiv.attr('title', that.url);
 		} else {
 			httpGetDiv.addClass('isDead');
+			if (that.data.ValidationError !== null && that.data.ValidationError !== undefined ){
+				var msg = that.data.ValidationError;
+				httpGetDiv.attr('title', msg);
+			} 
 		}
 		httpGetDiv.text(that.name);
-		httpGetDiv.attr('title', that.url);
+		
 		httpGetDiv.appendTo(cellDiv);
 
 	};

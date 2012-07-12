@@ -120,17 +120,7 @@ public class HttpPostMonitor extends BaseMonitor {
 
 	private boolean checkResponse(InputStream responseStream) {
 		try {
-			DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
-
-			dbf.setNamespaceAware(true);
-			dbf.setCoalescing(true);
-			dbf.setIgnoringElementContentWhitespace(true);
-			dbf.setIgnoringComments(true);
-			DocumentBuilder db;
-
-			db = dbf.newDocumentBuilder();
-			Document responseDoc = db.parse(responseStream);
-			responseDoc.normalizeDocument();
+			Document responseDoc = createXmlDocumentFromStream(responseStream);
 
 			boolean isEqual = true;
 			Map<String,Object>  responseExpected = readResponseFile();
@@ -138,6 +128,14 @@ public class HttpPostMonitor extends BaseMonitor {
 				Node target = findNode(responseDoc, key);
 				String content = target.getTextContent();
 				if (!content.equals(responseExpected.get(key))) {
+					String value ="";
+					if(this.data.containsKey("ValidationError")){
+						value = (String) data.get("ValidationError");
+						value = "\nValideringserror: Fant " + content + " , forventet "+responseExpected.get(key);
+					}else{
+						value = "Valideringserror: Fant " + content + " , forventet "+responseExpected.get(key);
+					}
+					this.data.put("ValidationError", value);
 					isEqual = false;
 				}
 			}
@@ -151,6 +149,21 @@ public class HttpPostMonitor extends BaseMonitor {
 			e.printStackTrace();
 		}
 		return false;
+	}
+
+	private Document createXmlDocumentFromStream(InputStream responseStream) throws ParserConfigurationException, SAXException, IOException {
+		DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
+
+		dbf.setNamespaceAware(true);
+		dbf.setCoalescing(true);
+		dbf.setIgnoringElementContentWhitespace(true);
+		dbf.setIgnoringComments(true);
+		DocumentBuilder db;
+
+		db = dbf.newDocumentBuilder();
+		Document responseDoc = db.parse(responseStream);
+		responseDoc.normalizeDocument();
+		return responseDoc;
 	}
 
 	private Node findNode(Node doc, String name) {
@@ -173,29 +186,17 @@ public class HttpPostMonitor extends BaseMonitor {
 	@Override
 	public void update() {
 		long start = System.currentTimeMillis();
-		DefaultHttpClient httpClient = new DefaultHttpClient();
-		HttpParams params = httpClient.getParams();
-		HttpConnectionParams.setConnectionTimeout(params, this.timeout);
-		HttpConnectionParams.setSoTimeout(params, this.timeout);
+		DefaultHttpClient httpClient = createHttpClient();
 		HttpPost httpPost = new HttpPost(getUrl());
-
+		HttpResponse response;
+		
 		byte[] soapReq = readRequestFromFile();
 		HttpEntity entity = new ByteArrayEntity(soapReq);
 		httpPost.setEntity(entity);
-		HttpResponse response;
+		
 		try {
 			response = httpClient.execute(httpPost);
-			HttpEntity responseEntity = response.getEntity();
-			long numbytes = responseEntity.getContentLength();
-			InputStream content = responseEntity.getContent();
-			byte[] responseBytes = new byte[(int) numbytes];
-			int readBytes = content.read(responseBytes);
-			if(readBytes < numbytes){
-				while(readBytes< numbytes){
-					readBytes += content.read( responseBytes, readBytes, (int) (numbytes-readBytes));
-				}
-			}
-		
+			byte[] responseBytes = getResponseBytes(response);
 
 			alive = checkResponse(new ByteArrayInputStream(responseBytes));
 			
@@ -222,6 +223,28 @@ public class HttpPostMonitor extends BaseMonitor {
 		}
 
 		return;
+	}
+
+	private byte[] getResponseBytes(HttpResponse response) throws IOException {
+		HttpEntity responseEntity = response.getEntity();
+		long numbytes = responseEntity.getContentLength();
+		InputStream content = responseEntity.getContent();
+		byte[] responseBytes = new byte[(int) numbytes];
+		int readBytes = content.read(responseBytes);
+		if(readBytes < numbytes){
+			while(readBytes< numbytes){
+				readBytes += content.read( responseBytes, readBytes, (int) (numbytes-readBytes));
+			}
+		}
+		return responseBytes;
+	}
+
+	private DefaultHttpClient createHttpClient() {
+		DefaultHttpClient httpClient = new DefaultHttpClient();
+		HttpParams params = httpClient.getParams();
+		HttpConnectionParams.setConnectionTimeout(params, this.timeout);
+		HttpConnectionParams.setSoTimeout(params, this.timeout);
+		return httpClient;
 	}
 
 }
