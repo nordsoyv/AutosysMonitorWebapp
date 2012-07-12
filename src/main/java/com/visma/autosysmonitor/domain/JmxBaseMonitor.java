@@ -36,7 +36,7 @@ public abstract class JmxBaseMonitor extends BaseMonitor {
 	}
 	
 	@SuppressWarnings({ "unchecked", "rawtypes" })
-	protected void initConnection() throws IOException, MalformedURLException {
+	protected void initConnection(int timeout) throws IOException, MalformedURLException {
 		String protocol = "t3";
 		String jndiroot = "/jndi/";
 		String mserver = "weblogic.management.mbeanservers.domainruntime";
@@ -46,6 +46,7 @@ public abstract class JmxBaseMonitor extends BaseMonitor {
 		h.put(Context.SECURITY_PRINCIPAL, user);
 		h.put(Context.SECURITY_CREDENTIALS, password);
 		h.put(JMXConnectorFactory.PROTOCOL_PROVIDER_PACKAGES, "weblogic.management.remote");
+		h.put("jmx.remote.x.request.waiting.timeout", new Long(timeout));
 		connector = JMXConnectorFactory.connect(serviceURL, h);
 		connection = connector.getMBeanServerConnection();
 	}

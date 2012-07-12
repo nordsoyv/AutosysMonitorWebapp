@@ -55,18 +55,15 @@ public class JmxMonitor extends JmxBaseMonitor {
 	@Override
 	public void update() {
 		try {
-			initConnection();
+			initConnection(this.timeout);
 			printNameAndState();
 			getServletData();
 			connector.close();
 		} catch (MalformedURLException e) {
-			// TODO Auto-generated catch block
 //			e.printStackTrace();
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 //			e.printStackTrace();
 		} catch (Exception e) {
-			// TODO Auto-generated catch block
 //			e.printStackTrace();
 		}
 

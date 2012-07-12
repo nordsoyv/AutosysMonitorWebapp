@@ -55,7 +55,7 @@ public class JmxServerInstanceMonitor extends JmxBaseMonitor {
 	@Override
 	public void update() {
 		try {
-			initConnection();
+			initConnection(this.timeout);
 			ObjectName[] serverRT = getServerRuntimes();
 //			System.out.println("got server runtimes");
 			int length = (int) serverRT.length;
@@ -75,13 +75,10 @@ public class JmxServerInstanceMonitor extends JmxBaseMonitor {
 			}
 			connector.close();
 		} catch (MalformedURLException e) {
-			// TODO Auto-generated catch block
 //			e.printStackTrace();
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 //			e.printStackTrace();
 		} catch (Exception e) {
-			// TODO Auto-generated catch block
 //			e.printStackTrace();
 		}
 
