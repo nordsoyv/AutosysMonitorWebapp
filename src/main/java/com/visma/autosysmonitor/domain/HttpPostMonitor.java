@@ -31,7 +31,6 @@ import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 import org.xml.sax.SAXException;
 
-import com.visma.autosysmonitor.controller.HomeController;
 import com.visma.autosysmonitor.da.MonitorFactory;
 
 public class HttpPostMonitor extends BaseMonitor {
@@ -145,13 +144,10 @@ public class HttpPostMonitor extends BaseMonitor {
 			return isEqual;
 
 		} catch (SAXException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} catch (ParserConfigurationException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		return false;
